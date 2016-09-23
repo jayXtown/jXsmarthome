@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/iconfont.css" />
+		<link rel="stylesheet" href="../css/edit_schedule_everyday.css" />
+		<style>
+			.pop-over {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				z-index: 9998;
+				background-color: rgba(0, 0, 0, 0.8);
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox-header">
+			<a id="btnBack" class="mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<div id="button_box">
+				<a class="mui-icon iconfont icon-copy fox-white mui-pull-right" style="margin-left: 5px"></a>
+				<a class="mui-icon iconfont icon-floppy-disk fox-white mui-pull-right" style="margin-left: 5px"></a>
+				<a class="mui-icon iconfont icon-plus fox-white mui-pull-right" style="margin-left: 5px"></a>
+				<a class="mui-icon iconfont icon-spinner11 fox-white mui-pull-right" style="margin-left: 5px"></a>
+			</div>
+			<span id="upd_box" class="mui-icon mui-pull-right fox-white"></span>
+			<h1 id="title" class="mui-title fox-white"></h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab item-height" style="top: 45px;">
+			<a id="item_0" name="chart_sun" class="mui-tab-item item-height" href="schedule/sun.html">
+				<span class="mui-tab-label">Sun</span>
+			</a>
+			<a id="item_1" class="mui-tab-item item-height" name="chart_mon" href="schedule/mon.html">
+				<span class="mui-tab-label">Mon</span>
+			</a>
+			<a id="item_2" class="mui-tab-item item-height" name="chart_tue" href="schedule/tue.html">
+				<span class="mui-tab-label">Tue</span>
+			</a>
+			<a id="item_3" class="mui-tab-item item-height" name="chart_wed" href="schedule/wed.html">
+				<span class="mui-tab-label">Wed</span>
+			</a>
+			<a id="item_4" class="mui-tab-item item-height" name="chart_thu" href="schedule/thu.html">
+				<span class="mui-tab-label">Thu</span>
+			</a>
+			<a id="item_5" class="mui-tab-item item-height" name="chart_fri" href="schedule/fri.html">
+				<span class="mui-tab-label">Fri</span>
+			</a>
+			<a id="item_6" class="mui-tab-item item-height" name="chart_sat" href="schedule/sat.html">
+				<span class="mui-tab-label">Sat</span>
+			</a>
+		</nav>
+		<div id="pop_over" class="pop-over" style="display: none;"></div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/storages.js"></script>
+		<script>
+			var language;
+			var subPages = {
+				'chart_sun': 'schedule/sun.html',
+				'chart_mon': 'schedule/mon.html',
+				'chart_tue': 'schedule/tue.html',
+				'chart_wed': 'schedule/wed.html',
+				'chart_thu': 'schedule/thu.html',
+				'chart_fri': 'schedule/fri.html',
+				'chart_sat': 'schedule/sat.html'
+			};
+			var aniShow = {};
+			var subpage_style = {
+				top: '76px',
+				bottom: '0px'
+			};
+			var aniShow = {};
+			(function($, doc) {
+				$.init({
+					beforeback : function() {
+						plus.screen.lockOrientation("portrait-primary");
+					}
+				});
+				$.plusReady(function() {
+					var isUpdating = false;
+					//					Updating<img src='../img/lan_icon_waitting.gif' style='width:20px;height:20px;'/>
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+//					doc.getElementById("upd_box").innerHTML = poer_language.label_updating(language) + "<img src='../img/lan_icon_waitting.gif' style='width:20px;height:20px;'/>";
+					doc.getElementById("upd_box").innerHTML = "<img src='../img/lan_icon_waitting.gif' style='width:20px;height:20px;'/>";
+					var dayIndex = (new Date()).getDay();
+					poer_storage.day_index.set(dayIndex);
+					//更换标题
+					title.innerHTML = poer_language.label_schedule(language);
+					console.log("dayIndex:" + dayIndex);
+					var self = plus.webview.currentWebview();
+					var btnRefresh = doc.getElementById("btnRefresh");
+					var btnAdd = doc.getElementById("btnAdd");
+					var btnSave = doc.getElementById("btnSave");
+					var btnCopy = doc.getElementById("btnCopy");
+					var nodeId = poer_function.getLocalStorage("node_detail_id");
+					setUpdateState();
+
+					function setUpdateState() {
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						var device_status_info;
+						for (var i in write_status_info) {
+							if (write_status_info[i]['Id'] == nodeId) {
+								device_status_info = write_status_info[i];
+								if (device_status_info['Type'] == 'set_schedule' && device_status_info['Status'] == 0) {
+									isUpdating = true;
+									doc.getElementById("button_box").style.display = "none";
+									doc.getElementById("upd_box").style.removeProperty("display");
+								} else {
+									isUpdating = false;
+									doc.getElementById("upd_box").style.display = "none";
+									doc.getElementById("button_box").style.removeProperty("display");
+								}
+							}
+						}
+					}
+
+					//当前激活选项
+					var activeTab;
+					var i = 0;
+					for (var pageId in subPages) {
+						var temp = {};
+						if (i == dayIndex) {
+							activeTab = pageId;
+							var sub = plus.webview.create(subPages[pageId], pageId, subpage_style);
+							self.append(sub);
+							doc.getElementById("item_" + dayIndex).className = "mui-tab-item item-height mui-active";
+							temp[pageId] = true;
+							mui.extend(aniShow, temp);
+						} else {
+							temp[pageId] = false;
+							mui.extend(aniShow, temp);
+						}
+						i++;
+					}
+					var eventTypes = ["onCopyButtonClick", "onSaveButtonClick", "onAddButtonClick", "onRefreshButtonClick"];
+					$(".iconfont").each(function(i, btn) {
+						btn.addEventListener("tap", function(e) {
+							var respWebview = plus.webview.getWebviewById(activeTab);
+							$.fire(respWebview, eventTypes[i], {});
+						});
+					});
+					//选项卡点击事件
+					$('.mui-bar-tab').on('tap', 'a', function(e) {
+						if (isUpdating) {
+							poer_public.alert(poer_language.label_set_updating(language));
+							return;
+						}
+						var targetTab = this.getAttribute('name');
+						if (targetTab == activeTab) {
+							return;
+						}
+						if (!aniShow[targetTab]) {
+							self.append(plus.webview.create(subPages[targetTab], targetTab, subpage_style));
+							aniShow[targetTab] = true;
+						} else {
+							mui.fire(plus.webview.getWebviewById(targetTab), "reloadPage", {});
+						}
+						plus.webview.show(targetTab);
+						//隐藏当前;
+						plus.webview.hide(activeTab);
+						//更改当前活跃的选项卡
+						activeTab = targetTab;
+					});
+					doc.getElementById("btnBack").addEventListener("tap", function() {
+						plus.screen.lockOrientation("portrait-primary");
+						poer_public.openWindow("node_detail.html", "node_detail_" + nodeId);
+					});
+					window.addEventListener("refresh_page", function(e) {
+						setUpdateState();
+						mui.fire(plus.webview.getWebviewById(activeTab), "reloadPage", {});
+					});
+					window.addEventListener("showUpdState", function(e) {
+						isUpdating = e.detail.isUpdating;
+						if (isUpdating) {
+							doc.getElementById("button_box").style.display = "none";
+							doc.getElementById("upd_box").style.removeProperty("display");
+						} else {
+							doc.getElementById("upd_box").style.display = "none";
+							doc.getElementById("button_box").style.removeProperty("display");
+						}
+					});
+					window.addEventListener("showPopOver", function(e) {
+						var isShow = e.detail.isShow;
+						if (isShow)
+							doc.getElementById("pop_over").style.removeProperty("display");
+						else
+							doc.getElementById("pop_over").style.display = "none";
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

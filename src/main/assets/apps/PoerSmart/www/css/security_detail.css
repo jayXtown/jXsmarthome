@@ -1,0 +1,356 @@
+.fox_content{
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+	padding-top:45px;
+}
+
+.fox_background_color{
+	background-color: #EE9A00;
+}
+.fox-icon{
+    font-family: Muiicons;
+    //font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    height:40px;
+    display: inline-block;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}
+.fox-bar{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 60px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    border-bottom: 0;
+    background: url(../img/lan_icon_title.png) no-repeat;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+            box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+.fox-tab-label{
+	font-size: 15px;
+	//font-color: #F00;
+    display: block;
+    overflow: hidden;
+    color: white;
+
+    text-overflow: ellipsis;
+}
+.fox-top1{
+	margin: 5px 10px 0px 10px;
+	height: 30px;
+}
+.fox-top1-left{
+	float: left;
+	//background-color: #000000;
+	font-size: 16px;
+	width: 100px;
+	height: 100%;
+}
+.fox-top1-right{
+	float:right;
+}
+.fox-top2{
+	margin: 5px 5px 0px 5px;
+	height: 130px;
+}
+.fox-top2-left{
+	float:left;
+	width: 49%;
+	//background-color: #20B9C3;
+	height: 100%;
+	background:url(../img/lan_icon_top2.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	padding-left: 20px;
+}
+.fox-top2-left-top{
+	width: 100%;
+	height: 40%;
+	font-size: 18px;
+	padding-top: 28px;
+}
+.fox-top2-left-bottom{
+	width: 100%;
+	height: 60%;
+}
+.fox-top2-right{
+	float:right;
+	width:49%;
+	height:100%;
+	background:url(../img/lan_icon_top2.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	padding-left: 15px;
+}
+.fox-top2-right-top{
+	width: 100%;
+	height: 40%;
+	font-size: 18px;
+	padding-top: 28px;
+}
+.fox-top2-right-bottom{
+	width: 100%;
+	height: 60%;
+}
+.fox-top3{
+	margin:5px 5px 0px 5px;
+	height: 70px;
+}
+.fox-top3-left{
+	float:left;
+	width: 49%;
+	height: 100%;
+	background:url(../img/lan_icon_top3.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	padding-left: 20px;
+}
+.fox-top3-right{
+	float:right;
+	width:49%;
+	height: 100%;
+	background:url(../img/lan_icon_top3.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	padding-left:20px;
+}
+.fox_div_temp{
+	float:left;
+	font-size: 45px;
+	padding-top:9px;
+}
+.fox_div_temp_min{
+	float:left;
+	font-size: 22px;
+	padding-top: 17px;
+}
+.fox_div_tempunit{
+	float:left;
+	font-size:22px;
+	padding-top:9px;
+}
+.fox_div_tempunit2{
+	float:left;
+	font-size:22px;
+	padding-top:17px;
+}
+.fox_width1{
+	float: left;
+	//width: 80px;
+}
+.fox_width2{
+	float: left;
+	margin-right:7px;
+}
+.fox_width3{
+	float: left;
+	width: 130px;
+}
+.fox-top3-left-top{
+	width: 100%;
+	height: 50%;
+	font-size: 18px;
+	padding-top: 10px;
+}
+.fox-top3-left-bottom{
+	width: 100%;
+	height: 50%;
+	font-size: 20px;
+	//padding-top: 5px;
+}
+.fox-top4{
+	margin: 30px 20px 0px 20px;
+	font-size: 25px;
+}
+.mui-btn-black{
+	color: #fff;
+    border: 1px solid #000000;
+    background-color: #000000;
+}
+.fox-top5{
+	margin: 30px 20px 0px 20px;
+	font-size: 20px;
+}
+
+.fox-top6{
+	margin: 5px 5px 0px 5px;
+	//font-size: 20px;
+}
+.fox-top6-one{
+	width: 200px;
+	height: 200px;
+	background:url(../img/lan_icon_security_detail.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	margin:0 auto;
+}
+.fox-top6-one-top{
+	width: 100%;
+	height: 45%;
+	font-size: 20px;
+	padding-top: 20px;
+	font-size: 20px;
+}
+.fox-top6-one-bottom{
+	width: 100%;
+	height: 55%;
+	font-size: 25px;
+}
+.fox-top6-three{
+	padding-top: 10px;
+}
+.fox_btn_cancel{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_cancel.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_submit{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_submit.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_press{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_press.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_submit{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_submit.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_header{
+	background: url(../img/lan_icon_title.png) no-repeat;
+}
+.fox_main_div{
+	height: 500px;
+	width: 100%;
+	background: url(../img/lan_icon_background.png) no-repeat;
+	background-size: 100% 100%;
+	color: #5b636a;
+}
+.fox_div_schedule{
+	height: 30px;
+	width: 120px;
+	background: url(../img/lan_icon_schedule_back.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_schedule_icon{
+	height: 20px;
+	width: 25px;
+	margin:0px 10px 0px 10px;
+	background: url(../img/lan_icon_schedule_icon.png) no-repeat;
+	background-size: 25px 20px;
+}
+.fox-white{
+	color: #ffffff;
+}
+.fox-workmode-choose{
+	background-image: url(../img/lan_icon_workmode_choose.png);
+}
+.fox-switch-on{
+	height: 30px;
+	width: 60px;
+	background: url(../img/lan_icon_on.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox-switch-off{
+	height: 30px;
+	width: 60px;
+	background: url(../img/lan_icon_off.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox-font-big-red{
+	padding-top: 90px;
+	font-size: 40px;
+	color: red;
+	text-align: center;
+}
+
+.fox-font-big-green{
+	padding-top: 90px;
+	font-size: 40px;
+	color: green;
+	text-align: center;
+}
+
+.fox-font-small{
+	padding-top:20px;
+	font-size: 20px;
+	color: red;  
+	text-align: center;
+}
+.fox_btn_login{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_loginbtn.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_disabled {
+	height: 40px;
+	width: 100%;
+	background: -webkit-linear-gradient(rgb(213, 213, 213), gray, rgb(213, 213, 213)); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(rgb(213, 213, 213), gray, rgb(213, 213, 213)); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(rgb(213, 213, 213), gray, rgb(213, 213, 213)); /* Firefox 3.6 - 15 */
+    background: linear-gradient(rgb(213, 213, 213), gray, rgb(213, 213, 213)); /* 标准的语法（必须放在最后） */
+}
+/*.fox-gas-name {
+	float: left;
+	width: 100%;
+	height: 2em;
+	text-align: center;
+	line-height: 2em;
+	margin: 0 auto;
+	background-color: gray;
+	font-size: 1.2em;
+	color: gray;
+	margin-top: 1.3em;
+}*/
+@-webkit-keyframes ani_danger {
+	0% {
+		opacity: 0;
+		/*透明度为0*/
+	}
+	50% {
+		opacity: 0.5;
+		/*透明度为0.5*/
+	}
+	100% {
+		opacity: 1;
+		/*透明度为1*/
+	}
+}
+
+@keyframes ani_danger {
+	0% {
+		opacity: 0;
+		/*透明度为0*/
+	}
+	50% {
+		opacity: 0.5;
+		/*透明度为0.5*/
+	}
+	100% {
+		opacity: 1;
+		/*透明度为1*/
+	}
+}
+
+#label_danger {
+	animation: ani_danger 1s infinite ease-in-out;
+	-webkit-animation: ani_danger 1s infinite ease-in-out;
+}

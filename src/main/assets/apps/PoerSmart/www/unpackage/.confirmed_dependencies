@@ -1,0 +1,964 @@
+{
+  "index.html": {
+    "resources": [
+      "js/url.js",
+      "img/lan_about_logo.png",
+      "js/mui.picker.js",
+      "img/lan_icon_email.png",
+      "js/public.js",
+      "css/mui.picker.css",
+      "js/mui.enterfocus.js",
+      "img/lan_icon_password.png",
+      "css/index.css",
+      "img/lan_icon_btnblue.png",
+      "img/lan_icon_select.png",
+      "js/mui.min.js",
+      "js/mui.poppicker.js",
+      "js/jpush.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "css/mui.poppicker.css",
+      "js/function.js",
+      "js/event_listeners.js",
+      "js/logger.js",
+      "js/storages.js",
+      "js/poer_download.js"
+    ],
+    "refer": [
+      "html/main.html",
+      "html/register.html",
+      "html/forget_password.html"
+    ]
+  },
+  "html/main.html": {
+    "resources": [
+      "img/lan_icon_offline_list.png",
+      "css/main.css",
+      "fonts/mui.ttf",
+      "img/lan_icon_choosed.png",
+      "img/lan_icon_online_list.png",
+      "img/lan_icon_title.png",
+      "img/lan_icon_adddevice.png",
+      "img/lan_icon_holiday_white.png",
+      "img/lan_icon_show_select.png",
+      "js/update.js",
+      "img/lan_icon_away_white.png",
+      "img/lan_icon_athome_white.png",
+      "css/style_progress.css",
+      "img/lan_icon_off_white.png",
+      "img/lan_icon_main_add.png",
+      "css/mui.picker.css",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/mui.poppicker.css",
+      "js/url.js",
+      "js/mui.picker.js",
+      "js/public.js",
+      "js/mui.poppicker.js",
+      "js/language.js",
+      "js/function.js",
+      "img/lan_icon_waitting.gif",
+      "js/logger.js",
+      "js/jpush.js",
+      "js/mui.js",
+      "js/jquery-3.1.0.min.js"
+    ],
+    "refer": [
+      "html/add_device.html",
+      "html/node_detail.html",
+      "html/menu_info.html",
+      "html/security_detail.html",
+      "html/alerm_list.html"
+    ]
+  },
+  "html/auto_config_gateway.html": {
+    "resources": [
+      "css/new_gateway.css",
+      "css/gateway_main.css",
+      "css/iconfont.css",
+      "fonts/iconfont.ttf",
+      "css/ui-color.css",
+      "css/ui-box.css",
+      "js/wifi.js",
+      "js/url.js",
+      "js/mui.picker.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "css/mui.picker.css",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "js/mui.poppicker.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "css/mui.poppicker.css",
+      "css/style_progress.css",
+      "js/function.js",
+      "js/time_zone.js",
+      "html/auto_config_gateway.html",
+      "img/OFF.png",
+      "img/ON.png",
+      "js/smart_config.js"
+    ],
+    "refer": [
+      "html/barcode_scan.html"
+    ]
+  },
+  "html/add_device.html": {
+    "resources": [
+      "img/lan_icon_devicelist.png",
+      "css/add_device.css",
+      "img/device_gateway.png",
+      "img/device_gas_detector.png",
+      "img/device_radiator.png",
+      "img/device_thermostat.png",
+      "js/url.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/language.js",
+      "js/function.js",
+      "js/wifi.js",
+      "js/event_listeners.js",
+      "js/logger.js"
+    ],
+    "refer": [
+      "html/auto_config_gateway.html",
+      "html/new_gateway.html",
+      "html/auto_config_gateway_smart_config.html",
+      "html/auto_config_gateway_ap.html",
+      "html/add_radiator.html",
+      "html/add_thermostat.html",
+      "html/add_gas_detector.html"
+    ]
+  },
+  "html/new_gateway.html": {
+    "resources": [
+      "img/lan_icon_four.png",
+      "css/gateway_main.css",
+      "img/lan_addgateway1.png",
+      "css/ui-color.css",
+      "js/time_zone.js",
+      "img/lan_icon_cancel.png",
+      "js/wifi.js",
+      "img/lan_icon_one.png",
+      "css/new_gateway.css",
+      "img/lan_icon_three.png",
+      "img/lan_icon_two.png",
+      "img/lan_icon_input.png",
+      "css/ui-box.css",
+      "img/lan_icon_password.png",
+      "img/lan_icon_wifi.png",
+      "js/url.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "img/lan_icon_title.png",
+      "img/lan_icon_btnblue.png",
+      "js/mui.min.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "css/style_progress.css",
+      "js/function.js"
+    ],
+    "refer": [
+      "html/barcode_scan.html"
+    ]
+  },
+  "html/barcode_scan.html": {
+    "resources": [
+      "js/common.js",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/node_detail.html": {
+    "resources": [
+      "img/lan_icon_schedule_back.png",
+      "css/node_detail.css",
+      "img/lan_icon_bar_background.png",
+      "img/lan_icon_top2.png",
+      "img/lan_icon_off_blue.png",
+      "img/lan_icon_schedule_icon.png",
+      "img/lan_power_2.png",
+      "img/lan_icon_away_blue.png",
+      "img/lan_energy_save.png",
+      "img/lan_fire_on.png",
+      "img/humidity.png",
+      "img/lan_icon_top3.png",
+      "img/lan_icon_holiday_blue.png",
+      "img/lan_icon_time.png",
+      "img/lan_icon_waitting.gif",
+      "img/lan_power_3.png",
+      "js/public.js",
+      "img/lan_icon_choosed.png",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "js/mui.poppicker.js",
+      "css/mui.poppicker.css",
+      "img/lan_icon_athome_white.png",
+      "js/url.js",
+      "js/mui.picker.js",
+      "fonts/mui.ttf",
+      "css/mui.picker.css",
+      "css/mui.min.css",
+      "js/language.js",
+      "js/function.js",
+      "img/lan_power_0.png",
+      "img/lan_icon_athome_blue.png",
+      "img/lan_icon_press.png",
+      "img/lan_fire_off.png",
+      "img/lan_icon_holiday_white.png",
+      "img/lan_icon_off_white.png",
+      "img/lan_power_1.png",
+      "js/logger.js",
+      "img/lan_icon_away_white.png",
+      "img/lan_open_1.png",
+      "img/icon_windmill.png",
+      "img/lan_open_2.png",
+      "img/lan_open_3.png",
+      "img/lan_open_0.png",
+      "img/lan_power_4.png",
+      "img/lan_open_4.png"
+    ],
+    "refer": [
+      "html/device_info.html",
+      "html/holiday_setting.html",
+      "html/edit_schedule_chart.html",
+      "html/edit_schedule_everyday.html",
+      "html/energy_saving_curve.html",
+      "html/energy_curves.html",
+      "html/power_curve.html"
+    ]
+  },
+  "html/device_info.html": {
+    "resources": [
+      "img/lan_icon_save.png",
+      "img/lan_icon_delete2.png",
+      "css/device_info.css",
+      "js/url.js",
+      "js/mui.picker.js",
+      "img/lan_icon_bar_background.png",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "css/mui.picker.css",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "js/mui.poppicker.js",
+      "css/mui.min.css",
+      "js/language.js",
+      "css/mui.poppicker.css",
+      "img/lan_icon_waitting.gif",
+      "js/function.js",
+      "js/logger.js"
+    ],
+    "refer": []
+  },
+  "html/zone_setup.html": {
+    "resources": [
+      "img/lan_icon_save.png",
+      "img/lan_icon_add_blue.png",
+      "img/lan_icon_delete2.png",
+      "img/lan_icon_bar_background.png",
+      "css/zone_setup.css",
+      "js/url.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/language.js",
+      "js/function.js",
+      "js/logger.js"
+    ],
+    "refer": [
+      "html/gateway_setup.html",
+      "html/locate_set.html"
+    ]
+  },
+  "html/menu_info.html": {
+    "resources": [
+      "img/lan_icon_account.png",
+      "img/lan_icon_home.png",
+      "img/icon_setup_selected.png",
+      "img/lan_icon_feedback.png",
+      "img/lan_icon_about.png",
+      "css/menu_info.css",
+      "img/lan_icon_title.png",
+      "fonts/mui.ttf",
+      "js/url.js",
+      "js/public.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/language.js",
+      "js/function.js",
+      "js/logger.js"
+    ],
+    "refer": [
+      "html/zone_setup.html",
+      "html/account_info.html",
+      "html/feedback.html",
+      "html/device_setup.html",
+      "html/about_us.html"
+    ]
+  },
+  "html/gateway_setup.html": {
+    "resources": [
+      "css/gateway_setup.css",
+      "js/time_zone.js",
+      "js/mui.picker.js",
+      "js/mui.poppicker.js",
+      "css/mui.poppicker.css",
+      "css/mui.picker.css",
+      "js/url.js",
+      "img/lan_icon_save.png",
+      "img/lan_icon_bar_background.png",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/logger.js",
+      "img/lan_icon_title.png",
+      "img/lan_icon_delete2.png",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/language.js",
+      "js/function.js",
+      "img/lan_icon_btnblue.png"
+    ],
+    "refer": []
+  },
+  "html/locate_set.html": {
+    "resources": [
+      "css/edit_schedule_single.css",
+      "js/url.js",
+      "img/lan_icon_title.png",
+      "js/mui.picker.js",
+      "img/lan_icon_btnblue.png",
+      "js/mui.min.js",
+      "js/mui.poppicker.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/function.js",
+      "js/logger.js"
+    ],
+    "refer": []
+  },
+  "html/auto_config_gateway_smart_config.html": {
+    "resources": [
+      "js/smart_config.js",
+      "css/gateway_main.css",
+      "js/mui.picker.js",
+      "css/ui-color.css",
+      "js/time_zone.js",
+      "css/mui.picker.css",
+      "css/new_gateway.css",
+      "js/mui.poppicker.js",
+      "css/iconfont.css",
+      "css/mui.poppicker.css",
+      "img/ON.png",
+      "css/style_progress.css",
+      "css/ui-box.css",
+      "js/circles.js",
+      "css/auto_configuration.css",
+      "css/mui.min.css",
+      "js/url.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/wifi.js",
+      "img/lan_icon_title.png",
+      "js/event_listeners.js",
+      "js/mui.min.js",
+      "js/language.js",
+      "js/function.js",
+      "css/svg_style.css",
+      "js/logger.js"
+    ],
+    "refer": []
+  },
+  "html/auto_config_gateway_ap.html": {
+    "resources": [
+      "css/new_gateway.css",
+      "css/gateway_main.css",
+      "css/iconfont.css",
+      "fonts/iconfont.ttf",
+      "css/ui-color.css",
+      "js/time_zone.js",
+      "img/ON.png",
+      "css/ui-box.css",
+      "js/wifi.js",
+      "js/url.js",
+      "js/mui.picker.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "css/mui.picker.css",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "js/mui.poppicker.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "css/mui.poppicker.css",
+      "css/style_progress.css",
+      "js/function.js",
+      "img/OFF.png",
+      "js/circles.js",
+      "js/event_listeners.js",
+      "css/auto_configuration.css",
+      "css/svg_style.css",
+      "img/button-bck.png",
+      "js/logger.js",
+      "js/smart_config.js",
+      "img/lan_icon_wifi.png",
+      "css/auto_configuration_ap.css",
+      "img/wifi-conn-on.png",
+      "img/conn-check-off.png",
+      "img/step-off.png",
+      "img/step-on.png",
+      "img/lan_icon_password.png"
+    ],
+    "refer": [
+      "html/barcode_scan.html"
+    ]
+  },
+  "html/holiday_setting.html": {
+    "resources": [
+      "img/lan_icon_loginbtn.png",
+      "js/common.js",
+      "js/mui.picker.min.js",
+      "css/poer.css",
+      "css/style.css",
+      "css/mui.picker.min.css"
+    ],
+    "refer": []
+  },
+  "html/edit_schedule_chart.html": {
+    "resources": [
+      "js/schedule_chart_data.js",
+      "js/echarts.min.js",
+      "js/url.js",
+      "js/common.js",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/function.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "html/edit_schedule_everyday.html": {
+    "resources": [
+      "html/schedule/sun.html",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "html/schedule/thu.html",
+      "html/schedule/fri.html",
+      "html/schedule/sat.html",
+      "js/language.js",
+      "js/function.js",
+      "html/schedule/mon.html",
+      "css/edit_schedule_everyday.css",
+      "img/lan_icon_title.png",
+      "css/mui.css",
+      "css/iconfont.css",
+      "fonts/iconfont.ttf",
+      "html/schedule/wed.html",
+      "js/storages.js",
+      "js/public.js",
+      "html/schedule/tue.html",
+      "js/logger.js",
+      "img/lan_icon_waitting.gif",
+      "html/schedule/menu.css",
+      "js/mui.picker.min.js",
+      "css/mui.picker.min.css"
+    ],
+    "refer": [
+      "html/schedule/mon.html",
+      "html/schedule/sat.html",
+      "html/schedule/fri.html",
+      "html/schedule/thu.html",
+      "html/schedule/tue.html",
+      "html/schedule/sun.html",
+      "html/schedule/wed.html"
+    ]
+  },
+  "html/schedule/thu.html": {
+    "resources": [
+      "js/schedule_chart_data.js",
+      "js/url.js",
+      "js/echarts.min.js",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "js/function.js",
+      "html/schedule/menu.css",
+      "js/common.js",
+      "js/schedule_data.js",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "html/edit_schedule_single.html"
+    ]
+  },
+  "html/schedule/sun.html": {
+    "resources": [
+      "js/schedule_chart_data.js",
+      "js/echarts.min.js",
+      "js/url.js",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "js/function.js",
+      "html/schedule/menu.css"
+    ],
+    "refer": []
+  },
+  "html/schedule/wed.html": {
+    "resources": [
+      "js/schedule_chart_data.js",
+      "js/url.js",
+      "js/echarts.min.js",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "js/function.js",
+      "html/schedule/menu.css",
+      "js/common.js",
+      "js/logger.js"
+    ],
+    "refer": [
+      "html/edit_schedule_single.html"
+    ]
+  },
+  "html/schedule/tue.html": {
+    "resources": [
+      "js/schedule_chart_data.js",
+      "js/url.js",
+      "js/echarts.min.js",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "js/function.js",
+      "html/schedule/menu.css",
+      "js/common.js",
+      "js/logger.js"
+    ],
+    "refer": [
+      "html/edit_schedule_single.html"
+    ]
+  },
+  "html/schedule/sat.html": {
+    "resources": [
+      "js/mui.min.js",
+      "js/function.js",
+      "js/schedule_chart_data.js",
+      "js/url.js",
+      "js/echarts.min.js",
+      "js/public.js",
+      "js/language.js",
+      "html/schedule/menu.css"
+    ],
+    "refer": [
+      "html/edit_schedule_single.html"
+    ]
+  },
+  "html/schedule/fri.html": {
+    "resources": [
+      "js/schedule_chart_data.js",
+      "js/url.js",
+      "js/echarts.min.js",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/schedule/mon.html": {
+    "resources": [
+      "js/schedule_chart_data.js",
+      "js/url.js",
+      "js/echarts.min.js",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "js/function.js",
+      "html/schedule/menu.css",
+      "js/common.js",
+      "js/logger.js",
+      "js/mui.picker.min.js",
+      "js/mui.picker.js",
+      "js/mui.poppicker.js",
+      "css/mui.picker.css",
+      "css/mui.min.css",
+      "css/mui.picker.min.css",
+      "css/mui.poppicker.css"
+    ],
+    "refer": [
+      "html/edit_schedule_single.html",
+      "html/copy_schedule.html",
+      "html/schedule/mon.html"
+    ]
+  },
+  "html/edit_schedule_single.html": {
+    "resources": [
+      "css/edit_schedule_single.css",
+      "img/lan_icon_title.png",
+      "js/mui.picker.js",
+      "img/lan_icon_btnblue.png",
+      "js/mui.poppicker.js",
+      "css/mui.poppicker.css",
+      "css/mui.picker.css",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/language.js",
+      "js/function.js",
+      "js/mui.picker.min.js",
+      "css/mui.picker.min.css",
+      "js/common.js"
+    ],
+    "refer": []
+  },
+  "html/copy_schedule.html": {
+    "resources": [
+      "css/copy_schedule.css"
+    ],
+    "refer": []
+  },
+  "html/account_info.html": {
+    "resources": [
+      "img/lan_icon_loginbtn.png",
+      "js/time_zone.js",
+      "css/account_info.css",
+      "img/lan_icon_title.png",
+      "fonts/mui.ttf",
+      "js/storages.js",
+      "img/lan_icon_btnblue.png",
+      "js/mui.picker.js",
+      "js/mui.poppicker.js",
+      "js/logger.js",
+      "css/mui.poppicker.css",
+      "css/mui.picker.css",
+      "js/url.js",
+      "js/public.js",
+      "js/mui.min.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/function.js"
+    ],
+    "refer": [
+      "html/change_password.html"
+    ]
+  },
+  "html/temperature_setup.html": {
+    "resources": [
+      "css/temperature_setup.css",
+      "img/lan_icon_waitting.gif",
+      "img/lan_icon_btnblue.png",
+      "js/url.js",
+      "js/mui.picker.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/logger.js",
+      "css/mui.picker.css",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "js/mui.poppicker.js",
+      "css/mui.min.css",
+      "js/language.js",
+      "css/mui.poppicker.css",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/device_setup.html": {
+    "resources": [
+      "img/lan_icon_devicelist.png",
+      "css/add_device.css",
+      "js/url.js",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": [
+      "html/temperature_setup.html"
+    ]
+  },
+  "html/feedback.html": {
+    "resources": [
+      "css/feedback.css",
+      "js/url.js",
+      "img/lan_icon_title.png",
+      "img/lan_icon_btnblue.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/about_us.html": {
+    "resources": [
+      "css/about_us.css",
+      "js/url.js",
+      "img/lan_icon_title.png",
+      "img/lan_about_logo.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/change_password.html": {
+    "resources": [
+      "css/change_password.css",
+      "js/url.js",
+      "img/lan_icon_title.png",
+      "img/lan_icon_btnblue.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/add_radiator.html": {
+    "resources": [
+      "js/common.js",
+      "img/lan_icon_input.png",
+      "img/lan_icon_cancel.png",
+      "css/add_thermostat.css"
+    ],
+    "refer": []
+  },
+  "html/add_thermostat.html": {
+    "resources": [
+      "img/lan_addnode1.png",
+      "js/common.js",
+      "img/lan_icon_input.png",
+      "img/lan_icon_cancel.png",
+      "css/add_thermostat.css",
+      "img/lan_icon_btnblue.png",
+      "css/style_progress.css"
+    ],
+    "refer": [
+      "html/barcode_scan.html"
+    ]
+  },
+  "html/security_detail.html": {
+    "resources": [
+      "css/security_detail.css",
+      "img/lan_icon_loginbtn.png",
+      "css/iconfont.css",
+      "css/poer.css",
+      "img/lan_icon_security_detail.png",
+      "css/style.css",
+      "img/lan_icon_waitting.gif"
+    ],
+    "refer": []
+  },
+  "html/energy_saving_curve.html": {
+    "resources": [
+      "js/echarts.min.js",
+      "js/common.js",
+      "js/url.js",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "js/logger.js",
+      "js/function.js",
+      "css/curves.css"
+    ],
+    "refer": []
+  },
+  "html/energy_curves.html": {
+    "resources": [
+      "css/energy_curves.css",
+      "css/mui.css",
+      "img/lan_icon_title.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/storages.js",
+      "js/public.js",
+      "js/language.js",
+      "js/logger.js",
+      "js/function.js",
+      "html/energy_saving_curve.html"
+    ],
+    "refer": [
+      "html/energy_saving_curve.html",
+      "html/energy_saving_curve_week.html"
+    ]
+  },
+  "html/energy_saving_curve_week.html": {
+    "resources": [
+      "js/url.js",
+      "js/echarts.min.js",
+      "js/common.js",
+      "css/curves.css",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/power_curve.html": {
+    "resources": [
+      "js/echarts.min.js",
+      "js/common.js",
+      "css/curves.css",
+      "js/url.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js",
+      "img/lan_icon_title.png",
+      "css/energy_curves.css"
+    ],
+    "refer": []
+  },
+  "html/alerm_list.html": {
+    "resources": [
+      "css/alerm_list.css",
+      "js/common.js",
+      "js/alerm_list.js",
+      "js/mui.js",
+      "js/url.js",
+      "img/lan_icon_title.png",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": [
+      "html/alerm_detail.html"
+    ]
+  },
+  "html/alerm_detail.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/alerm_detail.css",
+      "js/url.js",
+      "img/lan_icon_title.png",
+      "js/common.js",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/register.html": {
+    "resources": [
+      "img/lan_icon_title.png",
+      "fonts/mui.ttf",
+      "css/register.css",
+      "js/url.js",
+      "img/lan_icon_btnblue.png",
+      "js/mui.min.js",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/forget_password.html": {
+    "resources": [
+      "js/url.js",
+      "img/lan_icon_title.png",
+      "img/lan_icon_btnblue.png",
+      "js/mui.min.js",
+      "css/forget_password.css",
+      "fonts/mui.ttf",
+      "js/public.js",
+      "js/language.js",
+      "css/mui.min.css",
+      "js/logger.js",
+      "js/function.js"
+    ],
+    "refer": []
+  },
+  "html/add_gas_detector.html": {
+    "resources": [
+      "js/common.js",
+      "img/rc_device_eg_img.png",
+      "img/lan_icon_input.png",
+      "img/lan_icon_cancel.png",
+      "css/add_thermostat.css"
+    ],
+    "refer": []
+  },
+  "start.html": {
+    "resources": [
+      "js/mui.min.js",
+      "js/public.js",
+      "js/jquery-3.1.0.min.js",
+      "img/start_icon.png"
+    ],
+    "refer": [
+      "login.html",
+      "index.html",
+      "html/main.html"
+    ]
+  },
+  "login.html": {
+    "resources": [
+      "js/url.js",
+      "img/lan_about_logo.png",
+      "js/mui.picker.js",
+      "img/lan_icon_email.png",
+      "js/logger.js",
+      "css/mui.picker.css",
+      "img/lan_icon_password.png",
+      "css/index.css",
+      "img/lan_icon_btnblue.png",
+      "img/lan_icon_select.png",
+      "js/event_listeners.js",
+      "js/mui.poppicker.js",
+      "js/jpush.js",
+      "css/mui.min.css",
+      "js/language.js",
+      "css/mui.poppicker.css",
+      "js/poer_download.js",
+      "js/function.js"
+    ],
+    "refer": [
+      "html/main.html"
+    ]
+  }
+}

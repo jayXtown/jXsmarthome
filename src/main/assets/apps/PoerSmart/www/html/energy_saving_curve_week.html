@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/curves.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div id="myChart"></div>
+		<textarea id="tempTextBox" style="display: none;"></textarea>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/echarts.min.js"></script>
+		<script>
+			(function($, doc) {
+				$.init({});
+				$.plusReady(function() {
+					if (plus.os.name == "Android")
+						plus.screen.lockOrientation("landscape-primary");
+					else
+						plus.screen.lockOrientation("landscape-secondary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					userId = settings_user_info.Id;
+					var userTempUnit = settings_user_info.DisplayMode;
+					nodeId = poer_function.getLocalStorage("node_detail_id");
+					show_temp_unit = userTempUnit == 0 ? "°C" : "°F";
+					initChart();
+					var myChart;
+
+					function initChart() {
+						myChart = echarts.init(doc.getElementById("myChart"));
+						var options = initOptions();
+						myChart.setOption(options);
+						myChart.showLoading();
+						getEnergySavingData();
+					}
+
+					function initOptions() {
+						return {
+							//							grid: {
+							//								left: 40,
+							//								right: 15,
+							//								top: 45,
+							//								bottom: 60
+							//							},
+							tooltip: {
+								trigger: 'axis',
+								enterable: true,
+								position: function(point, params, dom, rect) {
+									var docWidth = doc.width;
+									var docHeight = doc.height;
+									var clickX = point[0];
+									var clickY = point[1];
+									if (clickX > docWidth / 2) {
+										if (language == "English")
+											return [clickX - 160, docHeight - 53];
+										else
+											return [clickX - 100, docHeight - 53]
+									} else {
+										return [clickX + 15, docHeight - 53];
+									}
+								}
+							},
+							xAxis: {},
+							yAxis: {},
+							series: [{
+								name: poer_language.label_temperature(language),
+								type: 'line',
+								data: []
+							}]
+						};
+					}
+
+					function getEnergySavingData() {
+						var reqUrl = poer_url.energy_curve_week(userId, nodeId);
+						console.log(reqUrl);
+						poer_function.energy_curve_week(reqUrl, {}, getEnergySavingDataSuccess, getEnergySavingDataFailed);
+					}
+
+					function getEnergySavingDataSuccess(result) {
+						console.log(JSON.stringify(result));
+						doc.getElementById("tempTextBox").value = JSON.stringify(result);
+						switch (result.Status) {
+							case RespStatus.SUCCESS:
+								var resData = result.Data;
+								var xAxisData = [];
+								var seriesData = [];
+								for (var index in resData) {
+									var tempInfo = resData[index];
+									var x = tempInfo.Year + "-" + ultZeroize(tempInfo.Month, 2) + "-" + ultZeroize(tempInfo.Day, 2);
+									var temp = userTempUnit == 0 ? parseInt(tempInfo['Temperature'] / 9) :
+										parseInt(320 + tempInfo['Temperature'] / 5);
+									xAxisData.push(x);
+									seriesData.push(transfer_temp(temp));
+								}
+								var options = {
+									xAxis: {
+										type: 'category',
+										boundaryGap: true,
+										axisLabel: {
+											rotate: 45
+										},
+										data: xAxisData
+									},
+									yAxis: {
+										type: 'value',
+										axisLabel: {
+											formatter: '{value} ' + show_temp_unit
+										}
+									},
+									series: [{
+										name: poer_language.label_temperature(language),
+										data: seriesData,
+										markPoint: {
+											data: [{
+												type: 'max',
+												name: '最大值'
+											}, {
+												type: 'min',
+												name: '最小值'
+											}]
+										},
+										markLine: {
+											data: [{
+												type: 'average',
+												name: '平均值'
+											}]
+										}
+									}]
+								};
+								myChart.setOption(options);
+								myChart.hideLoading();
+								break;
+							case RespStatus.E0001:
+								break;
+							case RespStatus.E0002:
+							default:
+								break;
+						}
+					}
+
+					function getEnergySavingDataFailed(xhr) {}
+
+					function transfer_temp(temp) {
+						if (temp % 10 == 0) {
+							return temp / 10 + ".0";
+						} else {
+							return temp / 10;
+						}
+					}
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/copy_schedule.css" rel="stylesheet" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_copy_schedule"></h1>
+		</header>
+		<div class="mui-content" style="background-color: #FFFFFF;">
+			<div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox" id="day0"><span id="label_day0"></span>
+					</li>
+					<li class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox" id="day1"><span id="label_day1"></span>
+					</li>
+					<li class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox" id="day2"><span id="label_day2"></span>
+					</li>
+					<li class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox" id="day3"><span id="label_day3"></span>
+					</li>
+					<li class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox" id="day4"><span id="label_day4"></span>
+					</li>
+					<li class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox" id="day5"><span id="label_day5"></span>
+					</li>
+					<li class="mui-table-view-cell mui-checkbox mui-left">
+						<input name="checkbox" type="checkbox" id="day6"><span id="label_day6"></span>
+					</li>
+				</ul>
+			</div>
+			<div style="margin-top:40px;height:60px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="save" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="save_text"></font></button>
+				</div>
+			</div>
+			<div style=clear: both;></div>
+			<div style="height:40px;display:none;padding-top:20px;" id="set_updating_div">
+				<center id="label_updating"></center>
+			</div>
+		</div>
+		<div id="progressPopover" class="mui-popover">
+			<div class="loading-bar">
+				<div class="amount green" style="width: 1%;" id="poer_progress_div">
+				</div>
+				<div>
+					<center id="label_submit"></center>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+
+			function show_label() {
+				document.getElementById("label_copy_schedule").innerHTML = poer_language.label_schedule(language) + poer_language.label_copy(language);
+				var weekday_array = poer_language.label_weekday_array(language);
+				for (var i = 0; i < 7; i++) {
+					document.getElementById("label_day" + i).innerHTML = weekday_array[i];
+				}
+				document.getElementById("save_text").innerHTML = poer_language.label_save(language);
+				document.getElementById("label_submit").innerHTML = poer_language.label_submit(language);
+				document.getElementById("label_updating").innerHTML = poer_language.label_updating(language) + "<img src='../img/lan_icon_waitting.gif' style='width:15px;height:15px;'/>";
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					//					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id;
+					var userTempUnit = settings_user_info.DisplayMode;
+					var nodeId = poer_function.getLocalStorage("node_detail_id");
+					var schedule_info = poer_function.getLocalStorage("schedule_" + nodeId);
+					var program_key = poer_function.getLocalStorage("program_key_" + nodeId);
+					var day_index = poer_function.getLocalStorage("day_index");
+					var day_array = new Array();
+					var set_updating_div = doc.getElementById("set_updating_div");
+					var can_write = true;
+					var no_write_type = 0; //不能操作的原因  0:设备正在写, 1:网关离线, 2:设备离线
+					doc.getElementById("day" + day_index).disabled = true;
+
+					function show_can_write() {
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						var device_status_info;
+						for (var i in write_status_info) {
+							if (write_status_info[i]['Id'] == nodeId) {
+								device_status_info = write_status_info[i];
+								if (device_status_info['Status'] == 1) {
+									can_write = true;
+								} else {
+									can_write = false;
+									no_write_type = 0; //正在更新中
+								}
+								break;
+							}
+						}
+						var node_list = poer_function.getLocalStorage("node_list");
+						var node_info;
+						for (var i in node_list) {
+							if (node_list[i]['Id'] == nodeId) {
+								node_info = node_list[i];
+								break;
+							}
+						}
+						var gateway_list = poer_function.getLocalStorage("gateway_list");
+						var gateway_id = node_info['GatewayId'];
+						var gateway_info;
+						for (var i in gateway_list) {
+							if (gateway_list[i]['Id'] == gateway_id) {
+								gateway_info = gateway_list[i];
+								break;
+							}
+						}
+						//判断网关是否离线以及设备是否离线
+						if (!node_info['RfLinkGateway']) { //设备离线
+							can_write = false;
+							no_write_type = 2;
+						}
+						if (!gateway_info['IsOnline']) { //网关离线
+							can_write = false;
+							no_write_type = 1;
+						}
+					}
+
+					function show_no_write(type) {
+						var text;
+						switch (type) {
+							case 0:
+								text = poer_language.label_set_updating(language);
+								break;
+							case 1:
+								text = poer_language.label_gateway_offline(language);
+								break;
+							case 2:
+								text = poer_language.label_offline(language);
+								break;
+						}
+						poer_public.alert(text);
+					}
+					var update_times = 0;
+
+					function setBackTask(status) {
+						if (!status) {
+							update_times = 0;
+						}
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						for (var i in write_status_info) {
+							if (write_status_info[i]['Id'] == nodeId) {
+								write_status_info[i]['Type'] = 'set_schedule';
+								write_status_info[i]['Status'] = status ? 1 : 0;
+								poer_function.setLocalStorage('write_status_info', write_status_info);
+								var nodeDetailPage = plus.webview.getWebviewById("node_detail_" + nodeId);
+								mui.fire(nodeDetailPage, "reloadPage", {});
+								break;
+							}
+						}
+						mui.fire(plus.webview.getWebviewById('edit_schedule_' + nodeId), "showUpdState", {
+							isUpdating: !status
+						});
+						set_updating_div.style.display = status ? "none" : "";
+					}
+
+					function writestatus_success(data) {
+						console.log(JSON.stringify(data));
+						var Flag = data.TranStatus;
+						if (Flag) {
+							//修改编程信息并保存
+							for (var i in schedule_info) {
+								if (i != day_index) {
+									var child_length = day_array.length;
+									for (var k = 0; k < child_length; k++) {
+										if (i == day_array[k]) {
+											break;
+										}
+									}
+									if (k != child_length) {
+										schedule_info[i] = schedule_info[day_index];
+									}
+								}
+							}
+							//console.log(JSON.stringify(schedule_info));
+							poer_function.setLocalStorage("schedule_" + nodeId, schedule_info);
+							poer_public.toast(poer_language.label_update_success(language));
+							setBackTask(true);
+						} else {
+							if (update_times > 60) {
+								poer_public.toast(poer_language.label_update_failed(language));
+								setBackTask(true);
+								return;
+							}
+							setTimeout(get_write_status, 3000);
+						}
+					}
+
+					function writestatus_fail(xhr, textStatus, errorThrown) {
+						if (update_times > 60) {
+							poer_public.toast(poer_language.label_update_failed(language));
+							setBackTask(true);
+							return;
+						}
+						setTimeout(get_write_status, 3000);
+					}
+
+					function get_write_status() {
+						update_times++;
+						console.log(update_times);
+						var url = poer_url.write_status(userId, nodeId);
+						var data = {};
+						poer_function.write_status(url, data, writestatus_success, writestatus_fail);
+					}
+
+					function update_success(data) {
+						console.log(JSON.stringify(data));
+						var Flag = data.Flag;
+						if (Flag) {
+							get_write_status();
+						} else {
+							poer_public.toast(poer_language.label_update_failed(language));
+							setBackTask(true);
+						}
+					}
+
+					function update_fail(xhr, textStatus, errorThrown) {
+						poer_public.toast(poer_language.label_update_failed(language));
+						setBackTask(true);
+					}
+
+					function save(content) {
+						var url = poer_url.copy_schedule(userId, nodeId);
+						poer_function.copy_schedule(url, JSON.stringify(content), update_success, update_fail);
+					}
+					doc.getElementById("save").addEventListener('tap', function() {
+						show_can_write(); //实时判断是否可写
+						if (!can_write) {
+							show_no_write(no_write_type);
+							return;
+						}
+						var btnArray = [poer_language.label_no(language), poer_language.label_yes(language)];
+						mui.confirm(poer_language.label_update_schedule(language), poer_language.label_confirm(language), btnArray, function(e) {
+							if (e.index == 1) { //确认修改
+								day_array = new Array();
+								for (var i = 0; i < 7; i++) {
+									if (doc.getElementById("day" + i).checked) {
+										day_array.push(i);
+									}
+								}
+								if (day_array.length == 0) {
+									poer_public.alert(poer_language.label_choose_weekday(language));
+									return;
+								}
+								setBackTask(false);
+								var child;
+								var result_array = new Array();
+								var child_array = new Array();
+								var item;
+								var temperature;
+								var content = {};
+								for (var i in schedule_info) {
+									if (i == day_index) {
+										child = schedule_info[day_index]['ProgramTime'];
+									} else {
+										var child_length = day_array.length;
+										for (var k = 0; k < child_length; k++) {
+											if (i == day_array[k]) {
+												break;
+											}
+										}
+										if (k == child_length) {
+											child = schedule_info[i]['ProgramTime'];
+										} else {
+											child = schedule_info[day_index]['ProgramTime'];
+										}
+									}
+									child_array = new Array();
+									for (var j in child) {
+										item = child[j];
+										temperature = item['Temprature'];
+										child_array.push({
+											'Hour': item['Hour'],
+											'Min': item['Min'],
+											'Temprature': userTempUnit == 0 ? temperature * 9 : (temperature - 320) * 5
+										});
+									}
+									result_array.push({
+										'ProgramTime': child_array
+									});
+								}
+								content[program_key] = result_array;
+								save({
+									'ProgramKey': program_key,
+									'ProgramMap': content
+								});
+							}
+						});
+					}, false);
+					window.addEventListener('refresh_page', function(event) {
+						//重新获取schedule info
+						show_can_write();
+						if (can_write) { //正常才能更新
+							console.log("copy schedule refresh page");
+							schedule_info = poer_function.getLocalStorage("schedule_" + nodeId);
+							program_key = poer_function.getLocalStorage("program_key_" + nodeId);
+							day_index = poer_function.getLocalStorage("day_index");
+							doc.getElementById("day" + day_index).disabled = true;
+						}
+					});
+					var back = $.back;
+					$.back = function(event) {
+						poer_public.openWindow("edit_schedule_everyday.html", "edit_schedule_" + nodeId);
+					};
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

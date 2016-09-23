@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/poer.css"/>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div style="margin:10px 20px 0px 20px;">
+				<div style="float:left;">
+					<a id="back" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined" style="padding: 5px 20px;width:80px;">Back</a>
+				</div>
+				<div style="float:left;padding-left:10px;">
+					<a id="edit_schedule" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined" style="padding: 5px 20px;width:80px;">Edit</a>
+				</div>
+				<div style="float:left;padding-left:10px;">
+					<a id="copy_schedule" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined" style="padding: 5px 20px;width:80px;">Copy</a>
+				</div>
+				<div style="float:left;padding-left:20px;">
+					WeekDay:
+				</div>
+				<div style="float:left;">
+					<select id="selected_day" style="width:120px;"  onchange="day_change(this.options[this.options.selectedIndex].value)">
+						<option value="0">Sunday</option>
+						<option value="1">Monday</option>
+						<option value="2">Tuesday</option>
+						<option value="3">Wednesday</option>
+						<option value="4">Thursday</option>
+						<option value="5">Friday</option>
+						<option value="6">Saturday</option>
+					</select>
+				</div>
+			</div>
+			 
+			<div style="clear:both;"></div>
+			<!-- 为 ECharts 准备一个具备大小（宽高）的Dom -->
+    		<div id="main" style="width: 100%;height:300px;"></div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/echarts.min.js"></script>
+		
+		<script>
+			var x_data = new Array();
+			var y_data = new Array();
+			var point_data = new Array();
+			var i;
+			var j;
+			var show_temp_unit;
+			var day_index;
+			var schedule_info;
+			
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				 
+				$.plusReady(function() {
+					plus.screen.lockOrientation("landscape-primary");
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id;
+					var userTempUnit = settings_user_info.DisplayMode;
+					var nodeId = poer_function.getLocalStorage("node_detail_id");
+					schedule_info = poer_function.getLocalStorage("schedule");
+					
+					show_temp_unit = userTempUnit==0 ? "°C" : "°F";
+					
+					for(i=0;i<24;i++){
+						x_data.push(i);
+						x_data.push(i+":30");
+					}
+					x_data.push('24');
+					
+					var d = new Date();
+					day_index = d.getDay();
+					doc.getElementById("selected_day").value = day_index;
+					poer_function.setLocalStorage("day_index", day_index);
+					
+					get_data();
+					
+					setTimeout(show_chart, 1000);   //特意延时，不然chart显示会有问题
+					
+					doc.getElementById('back').addEventListener('tap', function() {
+						mui.back();
+					}, false);
+					
+					doc.getElementById('edit_schedule').addEventListener('tap', function() {
+						poer_public.openWindow("edit_schedule.html", 'edit_schedule_page');
+					}, false);
+					
+					doc.getElementById('copy_schedule').addEventListener('tap', function() {
+						poer_public.openWindow("copy_schedule.html", 'copy_schedule_page');
+					}, false);
+				});
+			}(mui, document));
+			
+			function day_change(value){
+				day_index = value - 0;
+				poer_function.setLocalStorage("day_index", day_index);
+				get_data();
+				
+				setTimeout(show_chart, 1000);
+			}
+			
+			function get_data(){
+				var detail_info = schedule_info[day_index]['ProgramTime'];
+				var cur_program_array = new Array();
+				var array_length = detail_info.length;
+				var pre_item = detail_info[0];
+				var cur_item;
+				var pre_sec;
+				var cur_sec;
+				var pre_temp;
+				point_data = new Array();
+
+				for(var i in detail_info){
+					if(i==0){
+						pre_temp = pre_item['Temprature']/10;
+						point_data.push({name : '', value : pre_temp, xAxis: 0, yAxis: pre_temp});
+						continue;
+					}
+					cur_item = detail_info[i];
+					
+					pre_sec = pre_item['Sec'];
+					cur_sec = cur_item['Sec'];
+					pre_temp = pre_item['Temprature']/10;
+					cur_temp = cur_item['Temprature']/10;
+					
+					point_data.push({name: '', value: cur_temp, xAxis: cur_sec/1800, yAxis: cur_temp});
+					
+					while(cur_sec-pre_sec-1800>=0){   //超过半小时
+						cur_program_array.push(pre_temp);
+						cur_sec -= 1800;
+					}
+					pre_item = cur_item;
+					
+					if(i==array_length-1){
+						cur_program_array.push(cur_item['Temprature']/10);
+						break;
+					}
+				}
+				y_data = cur_program_array;
+			}
+
+			function show_chart(){
+				var myChart = echarts.init(document.getElementById('main'));
+				//myChart.clear();
+
+		        // 指定图表的配置项和数据
+		        option = {
+				    tooltip : {
+				        trigger: 'axis'
+				    },
+				    xAxis : [
+				        {
+				            type : 'category',
+				            boundaryGap : false,
+				            data : x_data
+				        }
+				    ],
+				    yAxis : [
+				        {
+				            type : 'value',
+				            axisLabel : {
+				                formatter: '{value} '+show_temp_unit
+				            }
+				        }
+				    ],
+				    series : [
+				        {
+				            name:'Temperature',
+				            type:'line',
+				            data: y_data,
+				            markPoint : {
+				                data : point_data 
+				            }
+				        }
+				    ]
+				};
+		
+		        // 使用刚指定的配置项和数据显示图表。
+		        myChart.setOption(option);
+			}
+			 
+		//});
+		</script>
+	</body>
+</html>

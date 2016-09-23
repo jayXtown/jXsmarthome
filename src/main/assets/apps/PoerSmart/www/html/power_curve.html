@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/curves.css" rel="stylesheet" />
+		<link href="../css/energy_curves.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a id="btnBack" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="pageTitle"></h1>
+			<!--<a id="menu" class="mui-icon mui-icon-bars mui-pull-right mui-plus-visible fox-white"></a>-->
+		</header>
+		<!--<div class="mui-content">-->
+		<div id="myChart"></div>
+		<!--</div>-->
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/echarts.min.js"></script>
+		<script>
+			(function($, doc) {
+				$.init({});
+				$.plusReady(function() {
+					if (plus.os.name == "Android")
+						plus.screen.lockOrientation("landscape-primary");
+					else
+						plus.screen.lockOrientation("landscape-secondary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					doc.getElementById("pageTitle").innerHTML = poer_language.label_power_curve(language);
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					userId = settings_user_info.Id;
+					nodeId = poer_function.getLocalStorage("node_detail_id");
+					show_temp_unit = "V";
+					initChart();
+					var myChart;
+
+					function initChart() {
+						myChart = echarts.init(doc.getElementById("myChart"));
+						var options = initOptions();
+						myChart.setOption(options);
+						myChart.showLoading();
+						getEnergySavingData();
+					}
+
+					function initOptions() {
+						return {
+							grid: {
+								top: 90,
+							},
+							tooltip: {
+								trigger: 'axis'
+							},
+							xAxis: {},
+							yAxis: {},
+							series: [{
+								name: poer_language.label_voltage(language),
+								type: 'line',
+								data: []
+							}]
+						};
+					}
+
+					function getEnergySavingData() {
+						var reqUrl = poer_url.make_power(userId, nodeId);
+						console.log(reqUrl);
+						poer_function.make_power(reqUrl, {}, getEnergySavingDataSuccess, getEnergySavingDataFailed);
+					}
+
+					function getEnergySavingDataSuccess(result) {
+						console.log(JSON.stringify(result)); 
+						switch (result.Status) {
+							case RespStatus.SUCCESS:
+								var resData = result.Data;
+								var xAxisData = [];
+								var seriesData = [];
+								for (var index in resData) {
+									var voltageInfo = resData[index];
+									var x = ultZeroize(voltageInfo.Hour, 2) + ":" + ultZeroize(voltageInfo.Min, 2);
+									var voltage = voltageInfo['Voltage'] / 100;
+									xAxisData.push(x);
+									seriesData.push(voltage);
+								}
+								var options = {
+									xAxis: {
+										type: 'category',
+										boundaryGap: true,
+										data: xAxisData
+									},
+									yAxis: {
+										type: 'value',
+										axisLabel: {
+											formatter: '{value} ' + show_temp_unit
+										}
+									},
+									series: [{
+										name: poer_language.label_voltage(language),
+										data: seriesData
+									}]
+								};
+								myChart.setOption(options);
+								myChart.hideLoading();
+								break;
+							case RespStatus.E0001:
+								break;
+							case RespStatus.E0002:
+							default:
+								break;
+						}
+					}
+
+					function getEnergySavingDataFailed(xhr) {}
+
+					function transfer_temp(temp) {
+						if (temp % 10 == 0) {
+							return temp / 10 + ".0";
+						} else {
+							return temp / 10;
+						}
+					}
+					var back = $.back;
+					$.back = function(event) {
+						plus.screen.lockOrientation("portrait-primary");
+						plus.webview.close(plus.webview.currentWebview());
+					}
+//					doc.getElementById("btnBack").addEventListener("tap", function(event) {
+//						plus.screen.lockOrientation("portrait-primary");
+//						plus.webview.close(plus.webview.currentWebview());
+//					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

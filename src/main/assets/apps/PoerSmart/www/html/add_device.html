@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="../css/add_device.css">
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_add_device"></h1>
+		</header>
+		<div class="fox_content">
+			<ul class="fox_ul">
+				<li class="fox_li">
+					<a id="add_thermostat">
+						<div class='fox_div'>
+							<div style="float:left; width:110px; padding:13px 0px 0px 20px;">
+								<img src="../img/device_thermostat.png" style="width:70px;" />
+							</div>
+							<div style="float:left;width:200px;margin:30px 0px 0px 0px;">
+								<font class="font-title" id="add_thermostat_text" size="4" color="#000000"></font>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="fox_li">
+					<a id="add_radiator">
+						<div class='fox_div'>
+							<div style="float:left;width:110px;padding:10px 0px 0px 25px;">
+								<img src="../img/device_radiator.png" style="width:60px;" />
+							</div>
+							<div style="float:left;width:200px;margin:35px 0px 0px 0px;">
+								<font class="font-title" id="add_radiator_text" size="4" color="#000000"></font>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="fox_li">
+					<a id="add_gas_detector">
+						<div class='fox_div'>
+							<div style="float:left;width:110px;padding:6px 0px 0px 35px;">
+								<img src="../img/device_gas_detector.png" style="width:45px;" />
+							</div>
+							<div style="float:left;width:200px;margin:35px 0px 0px 0px;">
+								<font class="font-title" id="add_gas_detector_text" size="4" color="#000000"></font>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="fox_li">
+					<a id="add_gateway">
+						<div class='fox_div'>
+							<div style="float:left;width:110px;padding:10px 0px 0px 25px;">
+								<img src="../img/device_gateway.png" style="width:60px;" />
+							</div>
+							<div style="float:left;width:200px;margin:35px 0px 0px 0px;">
+								<font class="font-title" id="add_gateway_text" size="4" color="#000000"></font>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/logger.js"></script>
+	<script src="../js/function.js"></script>
+	<script src="../js/url.js"></script>
+	<script src="../js/public.js"></script>
+	<script src="../js/language.js"></script>
+	<script src="../js/wifi.js"></script>
+	<script src="../js/event_listeners.js"></script>
+	<script>
+		var language;
+
+		function show_label() {
+			document.getElementById("label_add_device").innerHTML = poer_language.label_add_device(language);
+			document.getElementById("add_thermostat_text").innerHTML = poer_language.label_add_thermostat(language);
+			document.getElementById("add_radiator_text").innerHTML = poer_language.label_add_radiator(language);
+			document.getElementById("add_gas_detector_text").innerHTML = poer_language.label_add_gas_detector(language);
+			document.getElementById("add_gateway_text").innerHTML = poer_language.label_add_gateway(language);
+		}
+		(function($, doc) {
+			$.init({
+				statusBarBackground: '#f7f7f7'
+			});
+			$.plusReady(function() {
+				plus.screen.lockOrientation("portrait-primary");
+				netType = plus.networkinfo.getCurrentType();
+				var settings_login_info = poer_function.getLocalStorage("login_info");
+				language = settings_login_info.language;
+				doc.addEventListener("netchange", netChangeListenner);
+				show_label();
+				var hasPoerGateway = false;
+				//				var addGatewarHtml = "auto_config_gateway_ap.html";
+				var addGatewarHtml = "auto_config_gateway_smart_config.html";
+				// TODO: 
+				//				if (plus.os.name == "Android") {
+				//					if (!isWifiConnected(false)) {
+				//						plus.wifi.hasPoerGateway(function(result) {
+				//							if (result.resData)
+				//								addGatewarHtml = "auto_config_gateway_ap.html";
+				//						});
+				//					}
+				//				}
+				doc.getElementById("add_thermostat").addEventListener('tap', function() {
+					poer_public.openWindow("add_thermostat.html", "add_thermostat");
+				});
+				doc.getElementById("add_radiator").addEventListener('tap', function() {
+					poer_public.openWindow("add_radiator.html", "add_radiator");
+				});
+				doc.getElementById("add_gas_detector").addEventListener('tap', function() {
+					poer_public.openWindow("add_gas_detector.html", "add_gas_detector");
+				});
+				doc.getElementById("add_gateway").addEventListener('tap', function() {
+					// poer_public.openWindow("new_gateway.html", "add_gateway");	
+					if (isWifiConnected(true))
+						poer_public.openWindow(addGatewarHtml, "add_gateway");
+				});
+			});
+		}(mui, document));
+	</script>
+
+</html>

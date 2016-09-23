@@ -1,0 +1,175 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+#myChart {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#menuuu {
+	position: absolute;
+	/*border: 1px outset #F6F6F6 !important;*/
+	/*border-color: #FFFFFF;*/
+	z-index: 10000;
+	left: 300px;
+	top: 200px;
+	display: none;
+	width: 100px;
+	height: auto;
+	background: #DDDDDD;
+	filter: alpha(opacity: 80);
+	opacity: 0.8;
+	overflow: hidden;
+}
+
+#menuuu ul {
+	/*padding-top: 5px;*/
+	padding-left: 2px;
+	margin: 0px;
+	list-style-type: none;
+	vertical-align: middle;
+}
+
+#menuuu ul li {
+	padding: 0px;
+	margin-top: 1px;
+	/*border-top: 1px solid #F6F6F6 !important;*/
+	border-bottom: 1px outset #F6F6F6 !important;
+	border-color: #FFFFFF;
+	font-family: "微软雅黑";
+	width: 96px;
+	font-size: 13px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+#menuuu font {
+	padding-left: 4px;
+	vertical-align: top;
+}
+
+button {
+	width: 100%;
+	background-color: #DDDDDD;
+	text-align: center;
+	padding: 0;
+}
+#btnEdit {
+	background-color: #00A1EA;
+	color: white;
+}
+#btnDel {
+	background-color: #8C1212;
+	color: white;
+}
+#btnCancel {
+	background-color: #FFA500;
+	color: white;
+}
+/*
+#update-pop {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 9999;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+#update-schedule {
+	width: 60%;
+	height: 88%;
+	left: 20%;
+	top: 0;
+	background-color: white;
+	position: fixed;
+	z-index: 10000;
+	border-radius: 0.5em;
+	box-shadow: 0 .3em .3em rgba(0, 0, 0, 0.4);
+}
+
+.us-header {
+	width : 100%;
+	height: 2em;
+	position: absolute;
+	text-align: center;
+	line-height: 2em;
+	border-radius: .5em;
+	background-color: white;
+	z-index: 2;
+}
+
+hr {
+	margin-top: 2em;
+	margin-bottom: 0;
+	border-color: rgba(0, 0, 0, 0.8);
+	box-shadow: 0 .1em .1em rgba(0, 0, 0, 0.9);
+}
+
+.us-input-box {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 1;
+}
+
+.us-input-box > a {
+	margin: .2em .2em;
+	display: block;
+}
+
+.us-input-box .time-pick-button {
+	display: block;
+	float: left;
+	border: 0px;
+	border-radius: .3em;
+	width: 42.5%;
+	height: 15%;
+	margin-top: .5em;
+	margin-bottom: .5em;
+	margin-left: 5%;
+}
+
+.us-input-box .temp-pick-button {
+	width : 90%;
+	height: 15%;
+	display: block;
+	margin: 0 auto;
+	border-radius: .2em;
+	border: 0px;
+}
+
+.us-input-box .sd-buttons {
+	display: block;
+	float: left;
+	border: 0px;
+	border-radius: .3em;
+	width: 42.5%;
+	height: 15%;
+	margin-top: .8em;
+	margin-bottom: .8em;
+	margin-left: 5%;
+}
+
+.us-input-box .sd-button-del {
+	background-color: #8C1212;
+	color: white;
+}
+
+.us-input-box .sd-button-sub {
+	background-color: #8AC320;
+	color: white;
+}
+
+.us-input-box .cancel-button {
+	display: block;
+	border: 0px;
+	border-radius: .3em;
+	width: 90%;
+	height: 15%;
+	margin-left: 5%;
+}
+*/

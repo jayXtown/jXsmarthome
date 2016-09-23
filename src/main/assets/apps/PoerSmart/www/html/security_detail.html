@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/poer.css" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style_progress.css" />
+		<link rel="stylesheet" type="text/css" href="../css/security_detail.css" />
+		<link rel="stylesheet" href="../css/iconfont.css" />
+		<style>
+			/*跨webview需要手动指定位置*/
+			
+			.mui-plus .plus {
+				display: inline;
+			}
+			
+			.plus {
+				display: none;
+			}
+			
+			p {
+				text-indent: 22px;
+			}
+			
+			.buzzer {
+				font-size: 1.3em;
+				color: green;
+				transform: rotate(180deg);
+				-webkit-transform: rotate(180deg);
+				-moz-transform: rotate(180deg);
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="node_name"></h1>
+			<a id="menu" class="mui-icon mui-icon-bars mui-pull-right mui-plus-visible fox-white"></a>
+		</header>
+		<div class="fox_content">
+			<div style="height:60px;">
+			</div>
+			<div style="width:90%;margin:0 auto;">
+				<!--<div id="gas_name" class="fox-gas-name">CH4</div>-->
+				<div id="danger_div" style="display:none">
+					<div class="fox-top6-one">
+						<div class="fox-font-big-red" id="label_danger"></div>
+					</div>
+					<!--
+					<div class="fox-font-small" id="label_danger_desc">
+					</div>
+					-->
+				</div>
+				<div id="safe_div">
+					<div class="fox-top6-one">
+						<div class="fox-font-big-green" id="label_safe"></div>
+					</div>
+				</div>
+				<div style="margin-top:30px;height:60px;">
+					<!--<div style="width:200px;margin: 0 auto;">
+						<button id="btn_close" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="close_text"></font></button>
+					</div>-->
+					<div class="ub" style="width:100%;height: 60px;line-height: 60px;">
+						<!--<div style="width: 35%;height: 40px;line-height: 40px;float: left; border: orangered 1px solid;border-radius: 10px;">
+							<div id="swith_ctrl_buzzer" class="mui-switch mui-switch-blue mui-switch-mini mui-active" style="float: left;margin-top: 5px; margin-left: 10px;">
+								<div class="mui-switch-handle"></div>
+							</div>
+							<div style="float: left;height: 40px;line-height: 40px;margin-left: 8px;">
+								<span id="buzzer_icon" class="mui-icon iconfont icon-laba buzzer"></span>
+							</div>
+						</div>-->
+						<button id="btn_buzzer" style="width: 45%;height: 40px;" class="fox_btn_login">
+							<font color="#ffffff" size="2" id="fnt_buzzer"></font>
+							<font color="#ffffff" size="2" id="fnt_buzzer_status"></font>
+							<span id="buzzer_icon" class="mui-icon iconfont" style="color:white"></span>
+						</button>
+						<button id="btn_check_by_self" type="button" class="fox_btn_login" style="float:right;width:45%;">
+							<font color="#ffffff" size="4" id="check_by_self_text"></font>
+						</button>
+					</div>
+					<div style="width: 100%; height: 60px;">
+						<button id="btn_close" type="button" class="fox_btn_login" style="float:left;">
+							<font color="#ffffff" size="4" id="close_text"></font>
+						</button>
+					</div>
+					<div style=clear: both;></div>
+					<div style="height:50px;display:none;padding-top:40px;" id="set_updating_div">
+						<center id="label_updating"></center>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="progressPopover" class="mui-popover">
+			<div class="loading-bar">
+				<div class="amount green" style="width: 1%;" id="poer_progress_div">
+				</div>
+				<div>
+					<center id="label_submit"></center>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+
+			function show_label() {
+				//document.getElementById("label_valve_normal").innerHTML = poer_language.label_valve_normal(language);
+				//document.getElementById("label_valve_close").innerHTML = poer_language.label_valve_close(language);
+				document.getElementById("label_danger").innerHTML = poer_language.label_danger(language);
+				//document.getElementById("label_danger_desc").innerHTML = poer_language.label_danger_desc(language);
+				document.getElementById("label_safe").innerHTML = poer_language.label_safe(language);
+				document.getElementById("fnt_buzzer").innerHTML = poer_language.label_buzzer(language);
+				document.getElementById("close_text").innerHTML = poer_language.label_valve_close(language);
+				document.getElementById("check_by_self_text").innerHTML = poer_language.label_check_by_self(language);
+				document.getElementById("label_submit").innerHTML = poer_language.label_submit(language);
+				document.getElementById("label_updating").innerHTML = poer_language.label_updating(language) + "<img src='../img/lan_icon_waitting.gif' style='width:15px;height:15px;'/>";
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				mui('body').on('shown', '.mui-popover', function(e) {
+					//console.log('shown', e.detail.id);//detail为当前popover元素
+				});
+				mui('body').on('hidden', '.mui-popover', function(e) {
+					//console.log('hidden', e.detail.id);//detail为当前popover元素
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id;
+					var userTempUnit = settings_user_info.DisplayMode;
+					var node_list;
+					var nodeId = poer_function.getLocalStorage("node_detail_id");
+					//var normal_btn = doc.getElementById("normal_btn");
+					var close_btn = doc.getElementById("btn_close");
+					var danger_div = doc.getElementById("danger_div");
+					var safe_div = doc.getElementById("safe_div");
+					var node_name = doc.getElementById("node_name");
+					var btn_buzzer = doc.getElementById("btn_buzzer");
+					var btn_check_by_self = doc.getElementById("btn_check_by_self");
+					var set_updating_div = doc.getElementById("set_updating_div");
+					show_label();
+					var node_info;
+					var back_refresh_flag = true;
+					var setAlerm = 0;
+					var gasValveOverride;
+					var setType = 0;
+					var buzzerEvent;
+					var iconIndex = 0;
+					var valveClosed = false;
+					var update_times = 0;
+
+					function refreshPage() {
+						//console.log("node refresh");
+						back_refresh_flag = poer_function.getLocalStorage("back_refresh");
+						if (!back_refresh_flag) {
+							return;
+						}
+						node_list = poer_function.getLocalStorage("node_list");
+						console.log(JSON.stringify(node_list));
+						console.log(nodeId);
+						for (var i in node_list) {
+							if (node_list[i]['Id'] == nodeId) {
+								node_info = node_list[i];
+								break;
+							}
+						}
+						if (node_info == null) {
+							poer_public.alert(poer_language.label_node_noexist(language));
+							return;
+						}
+						nodeName = node_info['NodeName'];
+						if (nodeName == null || nodeName == "") {
+							nodeName = node_info['NodeSN'];
+						}
+						node_name.innerHTML = nodeName;
+						setAlerm = node_info["BatteryPercent"];
+						var humidity = node_info["Humidity"];
+						if (humidity) {
+							danger_div.style.display = "";
+							safe_div.style.display = "none";
+						} else {
+							danger_div.style.display = "none";
+							safe_div.style.display = "";
+						}
+						buzzerEvent = {
+							detail: {
+								isActive: node_info["OverrideIsOpen"]
+							}
+						}
+						setBuzzerStatus();
+						//						var RfLinkActuator = node_info["RfLinkActuator"];
+						//						if (RfLinkActuator) {
+						//							close_btn.className = "fox_btn_login";
+						//							valveClosed = false;
+						//						} else {
+						//							close_btn.className = "fox_btn_disabled";
+						//							valveClosed = true;
+						//						}
+					}
+					refreshPage();
+					getGasValveInfo();
+
+					function setBackTask(status) {
+						if (!status) update_times = 0;
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						for (var i in write_status_info) {
+							if (write_status_info[i]['Id'] == nodeId) {
+								write_status_info[i]['Type'] = 'set_node';
+								write_status_info[i]['Status'] = status ? 1 : 0;
+								poer_function.setLocalStorage('write_status_info', write_status_info);
+								break;
+							}
+						}
+						poer_function.setLocalStorage('update_back_refresh', status);
+						set_updating_div.style.display = status ? "none" : "";
+					}
+					//后台定时刷新数据,15秒
+					function backRefresh() {
+						back_refresh_interval = setInterval(function() {
+							refreshPage();
+						}, 5000);
+					}
+					setTimeout(backRefresh, 5000);
+					//normal_btn.addEventListener('tap', function() {
+					/*
+					normal_btn.className = "mui-tab-item fox-workmode-choose";
+					close_btn.className = "mui-tab-item";
+					danger_div.style.display = "none";
+					safe_div.style.display = "";
+					*/
+					//});
+					function setBackTask2(status) {
+						if (status) { //开启
+							poer_function.setLocalStorage('back_refresh', true);
+						} else { //停止
+							poer_function.setLocalStorage('back_refresh', false);
+						}
+						set_updating_div.style.display = status ? "none" : "";
+					}
+
+					function writestatus_success(data) {
+						console.log("data:" + JSON.stringify(data));
+						var Flag = data.TranStatus;
+						//						poer_public.progress_stop();
+						if (Flag) {
+							console.log("setType:" + setType);
+							if (setType == 0) setBuzzerStatus();
+							poer_public.alert(poer_language.label_update_success(language));
+							setBackTask(true);
+						} else {
+							if (update_times > 60) {
+								poer_public.alert(poer_language.label_update_failed(language));
+								setBackTask(true);
+								return;
+							}
+							setTimeout(get_write_status, 3000);
+						}
+					}
+
+					function writestatus_fail(xhr, textStatus, errorThrown) {
+						if (update_times > 60) {
+							poer_public.alert(poer_language.label_update_failed(language));
+							setBackTask(true);
+							if (setType == 0) setBuzzerStatus();
+							return;
+						}
+						setTimeout(get_write_status, 3000);
+					}
+
+					function get_write_status() {
+						update_times++;
+						var url = poer_url.write_status(userId, nodeId);
+						var data = {};
+						poer_function.write_status(url, data, writestatus_success, writestatus_fail);
+					}
+
+					function override_success(data) {
+						console.log(JSON.stringify(data));
+						var Flag = data.Flag;
+						if (Flag) {
+							get_write_status();
+						} else {
+							//							poer_public.progress_stop();
+							poer_public.alert(poer_language.label_update_failed(language));
+							setBackTask(true);
+						}
+					}
+
+					function override_fail(xhr, textStatus, errorThrown) {
+						//						poer_public.progress_stop();
+						poer_public.alert(poer_language.label_update_failed(language));
+						setBackTask(true);
+					}
+
+					function set_temp_override(content) {
+						var url = poer_url.set_temp_override(userId, nodeId);
+						poer_function.set_temp_override(url, JSON.stringify(content), override_success, override_fail);
+					}
+
+					function closeButtonClick() {
+						//						if (valveClosed) return;
+						setBackTask(false);
+						var btnArray = [poer_language.label_no(language), poer_language.label_yes(language)];
+						mui.confirm(poer_language.label_close_valve_confirm(language),
+							poer_language.label_confirm(language), btnArray,
+							function(e) {
+								if (e.index == 1) { //确认修改
+//									poer_public.progress_start();
+									gasValveOverride = {
+										"TestDevice": false,
+										"CtrlValve": true,
+										"CtrlBeep": false,
+										"SetPoint": setAlerm
+									};
+									setType = 2;
+									setGasValveOverride();
+								} else {
+									setBackTask(true);
+									refreshPage();
+								}
+							});
+						/*
+						normal_btn.className = "mui-tab-item";
+						close_btn.className = "mui-tab-item fox-workmode-choose";
+						danger_div.style.display = "";
+						safe_div.style.display = "none";
+						*/
+					}
+					close_btn.addEventListener('tap', closeButtonClick);
+					safe_div.addEventListener('tap', function() {
+						getGasValveInfo();
+					});
+					danger_div.addEventListener('tap', function() {
+						getGasValveInfo();
+					});
+
+					function getGasValveInfo() {
+						//						poer_public.progress_start();
+						setBackTask(false);
+						var reqUrl = poer_url.get_gas_velve_info(userId, nodeId);
+						poer_function.get_gas_valve_info(reqUrl, {}, getGasValveInfoSuccess, getGasValveInfoFail);
+					}
+
+					function getGasValveInfoSuccess(data) {
+						//						alert(JSON.stringify(data));
+						var flag = data.GetStatus;
+						if (flag) {
+							setAlerm = data.setPointValue;
+							buzzerEvent = {
+								detail: {
+									isActive: data.BeepStatus
+								}
+							}
+							setBuzzerStatus();
+							//							if (data.ValveStatus) {
+							//								close_btn.className = "fox_btn_login";
+							//								valveClosed = false;
+							//							} else {
+							//								close_btn.className = "fox_btn_disabled";
+							//								valveClosed = true;
+							//							}
+						} else {
+							//							poer_public.progress_stop();
+							poer_public.alert(poer_language.label_get_gas_valve_info_failed(language));
+						}
+						setBackTask(true);
+					}
+
+					function getGasValveInfoFail(data) {
+						//						poer_public.progress_stop();
+						setBackTask(true);
+						poer_public.alert(poer_language.label_get_gas_valve_info_failed(language));
+					}
+					btn_buzzer.addEventListener('tap', function(event) {
+						//event.detail.isActive 可直接获取当前状态
+						var temp = {
+							detail: {
+								isActive: !buzzerEvent.detail.isActive
+							}
+						}
+						buzzerEvent = temp;
+						gasValveOverride = {
+							"TestDevice": false,
+							"CtrlValve": false,
+							"CtrlBeep": true,
+							"SetPoint": setAlerm
+						};
+						setType = 0;
+						setGasValveOverride();
+					});
+//					var timer = null;
+
+					function setBuzzerStatus() {
+						console.log("setBuzzerStatus");
+						var buzzerIcon = doc.getElementById("buzzer_icon");
+						console.log("buzzerEvent:" + JSON.stringify(buzzerEvent));
+						if (buzzerEvent.detail.isActive) {
+//							if (timer == null) {
+//								timer = setTimeout(function() {
+//									switch (iconIndex) {
+//										case 0:
+//											buzzerIcon.className = "mui-icon iconfont icon-yinliang1";
+//											break;
+//										case 1:
+//											buzzerIcon.className = "mui-icon iconfont icon-yinliang2";
+//											break;
+//										case 2:
+//											buzzerIcon.className = "mui-icon iconfont icon-yinliang3";
+//											break;
+//									}
+//									iconIndex++;
+//									if (iconIndex == 3) iconIndex = 0;
+//									if (iconIndex < 3) {
+//										setTimeout(arguments.callee, 250);
+//									}
+//								}, 100);
+//							}
+							buzzerIcon.className = "mui-icon iconfont icon-yinliang3";
+							doc.getElementById("fnt_buzzer_status").innerHTML = "ON";
+						} else {
+							iconIndex = 4;
+//							if (timer != null) {
+//								clearTimeout(timer);
+//								timer = null;
+//							}
+							buzzerIcon.className = "mui-icon iconfont icon-yinliang";
+							doc.getElementById("fnt_buzzer_status").innerHTML = "OFF";
+						}
+					}
+					doc.getElementById('menu').addEventListener('tap', function() {
+						poer_public.openWindow("security_device_info.html", "security_device_info");
+					});
+					// 自检动作
+					btn_check_by_self.addEventListener("tap", function() {
+						setBackTask(false);
+						//						poer_public.progress_start();
+						gasValveOverride = {
+							"TestDevice": true,
+							"CtrlValve": false,
+							"CtrlBeep": false,
+							"SetPoint": setAlerm
+						};
+						setType = 1;
+						setGasValveOverride();
+					});
+
+					function setGasValveOverride() {
+						var reqUrl = poer_url.set_gas_valve_override(userId, nodeId);
+						poer_function.set_gas_valve_override(reqUrl, JSON.stringify(gasValveOverride), setGasValveOverrideSuccess, setGasValveOverrideFail);
+					}
+
+					function setGasValveOverrideSuccess(data) {
+						console.log(JSON.stringify(data));
+						var flag = data.Flag;
+						if (!flag) {
+							//							poer_public.progress_stop();
+							poer_public.alert(poer_language.label_update_failed(language));
+							setBackTask(true);
+						} else {
+							get_write_status();
+						}
+					}
+
+					function setGasValveOverrideFail(data) {
+						//						poer_public.progress_stop();
+						switch (setType) {
+							case 0: // 修改蜂鸣器状态
+								{
+									poer_public.alert(poer_language.label_update_failed(language));
+								}
+								break;
+							case 1: // 自检
+								{
+									poer_public.alert(poer_language.label_update_failed(language));
+								}
+								break;
+							case 2: // 关阀
+								{
+									poer_public.alert(poer_language.label_update_failed(language));
+								}
+								break;
+							default:
+								{
+									poer_public.alert(poer_language.label_update_failed(language));
+								}
+								break;
+						}
+						setBackTask(true);
+					}
+					var back = $.back;
+					$.back = function(event) {
+						setBackTask(true);
+						back();
+					};
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

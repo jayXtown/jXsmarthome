@@ -1,0 +1,46 @@
+.fox_header{
+	background: url(../img/lan_icon_title.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_content{
+	padding-top:45px;
+	width: 100%;
+	-webkit-overflow-scrolling: touch;
+	background-color: #FFFFFF;
+}
+.fox_btn_green{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_cancel.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_blue{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_btnblue.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox-input-mac{
+	height:42px;
+	width:100%;
+	background: url(../img/lan_icon_input.png) no-repeat;
+	background-size: 100%  40px;
+	margin: 0 auto;
+}
+.fox-input-wifi{
+	height:50px;
+	width:100%;
+	background: url(../img/lan_icon_wifi.png) no-repeat;
+	background-size: 100%  40px;
+	margin: 0 auto;
+}
+.fox-input-password{
+	height:50px;
+	width:100%;
+	background: url(../img/lan_icon_password.png) no-repeat;
+	background-size: 100%  40px;
+	margin: 0 auto;
+}
+.fox-white{
+	color: #ffffff;
+}

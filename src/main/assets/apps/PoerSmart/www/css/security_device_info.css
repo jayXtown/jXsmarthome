@@ -1,0 +1,87 @@
+.fox-backgound-white{
+	background-color: #FFFFFF;
+}
+.fox_header {
+	background: url(../img/lan_icon_title.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox-white{
+	color: #ffffff;
+}
+.fox-bar{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 70px;
+    //padding-right: 10px;
+    //padding-left: 10px;
+
+    border-bottom: 0;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+            box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+.fox-tab-item
+{
+    display: table-cell;
+    //float: left;
+    overflow: hidden;
+
+    width: 49.8%;
+    height: 70px;
+    
+	background: url(../img/lan_icon_bar_background.png) no-repeat;
+    background-size: 100% 100%;
+
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #006777;
+}
+.fox-icon{
+    font-family: Muiicons;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    height:30px;
+
+    display: inline-block;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}
+.fox-tab-label{
+	font-size: 15px;
+    display: block;
+    overflow: hidden;
+    //color: #20B2AA;
+
+    text-overflow: ellipsis;
+}
+.fox-icon-delete
+{
+    content: url(../img/lan_icon_delete2.png);
+    padding: 11px;
+}
+
+.fox-icon-save
+{
+    content: url(../img/lan_icon_save.png);
+}
+.fox_content{
+	//height: 500px;
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+	padding-top:44px;
+	bottom: 100px;
+	//background-color: #FFFFFF;
+}
+
+.fox-blue{
+	color:#20B2AA;
+}

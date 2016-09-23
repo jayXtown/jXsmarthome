@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.chart-box {
+				width: 100%;
+				height: 100%;
+				margin-bottom: 0;
+				margin-left: 0;
+				margin-right: 0;
+				padding: 0;
+				position: absolute;
+			}
+			
+			.chart-box-padded {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				position: absolute;
+			}
+			
+			.mui-control-content {
+				background-color: white;
+			}
+			
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a id="btnBack" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1></h1>
+		</header>
+		<div class="mui-content chart-box">
+			<div id="slider" class="mui-slider" style="height: 100%;">
+				<div id="sliderSegmentedControl" style="height: 5%;" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#chart_1">Sun</a>
+					<a class="mui-control-item" href="#chart_2">Mon</a>
+					<a class="mui-control-item" href="#chart_3">Tue</a>
+					<a class="mui-control-item" href="#chart_4">Wed</a>
+					<a class="mui-control-item" href="#chart_5">Thu</a>
+					<a class="mui-control-item" href="#chart_6">Fri</a>
+					<a class="mui-control-item" href="#chart_7">Sat</a>
+				</div>
+				<!--<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-2"></div>-->
+				<div class="mui-slider-group" style="height: 95%;">
+					<div id="chart_1" class="mui-slider-item mui-control-content chart-box">
+						<div id="chart_box" class="mui-content-padded chart-box-padded">
+							<div id="chart_sun" style="width: 100%;height:15em;"></div>
+						</div>
+					</div>
+					<div id="chart_2" class="mui-slider-item mui-control-content chart-box">
+						<div id="chart_box" class="mui-content-padded chart-box-padded">
+							<div id="chart_mon" style="width: 100%;height:15em;"></div>
+						</div>
+					</div>
+					<div id="chart_3" class="mui-slider-item mui-control-content chart-box">
+						<div id="chart_box" class="mui-content-padded chart-box-padded">
+							<div id="chart_tue" style="width: 100%;height:15em;"></div>
+						</div>
+					</div>
+					<div id="chart_4" class="mui-slider-item mui-control-content chart-box">
+						<div id="chart_box" class="mui-content-padded chart-box-padded">
+							<div id="chart_wed" style="width: 100%;height:15em;"></div>
+						</div>
+					</div>
+					<div id="chart_5" class="mui-slider-item mui-control-content chart-box">
+						<div id="chart_box" class="mui-content-padded chart-box-padded">
+							<div id="chart_thu" style="width: 100%;height:18em;"></div>
+						</div>
+					</div>
+					<div id="chart_6" class="mui-slider-item mui-control-content chart-box">
+						<div id="chart_box" class="mui-content-padded chart-box-padded">
+							<div id="chart_fri" style="width: 100%;height:15em;"></div>
+						</div>
+					</div>
+					<div id="chart_7" class="mui-slider-item mui-control-content chart-box">
+						<div id="chart_box" class="mui-content-padded chart-box-padded">
+							<div id="chart_sat" style="width: 100%;height:15em;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/echarts.min.js"></script>
+		<script src="../js/schedule_chart_data.js"></script>
+		<script>
+			(function($, doc) {
+				$.plusReady(function() {
+					//					plus.screen.lockOrientation("landscape-secondary");
+					var dayIndex = (new Date()).getUTCDay();
+					var nodeId = poer_function.getLocalStorage("node_detail_id");
+					var datas = poer_function.getLocalStorage("schedule_" + nodeId);
+					var chartSun, chartMon, chartTue, chartWed, chartThu, chartFri, chartSat;
+					var programTimes, chartValues, markPoint;
+					getCharts();
+
+					function getCharts() {
+						switch (dayIndex) {
+							case 0: // 周日
+								programTimes = datas[dayIndex]["ProgramTime"];
+								chartValues = getChartValues(programTimes);
+								break;
+							case 1: // 周一
+								programTimes = datas[dayIndex]["ProgramTime"];
+								chartValues = getChartValues(programTimes);
+								break;
+							case 2: // 周二
+								programTimes = datas[dayIndex]["ProgramTime"];
+								chartValues = getChartValues(programTimes);
+								break;
+							case 3: // 周三
+								programTimes = datas[dayIndex]["ProgramTime"];
+								chartValues = getChartValues(programTimes);
+								chartWed = echarts.init(doc.getElementById("chart_wed"));
+								var options = {
+									xAxis: {
+										type: 'category',
+										boundaryGap: false,
+										data: timeList
+									},
+									yAxis: {
+										type: 'value',
+										axisLabel: {
+											formatter: '{value} °C'
+										}
+									},
+									series: [{
+										name: '气温',
+										type: 'line',
+										data: chartValues
+									}],
+									dataZoom: [{
+										type: "inside",
+										xAxisIndex: 0,
+										start: 0,
+										end: 100
+									}]
+								};
+								chartWed.setOption(options);
+								break;
+							case 4: // 周四
+								programTimes = datas[dayIndex]["ProgramTime"];
+								chartValues = getChartValues(programTimes);
+								markPointData = getMarkPointData(chartValues);
+								chartThu = echarts.init(doc.getElementById("chart_thu"));
+								var options = {
+									tooltip: {
+										trigger: 'axis'
+									},
+									xAxis: {
+										type: 'category',
+										boundaryGap: true,
+										data: timeList
+									},
+									yAxis: {
+										type: 'value',
+										axisLabel: {
+											formatter: '{value} °C'
+										}
+									},
+									series: [{
+										name: '气温',
+										type: 'line',
+										data: chartValues,
+										markPoint: {
+											data: markPointData
+										}
+									}],
+									dataZoom: [{
+										type: 'inside',
+										xAxisIndex: 0,
+										start: 30,
+										end: 70
+									}]
+								};
+								chartThu.setOption(options);
+								break;
+							case 5: // 周五
+								programTimes = datas[dayIndex]["ProgramTime"];
+								chartValues = getChartValues(programTimes);
+								break;
+							case 6: // 周六
+								programTimes = datas[dayIndex]["ProgramTime"];
+								chartValues = getChartValues(programTimes);
+								break;
+						}
+					}
+					doc.getElementById("slider").addEventListener("slider", function(e) {
+						dayIndex = e.detail.sliderNumber;
+					});
+					doc.getElementById("btnBack").addEventListener("tap", function() {
+						$.back();
+						plus.screen.lockOrientation("portrait-primary");
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/poer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style_progress.css"/>
+		<style>
+			.fox_header{
+				background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+			}
+			.fox-white{
+				color: #ffffff;
+			}
+			.fox-bar{
+			    position: fixed;
+			    z-index: 10;
+			    right: 0;
+			    left: 0;
+			
+			    height: 60px;
+			    padding-right: 10px;
+			    padding-left: 10px;
+			
+			    border-bottom: 0;
+			    //background-color: #EE9A00;
+			    background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+			    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+			            box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+			
+			    -webkit-backface-visibility: hidden;
+			            backface-visibility: hidden;
+			}
+			.fox-icon{
+			    font-family: Muiicons;
+			    font-weight: normal;
+			    font-style: normal;
+			    line-height: 1;
+			    height:40px;
+			    
+			    display: inline-block;
+			    text-decoration: none;
+			    -webkit-font-smoothing: antialiased;
+			}
+			.fox-tab-label{
+				font-size: 15px;
+			    display: block;
+			    overflow: hidden;
+			    color: white;
+			
+			    text-overflow: ellipsis;
+			}
+			.fox_ul{
+				position: relative;
+			    margin-top: 5px;
+			    margin-bottom: 0;
+			    padding-left: 0;
+			    list-style: none;
+			}
+			.poer_li {
+				font-size: 18px;
+			    //margin: 0px 10px 0px 0px;
+			    line-height: 35px;
+			}
+			.fox-div{
+				height: 40px;
+				width: 100%;
+				//background-color: #BDBDBD;
+				background:url(../img/lan_icon_top3.png);
+				background-size: 100% 100%;
+				background-repeat:no-repeat;
+				padding: 5px 20px 0px 20px;
+			}
+			.fox_content{
+				height: 500px;
+				width: 100%;
+				padding-top:45px;
+				background-color: #FFFFFF;
+			}
+			/*跨webview需要手动指定位置*/
+			.mui-plus .plus{
+				display: inline;
+			}
+			.plus{
+				display: none;
+			}
+			p {
+				text-indent: 22px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white">Edit Schedule</h1>
+		</header>
+		<div class="fox_content">
+			<div>
+				<div style="float:left;padding:10px 0px 0px 20px;">
+					WeekDay:
+				</div>
+				<div style="float:left;height:40px;">
+					<select id="selected_day" style="width:120px;"  onchange="day_change(this.options[this.options.selectedIndex].value)">
+						<option value="0">Sunday</option>
+						<option value="1">Monday</option>
+						<option value="2">Tuesday</option>
+						<option value="3">Wednesday</option>
+						<option value="4">Thursday</option>
+						<option value="5">Friday</option>
+						<option value="6">Saturday</option>
+					</select>
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div style="padding-top:10px;">
+				<ul class="fox_ul" id="node_list">
+					<li class="poer_li">
+						<div class="fox-div">
+							<div style='clear:both;'></div>
+							<div style='float:left; width:100px;text-align:right;'>00:00~10:00</div>
+							<div style='float:left; width:80px;text-align:right;'>20.2</div>
+							<div style='float:left; width:30px;'>°C</div>
+							<div style='float:right; width:30px;'><a><span class='mui-icon mui-icon-close'></span></a></div>
+							<div style='float:right; width:30px;'><a><span class='mui-icon mui-icon-compose'></span></a></div>
+						</div>
+					</li>
+					<li class="poer_li">
+						<div class="fox-div">
+							<div style='clear:both;'></div>
+							<div style='float:left; width:100px;text-align:right;'>00:00~10:00</div>
+							<div style='float:left; width:80px;text-align:right;'>20.2</div>
+							<div style='float:left; width:30px;'>°C</div>
+							<div style='float:right; width:30px;'><a><span class='mui-icon mui-icon-close'></span></a></div>
+							<div style='float:right; width:30px;'><a><span class='mui-icon mui-icon-compose'></span></a></div>
+						</div>
+					</li>
+					<li class="poer_li">
+						<div class="fox-div">
+							<div style='clear:both;'></div>
+							<div style='float:left; width:100px;text-align:right;'>00:00~10:00</div>
+							<div style='float:left; width:80px;text-align:right;'>20.2</div>
+							<div style='float:left; width:30px;'>°C</div>
+							<div style='float:right; width:30px;'><a><span class='mui-icon mui-icon-close'></span></a></div>
+							<div style='float:right; width:30px;'><a><span class='mui-icon mui-icon-compose'></span></a></div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<nav class="fox-bar mui-bar-tab">
+			<a id="btn_refresh" class="mui-tab-item">
+				<div>
+					<div class="fox-icon mui-icon-athome"></div>
+					<div class="fox-tab-label" id="label_refresh">Refresh</div>
+				</div>
+			</a>
+			<a id="btn_add" class="mui-tab-item">
+				<div>
+					<div class="fox-icon mui-icon-athome"></div>
+					<div class="fox-tab-label" id="label_add">Add</div>
+				</div>
+			</a>
+			<a id="btn_save" class="mui-tab-item">
+				<div>
+					<div class="fox-icon mui-icon-athome"></div>
+					<div class="fox-tab-label" id="label_save">Save</div>
+				</div>
+			</a> 
+			<a id="btn_copy" class="mui-tab-item">
+				<div>
+					<div class="fox-icon mui-icon-athome"></div>
+					<div class="fox-tab-label" id="label_copy">Copy</div>
+				</div>
+			</a> 
+		</nav>
+		<div id="progressPopover" class="mui-popover">
+			<div class="loading-bar">
+				<div class="amount green" style="width: 1%;" id="poer_progress_div">
+				</div>
+				<div>
+					<center>submit</center>
+				</div>
+			</div>
+		</div>
+		<div id="middlePopover" class="mui-popover mui-popover-other">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div id="override_content" style="margin:20px 20px 0px 20px;">
+						<div>
+							<div style="padding-bottom: 15px;float:left;width:85px;">Start Time:</div>
+							<div style="float:left;margin-left: 10px;">
+								<input type="text" id="start_hour" style="width:60px;height:20px;" value="12"/>
+							</div>
+							<div style="float:left;">
+								:
+							</div>
+							<div style="float:left;">
+								<input type="text" id="start_min" style="width:60px;height:20px;" value="00"/>
+							</div>
+						</div>
+						<div style="clear: both;"></div>
+						<div id="end_time_set">
+							<div style="padding-bottom: 15px;float:left;width:85px;">End Time:</div>
+							<div style="float:left;margin-left: 10px;">
+								<input type="text" id="end_hour" style="width:60px;height:20px;" value="12"/>
+							</div>
+							<div style="float:left;">
+								:
+							</div>
+							<div style="float:left;">
+								<input type="text" id="end_min" style="width:60px;height:20px;" value="00"/>
+							</div>
+						</div>
+						<div style="clear: both;"></div>
+						<div style="margin-top: 1px;">
+							<div style="float:left;">Temperature:</div>
+							<div style="float:left;margin-left: 10px;">
+								<input type="text" id="set_temperature" style="width:70px;height:20px;" value=""/>
+							</div>
+						</div>
+						<div style="clear: both;"></div>
+						<div>
+							<center>
+								<button type="button" id="save_point" class="mui-btn mui-btn-primary mui-btn-outlined">
+									Save
+								</button>
+							</center>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		
+		<script>
+			var schedule_info;
+			var detail_info;
+			var d = new Date();
+			var day_index = d.getDay();
+			var show_temp_unit;
+			var ul = document.getElementById("node_list");
+			function day_change(value){
+				day_index = value - 0;
+				refresh_list();
+			}
+			
+			function refresh_list(){
+				schedule_info = poer_function.getLocalStorage("schedule");
+				detail_info = schedule_info[day_index]['ProgramTime'];
+				
+				sort_list();
+			}
+			
+			function sort_list(){
+				var li;
+				var cur_min;
+				var cur_show_min;
+				var next_min;
+				var next_show_min;
+				var cur_point;
+				var next_point;
+				
+				var length = ul.childNodes.length;
+				for(var i=length-1;i>=0;i--){
+					var childNode = ul.childNodes[i]; 
+					ul.removeChild(childNode); 
+				}
+				
+				length = detail_info.length;
+				for(i=0;i<length-1;i++){
+					cur_point = detail_info[i];
+					next_point = detail_info[i+1];
+					cur_min = cur_point['Min'];
+					cur_show_min = cur_min == 0 ? "00" : "30" ;
+					next_min = next_point['Min'];
+					next_show_min = next_min == 0 ? "00" : "30" ;
+					
+					li = document.createElement('li');
+					li.className = 'poer_li';
+					li.innerHTML = "<div style='clear:both;'></div>"
+								+"<div style='float:left; width:100px;text-align:right;'>"+cur_point['Hour']+":"+cur_show_min+"~"+next_point['Hour']+":"+next_show_min+"</div>"
+								+"<div style='float:left; width:40px;text-align:right;'>"+(cur_point['Temprature']/10)+"</div>"
+								+"<div style='float:left; width:30px;'>"+show_temp_unit+"</div>"
+								+"<div style='float:left; width:30px;'><a id='edt_"+i+"'><span class='mui-icon mui-icon-compose'></span></a></div>"
+								+"<div style='float:left; width:30px;'><a id='del_"+i+"'><span class='mui-icon mui-icon-close'></span></a></div>";
+					ul.appendChild(li);
+				}
+			}
+		
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#FFFFFF'
+				});
+				
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id;
+					var userTempUnit = settings_user_info.DisplayMode;
+					var nodeId = poer_function.getLocalStorage("node_detail_id");
+					show_temp_unit = userTempUnit==0 ? "°C" : "°F";
+					var is_edit = false;
+					
+					var start_hour_box = doc.getElementById("start_hour");
+					var start_min_box = doc.getElementById("start_min");
+					var end_hour_box = doc.getElementById("end_hour");
+					var end_min_box = doc.getElementById("end_min");
+					var set_temp_box = doc.getElementById("set_temperature");
+					var selected_day = doc.getElementById("selected_day");
+					selected_day.value = day_index;
+					
+					//refresh_list();
+					
+					doc.getElementById("btn_copy").addEventListener('tap', function() {
+						poer_function.setLocalStorage("day_index", selected_day.value);
+						poer_public.openWindow("copy_schedule.html", 'copy_schedule_page');
+					}, false);
+					
+					doc.getElementById('btn_refresh').addEventListener('tap', function() {
+						refresh_list();
+					}, false);
+					doc.getElementById('btn_add').addEventListener('tap', function() {
+						mui("#middlePopover").popover("toggle");
+						var width = document.body.clientWidth;
+						doc.getElementById("middlePopover").style.marginLeft = (width-260)/2+"px";
+						
+						//赋值
+						is_edit = false;
+						start_hour_box.value = "0";
+						start_min_box.value = "0";
+						set_temp_box.value = "0";
+						end_hour_box.value = "0";
+						end_min_box.value = "0";
+						
+						start_hour_box.readOnly = false;
+						start_hour_box.style.backgroundColor = "#FFFFFF";
+						start_min_box.readOnly = false;
+						start_min_box.style.backgroundColor = "#FFFFFF";
+						end_hour_box.readOnly = true;
+						end_hour_box.style.backgroundColor = "#CCCCCC";
+						end_min_box.readOnly = true;
+						end_min_box.style.backgroundColor = "#CCCCCC";
+					});
+					
+					function edit_point(){
+						var start_hour = start_hour_box.value.trim();
+						var start_min = start_min_box.value.trim();
+						var end_hour = end_hour_box.value.trim();
+						var end_min = end_min_box.value.trim();
+						var temperature = set_temp_box.value.trim();
+						var real_start_min;
+						var real_end_min;
+						
+						if(start_hour<0 || start_hour>24){
+							poer_public.alert("The hour of start time is error! The valid range is 0~24");
+							return;
+						}
+						if(start_min=="00"){
+							real_start_min = 0;
+						}
+						else{
+							real_start_min = start_min;
+						}
+						if(real_start_min!=0 && real_start_min!=30){
+							poer_public.alert("The minute of start time must be 0 or 30!");
+							return;
+						}
+						
+						if(end_hour<0 || end_hour>24){
+							poer_public.alert("The hour of end time is error! The valid range is 0~24");
+							return;
+						}
+						if(end_min=="00"){
+							real_end_min = 0;
+						}
+						else{
+							real_end_min = end_min;
+						}
+						if(real_end_min!=0 && real_end_min!=30){
+							poer_public.alert("The minute of end time must be 0 or 30!");
+							return;
+						}
+						
+						var start_sec = start_hour*3600+real_start_min*60;
+						var end_sec = end_hour*3600+real_end_min*60;
+						if(start_sec - end_sec >=0){
+							poer_public.alert("End time must be bigger than start time!");
+							return;
+						}
+						
+						if(userTempUnit==0){   5-32
+							if(temperature<5 || temperature>32){
+								poer_public.alert("The temperature is error! Number valid range is 5~32");
+								return;
+							}
+						}
+						else{
+							if(temperature<40 || temperature>90){
+								poer_public.alert("The temperature is error! Number valid range is 40~90");
+								return;
+							}
+						}
+						
+						var cur_point;
+						var next_point;
+						var point_num;
+						var max_num;
+						var i;
+						var length = detail_info.length;
+						for(i=0;i<length;i++){
+							if(start_sec == detail_info[i]['Sec']){
+								cur_point = detail_info[i];
+								next_point = detail_info[i+1];
+								point_num = i;
+								break;
+							}
+						}
+						
+						if(end_sec - next_point['Sec'] <=0){   //修改下一节点
+							detail_info[point_num+1]['Hour'] = end_hour - 0;
+							detail_info[point_num+1]['Min'] = real_end_min - 0;
+							detail_info[point_num+1]['Temprature'] = temperature*10;
+							detail_info[point_num+1]['Sec'] = end_sec - 0;
+						}
+						else{
+							for(i=point_num+1;i<length;i++){
+								if(end_sec-detail_info[i]['Sec']<0){
+									max_num = i;
+									break;
+								}
+							}
+							detail_info.splice(point_num+1,max_num-point_num-1,{
+								'Hour': end_hour-0,
+								'Min': real_end_min - 0,
+								'Temprature': temperature*10,
+								'Sec': end_sec - 0
+							});
+						}
+					}
+					
+					function add_point(){
+						var start_hour = start_hour_box.value.trim();
+						var start_min = start_min_box.value.trim();
+						var temperature = set_temp_box.value.trim();
+						var real_start_min;
+						
+						if(start_hour<0 || start_hour>24){
+							poer_public.alert("The hour of start time is error! The valid range is 0~24");
+							return;
+						}
+						if(start_min=="00"){
+							real_start_min = 0;
+						}
+						else{
+							real_start_min = start_min;
+						}
+						if(real_start_min!=0 && real_start_min!=30){
+							poer_public.alert("The minute of start time must be 0 or 30!");
+							return;
+						}
+						
+						var start_sec = start_hour*3600+real_start_min*60;
+						if(start_sec - 86400 >=0){
+							poer_public.alert("Start time can not be bigger than 24:00!");
+							return;
+						}
+						
+						if(userTempUnit==0){   5-32
+							if(temperature<5 || temperature>32){
+								poer_public.alert("The temperature is error! Number valid range is 5~32");
+								return;
+							}
+						}
+						else{
+							if(temperature<40 || temperature>90){
+								poer_public.alert("The temperature is error! Number valid range is 40~90");
+								return;
+							}
+						}
+						
+						var is_equal = false;
+						for(var i in detail_info){
+							if(detail_info[i]['Sec'] == start_sec){
+								detail_info[i]['Temprature'] = temperature*10;
+								is_equal = true;
+								break;
+							}
+						}
+						if(!is_equal){
+							for(var i=0,length = detail_info.length;i<length;i++){
+								if(detail_info[i]['Sec'] - start_sec>0){
+									detail_info.splice(i,0,{
+										'Hour': start_hour-0,
+										'Min': real_start_min - 0,
+										'Temprature': temperature*10,
+										'Sec': start_sec - 0
+									});
+									break;
+								}
+							}
+						}
+					}
+					
+					doc.getElementById('save_point').addEventListener('tap', function() {
+						if(is_edit){
+							edit_point();
+						}
+						else{
+							add_point();
+						}
+						
+						mui("#middlePopover").popover("hide");
+						sort_list();
+					}, false);
+					
+					function writestatus_success(data){
+						var Flag = data.TranStatus;
+						poer_public.progress_stop();
+						if(Flag){
+							//修改编程信息并保存
+							var content = {
+								'ProgramTime': detail_info
+							};
+							schedule_info[day_index] = content;
+							poer_function.setLocalStorage("schedule", schedule_info);
+							
+							poer_public.alert("update success!");
+							console.log(JSON.stringify(schedule_info));
+						}
+						else{
+							poer_public.alert("update fail!");
+						}
+					}
+					
+					function writestatus_fail(xhr,textStatus,errorThrown){
+						poer_public.progress_stop();
+						poer_public.alert("update fail!");
+					}
+					
+					function get_write_status(nodeId){
+						var url = poer_url.write_status(userId, nodeId);
+						var data = {};
+						poer_function.write_status(url, data, writestatus_success, writestatus_fail);
+					}
+					
+					function update_success(data){
+						console.log(JSON.stringify(data));
+						var Flag = data.Flag;
+						if(Flag){
+							get_write_status(nodeId);
+						}
+						else{
+							poer_public.progress_stop();
+							poer_public.alert("update fail!");
+							//setBackTask(true);
+						}
+					}
+					
+					function update_fail(xhr,textStatus,errorThrown){
+						poer_public.progress_stop();
+						poer_public.alert("update fail!");
+						//setBackTask(true);
+					}
+					
+					function save(content){
+						var url = poer_url.update_schedule(userId, nodeId, day_index);
+						//console.log(JSON.stringify(content));
+						poer_function.update_schedule(url, JSON.stringify(content), update_success, update_fail);
+					}
+					
+					doc.getElementById('btn_save').addEventListener('tap', function() {
+						var first_point = detail_info[0];
+						if(first_point['Sec']>0){
+							poer_public.alert("The first point must start with 0:00!");
+							return;
+						}
+						var length = detail_info.length;
+						var end_point = detail_info[length-1];
+						if(end_point['Sec']<86400){
+							poer_public.alert("The last point must end with 24:00!");
+							return;
+						}
+						
+						var btnArray = ['No', 'Yes'];
+						mui.confirm("Update schedule?", 'Confirm', btnArray, function(e) {
+							if (e.index == 1) {   //确认修改
+								var content;
+								var result_array = new Array();
+								var item;
+								var temperature;
+								var length = detail_info.length;
+								if(length>13){
+									poer_public.alert("The max number of the points is 13!");
+									return;
+								}
+								
+								poer_public.progress_start();
+								
+								for(var i in detail_info){
+									item = detail_info[i];
+									temperature = item['Temprature'];
+									result_array.push({
+										'Hour': item['Hour'],
+										'Min': item['Min'],
+										'Temprature': userTempUnit==0? temperature*9 : (temperature-320)*5 
+									});
+								}
+								content = {
+									'ProgramTime': result_array
+								};
+								save(content);
+							} 
+						});
+						
+					}, false);
+					
+					mui("#node_list").on('tap', 'a', function(e){ 
+						var id = this.id;
+						var child_array = id.split("_");
+						var num = child_array[1];
+						var type = child_array[0];
+						
+						if(type=='edt'){  //修改
+							mui("#middlePopover").popover("toggle");
+							var width = document.body.clientWidth;
+							doc.getElementById("middlePopover").style.marginLeft = (width-260)/2+"px";
+							
+							//赋值
+							is_edit = true;
+							var cur_point = detail_info[num];
+							var next_point = detail_info[num-0+1];
+							start_hour_box.value = cur_point['Hour'];
+							start_min_box.value = cur_point['Min'];
+							set_temp_box.value = cur_point['Temprature']/10;
+							end_hour_box.value = next_point['Hour'];
+							end_min_box.value = next_point['Min'];
+							
+							start_hour_box.readOnly = true;
+							start_hour_box.style.backgroundColor = "#CCCCCC";
+							start_min_box.readOnly = true;
+							start_min_box.style.backgroundColor = "#CCCCCC";
+							end_hour_box.readOnly = false;
+							end_hour_box.style.backgroundColor = "#FFFFFF";
+							end_min_box.readOnly = false;
+							end_min_box.style.backgroundColor = "#FFFFFF";
+						}
+						else{   //删除
+							if(num==0){
+								poer_public.alert("The first point can not be deleted!");
+								return;
+							}
+							if(num==detail_info.length-1){
+								poer_public.alert("The last point can not be deleted!");
+								return;
+							}
+							detail_info.splice(num,1);	
+						}
+						
+						sort_list();
+					});
+					
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

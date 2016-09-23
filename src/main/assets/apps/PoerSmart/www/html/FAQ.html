@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/faq.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white">FAQ</h1>
+		</header>
+		<div class="fox_content">
+			<div id="English">
+				<ul>
+					<li>Please check if gateway was under paring mode (LED is blinking slowly).</li>
+					<li>Please make sure your mobile phone is connected with 2.4G Wi-Fi (802.11 b/g wireless router).</li>
+					<li>Please check if enter the correct Wi-Fi password.</li>
+					<li>Please check if unfamiliar Mac ID was forbidden by your wireless router.</li>
+					<li>Please check if “AP Isolation” was set on your wireless router.</li>
+					<li>Recommended visual distance between gateway and wireless router is not more than 1m.</li>
+				</ul>
+			</div>
+			<div id="Chinese" style="display: none;">
+				<ul>
+					<li>请确保网关进入对码状态（LED为慢闪状态）</li>
+					<li>请确保您手机连接的wifi网络处于2.4g的频段。 </li>
+					<li>请确保您输入连接wifi的密码是正确的。 </li>
+					<li>请确保您的路由器没有禁止陌生mac地址接入。 </li>
+					<li>请确保您的路由器没有设置AP隔离。 </li>
+					<li>建议网与无线路由器之间的可视距离不超过1M.</li>
+				</ul>
+			</div>
+			<button type="button" id="btnTryAgain"></button>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/public.js"></script>
+		<script>
+			(function($, doc) {
+				$.init({
+
+				});
+
+				$.plusReady(function(e) {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					var btnTryAgain = doc.getElementById("btnTryAgain");
+					btnTryAgain.innerHTML = poer_language.label_try_again(language);
+					doc.getElementById(language).style.removeProperty("display");
+
+					btnTryAgain.addEventListener("tap", function() {
+						plus.webview.close("add_gateway", "none");
+						$.back();
+					})
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

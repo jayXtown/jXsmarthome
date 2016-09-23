@@ -1,0 +1,54 @@
+.fox_content{
+	//height: 500px;
+	width: 100%;
+	//padding-top:45px;
+	//background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#000000));
+	//background-color: #DEDEDE;
+	//background: url(../img/lan_icon_background.png) no-repeat;
+	//background-size: 100% 100%;
+	-webkit-overflow-scrolling: touch;
+}
+.fox-top-img{
+	height:150px;
+	width:125px;
+	background: url(../img/lan_about_logo.png) no-repeat;
+	background-size: 125px 45px;
+	margin: 0 auto;
+}
+.fox-input-email{
+	height:50px;
+	width:100%;
+	background: url(../img/lan_icon_email.png) no-repeat;
+	background-size: 100%  40px;
+	margin: 0 auto;
+}
+.fox-input-password{
+	height:50px;
+	width:100%;
+	background: url(../img/lan_icon_password.png) no-repeat;
+	background-size: 100%  40px;
+	margin: 0 auto;
+}
+.fox-input-text{
+	height:50px;
+	width:100%;
+	background: url(../img/lan_icon_login.png) no-repeat;
+	background-size: 100%  40px;
+	margin: 0 auto;
+}
+.fox-input-select{
+	height:50px;
+	width:100%;
+	background: url(../img/lan_icon_select.png) no-repeat;
+	background-size: 100%  40px;
+	margin: 0 auto;
+}
+.fox_btn_login{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_btnblue.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox-backgound-white{
+	background-color: #FFFFFF;
+}

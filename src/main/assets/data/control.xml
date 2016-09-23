@@ -1,0 +1,6 @@
+<hbuilder version="1.9.9.22718" debug="true">
+    <apps>
+        <app appid="PoerSmart" appver="1.3.0" />
+        <!--<app appid="NetWork" appver="1.3.0" />-->
+    </apps>
+</hbuilder>

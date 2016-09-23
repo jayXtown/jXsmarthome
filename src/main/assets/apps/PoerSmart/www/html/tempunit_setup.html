@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			.fox-input-select{
+				height:50px;
+				width:100%;
+				background: url(../img/lan_icon_select.png) no-repeat;
+				background-size: 100%  40px;
+				margin: 0 auto;
+			}
+			.fox_content{
+				//height: 500px;
+				width: 100%;
+				padding-top:45px;
+				//background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#000000));
+				//background-color: #DEDEDE;
+				//background: url(../img/lan_icon_background.png) no-repeat;
+			}
+			.fox-backgound-white{
+				background-color: #FFFFFF;
+			}
+			.fox_header{
+				background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+			}
+			.fox-white{
+				color: #ffffff;
+			}
+			.fox_btn_login{
+				height: 40px;
+				width: 100%;
+				background: url(../img/lan_icon_btnblue.png) no-repeat;
+				background-size: 100% 100%;
+			}
+		</style>
+
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_tempunit_setup"></h1>
+		</header>
+		<div class="fox_content">
+			<div style="width:85%;margin:0 auto;margin-top: 20px;">
+				<div class="fox-input-select" id="tempunit">
+					<!--
+					<select id="temp_unit" style="background-color: transparent;">
+					</select>
+					-->
+					<div id="tempunit_show" style="padding: 10px 0px 0px 20px;"></div>
+				</div>
+			</div>
+			<div style="margin-top:40px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="save" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="save_text"></font></button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+			function show_label(){
+				document.getElementById("label_tempunit_setup").innerHTML = poer_language.label_tempunit_set(language);
+				//document.getElementById("label_temp_unit").innerHTML = poer_language.label_temp_unit(language);
+				document.getElementById("save_text").innerHTML = poer_language.label_save(language);
+			}
+		
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var tempunitBox = doc.getElementById("tempunit");
+					var tempunit_show = doc.getElementById("tempunit_show");
+					var tempunit_value;
+					
+					var userId = settings_user_info.Id;  
+					tempunit_show.innerHTML = settings_user_info.DisplayMode==0 ?
+						poer_language.label_centigrade(language)+ " °C" : poer_language.label_fahrenheit(language)+ " °F";
+					
+					var tempunitPicker = new $.PopPicker(
+											{buttons:[poer_language.label_cancel(language),
+												poer_language.label_ok(language)]
+											}
+										);
+					tempunitPicker.setData([{
+						value: 0,
+						text: poer_language.label_centigrade(language)+ " °C"
+					},{
+						value: 1,
+						text: poer_language.label_fahrenheit(language)+ " °F"
+					}]);
+					tempunitPicker.pickers[0].setSelectedValue(settings_user_info.DisplayMode);
+					
+					tempunitBox.addEventListener('tap', function(event) {
+						tempunitPicker.show(function(items) {
+							tempunit_value = items[0].value;
+							tempunit_show.innerHTML = items[0].text;
+							//userResult.innerText = JSON.stringify(items[0]);
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+					function update_success(data){
+ 						settings_user_info.DisplayMode = tempunit_value;
+ 						
+ 						poer_function.setLocalStorage("user_info", settings_user_info);
+ 						poer_public.alert(poer_public.alert(poer_language.label_update_success(language)));
+					}
+					
+					function update_fail(xhr,textStatus,errorThrown){
+						poer_public.alert(poer_public.alert(poer_language.label_update_failed(language)));
+					}
+					
+					doc.getElementById("save").addEventListener('tap', function(event) {
+						var url = poer_url.update_user(userId);
+						var data = {
+							Country:    settings_user_info.Country,
+							Email:      settings_user_info.Email,
+							GatewayId:  0,
+							LocateId:   0,
+							Id:         settings_user_info.Id,
+							Latitude:   0,
+							Longitude:  0,
+							Name:       settings_user_info.Name,
+							Notes:      settings_user_info.Notes,
+							Postcode:   settings_user_info.Postcode,
+							DisplayMode:tempunit_value - 0
+						};
+						poer_function.update_user(url, JSON.stringify(data), update_success, update_fail);
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

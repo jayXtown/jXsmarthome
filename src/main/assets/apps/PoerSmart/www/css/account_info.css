@@ -1,0 +1,43 @@
+.mui-input-group label {
+	width: 30%;
+}
+.mui-input-row label~input,
+.mui-input-row label~select,
+.mui-input-row label~textarea {
+	width: 70%;
+}
+.mui-btn {
+	padding: 8px;
+}
+.fox-blue{
+	color:#20B2AA;
+}
+.fox_header{
+	background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+}
+.fox-white{
+	color: #ffffff;
+}
+.fox_btn_login{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_btnblue.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_logout{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_loginbtn.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_content{
+	//height: 500px;
+	width: 100%;
+	padding-top:45px;
+	//background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#000000));
+	//background-color: #DEDEDE;
+	//background: url(../img/lan_icon_background.png) no-repeat;
+}
+.fox-backgound-white{
+	background-color: #FFFFFF;
+}

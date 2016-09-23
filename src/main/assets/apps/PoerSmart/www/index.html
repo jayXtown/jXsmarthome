@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/index.css" rel="stylesheet" />
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<div class="fox_content">
+			<div style="height:60px;"></div>
+			<div style="height:90px;width:100%;">
+				<div class="fox-top-img">
+				</div>
+			</div>
+			<div style="width:85%;margin:0 auto;">
+				<div class="fox-input-email">
+					<input id='email' type="email" value="" placeholder="" style="padding-left:50px;background-color:transparent;">
+				</div>
+			</div>
+			<div style="width:85%;margin:0 auto;">
+				<div class="fox-input-password">
+					<input id='password' type="password" placeholder="" style="padding-left:50px;background-color:transparent;">
+				</div>
+			</div>
+			<div style="width:85%;margin:0 auto;">
+				<div class="fox-input-select" id="language">
+					<div id="language_value" style="padding: 10px 0px 0px 20px;">English</div>
+				</div>
+			</div>
+			<div style="margin-top:40px;height:60px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="login" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="login_text">Login</font></button>
+				</div>
+			</div>
+			<div style="height:60px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="btnReg" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="reg">Register</font></button>
+				</div>
+			</div>
+			<div style="height:40px;width:100%;">
+				<div style="text-align: center;">
+					<!--<a id='reg' style="color: #20B2AA;"></a><span class="spliter">|</span>-->
+					<a id='forgetPassword' style="color: #20B2AA;">Forget Password?</a>
+				</div>
+			</div>
+			<div style="width:85%;margin:0 auto;">
+				<div style="text-align: center;">
+					<a id="demo_login" style="color: #20B2AA;">Demo Login</a>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script src="js/logger.js"></script>
+		<script src="js/poer_download.js"></script>
+		<script src="js/jpush.js"></script>
+		<script src="js/function.js"></script>
+		<!--<script src="js/storages.js"></script>-->
+		<script src="js/url.js"></script>
+		<script src="js/public.js"></script>
+		<script src="js/language.js"></script>
+		<script src="js/event_listeners.js"></script>
+		<script>
+			var language;
+			var languagePicker;
+			var lang_options = poer_language.lang_options;
+			var pickData = [];
+			for (var key in lang_options) {
+				if (lang_options[key] != "") {
+					pickData.push({
+						value : key,
+						text : lang_options[key]
+					});
+				}
+			}
+
+			function language_change(value) {
+				language = value;
+				var login_info = poer_function.getLocalStorage("login_info");
+				login_info.language = value;
+				poer_function.setLocalStorage("login_info", login_info);
+				show_label();
+			}
+
+			function show_label() {
+				document.getElementById("email").placeholder = poer_language.label_email_empty(language);
+				document.getElementById("password").placeholder = poer_language.label_password_empty(language);
+				document.getElementById("login_text").innerHTML = poer_language.label_login(language);
+				document.getElementById("reg").innerHTML = poer_language.label_register(language);
+				document.getElementById("forgetPassword").innerHTML = poer_language.label_forget_password(language);
+				document.getElementById("demo_login").innerHTML = poer_language.label_demo_login(language);
+				languagePicker.setData(pickData);
+				var show_language = lang_options[language];
+				document.getElementById("language_value").innerHTML = show_language;
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var toastWaiting;
+					//					var isAutoLogin = poer_storage.is_auto_login.get();
+
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					//poer_function.setLocalStorage("update_back_refresh", true);
+					var loginButton = doc.getElementById('login');
+					var emailBox = doc.getElementById('email');
+					var passwordBox = doc.getElementById('password');
+					var languageBox = doc.getElementById('language');
+					//var autoLoginButton = doc.getElementById("autoLogin");
+					var regButton = doc.getElementById('reg');
+					var forgetButton = doc.getElementById('forgetPassword');
+					var demoLoginButton = doc.getElementById('demo_login');
+					//var isActive;
+					var email_value;
+					var password_value;
+					var get_locate_finished = false;
+					var get_gateway_finished = false;
+					var get_node_finished = false;
+					var userId;
+					var cur_locate_id;
+					
+					if (settings_login_info.hasOwnProperty("email")) {
+						if (settings_login_info.email != "demo@poersmart.com") {
+							emailBox.value = settings_login_info.email;
+							passwordBox.value = settings_login_info.password;
+						}
+						language = settings_login_info.language;
+					} else {
+						language = "English";
+					}
+					doc.addEventListener("netchange", netChangeListenner);
+					languagePicker = new $.PopPicker({
+						buttons: poer_language.array_confirm_buttons(language)
+					});
+					//初始化语言
+					//					if (isAutoLogin)
+					//						show_label();
+					//					else
+					//						show_label();
+					show_label();
+					languagePicker.pickers[0].setSelectedValue(language);
+					languageBox.addEventListener('tap', function(event) {
+						languagePicker.show(function(items) {
+							language_change(items[0].value);
+							//userResult.innerText = JSON.stringify(items[0]);
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					//后台定时刷新数据,15秒
+					var back_refresh_interval;
+					var refreshTimes = 0;
+
+					function backRefresh() {
+						back_refresh_interval = setInterval(function() {
+							reloadDatas();
+						}, 15000);
+					}
+
+					function reloadDatas() {
+						refreshTimes++;
+						if (IS_DEBUG) {
+							console.log("RefreshTimes:" + refreshTimes);
+						}
+						var refresh = poer_function.getLocalStorage('update_back_refresh');
+//						plus.logger.consoleLog("type of refresh:" + typeof refresh);
+//						console.log("type of refresh:" + typeof refresh);
+//						plus.logger.consoleLog("refresh:" + refresh);
+//						console.log("refresh:" + refresh);
+						if (refresh) {
+							var locate_id = poer_function.getLocalStorage("cur_locate_id");
+							getGatewayList(userId, locate_id);
+							getNodeList(userId, locate_id);
+						}
+					}
+
+					function get_info_finished() {
+						//数据全部取完
+						if (get_locate_finished && get_gateway_finished && get_node_finished) {
+							toastWaiting.close();
+							//							poer_storage.is_auto_login.set(true);
+							plus.storage.setItem("IS_LOGIN", "true");
+							var is_login = plus.storage.getItem("IS_LOGIN");
+							console.log(is_login);
+//							localStorage.setItem("IS_LOGIN", "true");
+							poer_public.openWindow("html/main.html", 'main');
+							poer_function.setLocalStorage("smart_config_times", 0);
+							get_locate_finished = false; //注意
+							poer_function.setLocalStorage('update_back_refresh', true);
+							setTimeout(backRefresh, 15000);
+						}
+					}
+
+					function get_node_success(data) {
+						if (IS_DEBUG) {
+//							console.log(JSON.stringify(data));
+//							plus.logger.consoleLog(JSON.stringify(data));
+						}
+						//对数据进行解析，温度转换
+						var user_info = poer_function.getLocalStorage("user_info");
+						var tempUnit = user_info['DisplayMode'];
+						if (IS_DEBUG) {
+							console.log("tempUnit: " + tempUnit);
+						}
+						var node;
+						var curTemperature;
+						var manTemperature;
+						var ecoTemperature;
+						var offTemperature;
+						var overrideTemperature;
+						for (var i in data) {
+							if (data[i]['NodeType'] < 2) {
+								curTemperature = data[i]['CurTemperature'];
+								manTemperature = data[i]['ManTemprature'];
+								ecoTemperature = data[i]['EcoTemprature'];
+								offTemperature = data[i]['OffTemprature'];
+								overrideTemperature = data[i]['OverrideTemperature'];
+								if (tempUnit == 0) {
+									data[i]['CurTemperature'] = parseInt(curTemperature / 9);
+									data[i]['ManTemperature'] = parseInt(manTemperature / 9);
+									data[i]['OffTemperature'] = parseInt(offTemperature / 9);
+									data[i]['EcoTemperature'] = parseInt(ecoTemperature / 9);
+									data[i]['OverrideTemperature'] = parseInt(overrideTemperature / 9);
+								} else {
+									data[i]['CurTemperature'] = parseInt(320 + curTemperature / 5);
+									data[i]['ManTemperature'] = parseInt(320 + manTemperature / 5);
+									data[i]['OffTemperature'] = parseInt(320 + offTemperature / 5);
+									data[i]['EcoTemperature'] = parseInt(320 + ecoTemperature / 5);
+									data[i]['OverrideTemperature'] = parseInt(320 + overrideTemperature / 5);
+								}
+							}
+						}
+						poer_function.setLocalStorage("node_list", data);
+						//设置每个node的写状态
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						if (typeof(write_status_info[0]) == "undefined") {
+							write_status_info = new Array();
+							for (var i in data) {
+								write_status_info.push({
+									'Id': data[i]['Id'],
+									'Type': '',
+									'Status': 1
+								});
+							}
+							poer_function.setLocalStorage("write_status_info", write_status_info);
+						} else {
+							var old_device_id_array = new Array();
+							var new_device_id_array = new Array(); // 服务器获取到的最新的设备列表
+							for (var i in data) {
+								new_device_id_array.push(data[i]['Id']);
+							}
+							for (var i in write_status_info) {
+								old_device_id_array.push(write_status_info[i]['Id']);
+							}
+							var new_id;
+							var old_id;
+							var is_find;
+							//新设备
+							for (var i in new_device_id_array) {
+								new_id = new_device_id_array[i];
+								is_find = false;
+								for (var j in old_device_id_array) {
+									if (new_id == old_device_id_array[j]) {
+										is_find = true;
+										break;
+									}
+								}
+								if (!is_find) {
+									if (IS_DEBUG) {
+										console.log("fox:   " + new_id);
+									}
+									write_status_info.push({
+										"Id": new_id,
+										"Type": '',
+										"Status": 1
+									});
+								}
+							}
+							poer_function.setLocalStorage("write_status_info", write_status_info);
+							//老设备已经删除,暂时不处理
+							//for(var i in old_device_id_array){
+							//}
+						}
+						get_node_finished = true;
+						get_info_finished();
+					}
+
+					function get_node_fail(xhr, textStatus, errorThrown) {
+						toastWaiting.close();
+						if (IS_DEBUG) {
+							console.log("node:" + xhr.status + "->>>>" + xhr.readyState + "->>>>" + textStatus);
+						}
+					}
+
+					function getNodeList(userId, locateId) {
+						var url = poer_url.node_list(userId, locateId);
+						poer_function.get_node_list(url, {}, get_node_success, get_node_fail);
+					}
+
+					function get_gateway_success(data) {
+						poer_function.setLocalStorage("gateway_list", data);
+						get_gateway_finished = true;
+						//getNodeList(userId,cur_locate_id);
+						//						getNodeList(userId, cur_locate_id);
+						get_info_finished();
+					}
+
+					function get_gateway_fail(xhr, textStatus, errorThrown) {
+						toastWaiting.close();
+						if (IS_DEBUG) {
+							console.log("gateway:" + xhr.status + "->>>>" + xhr.readyState + "->>>>" + textStatus);
+						}
+					}
+
+					function getGatewayList(userId, locateId) {
+						var url = poer_url.gateway_list(userId, locateId);
+						poer_function.get_gateway_list(url, {}, get_gateway_success, get_gateway_fail);
+					}
+
+					function get_locate_success(data) {
+						poer_function.setLocalStorage("locate_list", data);
+						get_locate_finished = true;
+						//getGatewayList(userId,cur_locate_id);
+						//						getGatewayList(userId, cur_locate_id);
+						get_info_finished();
+					}
+
+					function get_locate_fail(xhr, textStatus, errorThrown) {
+						toastWaiting.close();
+						poer_public.toast(poer_language.label_get_locate_fail(language));
+						if (IS_DEBUG) {
+							console.log("locate:" + xhr.status + "->>>>" + xhr.readyState + "->>>>" + textStatus);
+						}
+					}
+					//获取locate列表信息
+					function getLocateList(userId) {
+						var url = poer_url.locate_list(userId);
+						poer_function.get_locate_list(url, {}, get_locate_success, get_locate_fail);
+					}
+
+					function login_success(data) {
+//						if (IS_DEBUG) {
+//							console.log("User_Info:" + JSON.stringify(data));
+//						}
+//						plus.logger.consoleLog("Result Data:" + JSON.stringify(data));
+						poer_function.setLocalStorage("user_info", data);
+						// 给用的绑定推送别名, 统一格式：poersmart_user_{$userId}
+						plus.Push.setAlias("poersmart_user_" + data.Id);
+						//保存账号密码和自动登录状态
+						var auth = poer_public.base64encode(email_value + ":" + password_value);
+						var login_info = {
+							email: email_value,
+							password: password_value,
+							auth: auth,
+							language: language
+						};
+						//						poer.logger.consoleLog()
+						poer_function.setLocalStorage("login_info", login_info);
+						cur_locate_id = parseInt(data.LocateId);
+						if (cur_locate_id < 1) {
+							poer_public.toast(poer_language.label_locate_error(language));
+							toastWaiting.close();
+							return;
+						}
+						poer_function.setLocalStorage("cur_locate_id", cur_locate_id);
+						var cur_gateway_id = data.GatewayId;
+						//没有绑定网关的情况下
+						if (cur_gateway_id == "0" || cur_gateway_id == "-1") {
+							//poer_public.toast("Please bind gateway!");
+							//return;
+						}
+						userId = parseInt(data.Id);
+						if (IS_DEBUG) {
+							console.log("start get other info");
+						}
+						//并发获取locatelist, gatewaylist, nodelist
+						getLocateList(userId);
+						getGatewayList(userId, cur_locate_id);
+						getNodeList(userId, cur_locate_id);
+					}
+
+					function login_fail(xhr, textStatus, errorThrown) {
+						toastWaiting.close();
+						poer_public.toast(poer_language.label_login_fail(language));
+						if (IS_DEBUG) {
+							plus.logger.consoleLog("XmlHttpRequest: " + xhr);
+							console.log("login:" + xhr.status + "->>>>" + xhr.readyState + "->>>>" + textStatus);
+						}
+					}
+
+					function doLogin() {
+						email_value = emailBox.value.trim();
+						password_value = passwordBox.value.trim();
+						//						if (isAutoLogin) {
+						//							if (email_value == "" || password_value == "")
+						//								return;
+						//						}
+						if (email_value.length < 5) {
+							poer_public.toast(poer_language.label_email_too_short(language));
+							return false;
+						}
+						if (email_value.length > 50) {
+							poer_public.toast(poer_language.label_email_too_long(language));
+							return false;
+						}
+						if (password_value.length < 3) {
+							poer_public.toast(poer_language.label_password_too_short(language));
+							return false;
+						}
+						if (password_value.length > 15) {
+							poer_public.toast(poer_language.label_password_too_long(language));
+							return false;
+						}
+						toastWaiting = poer_public.showWaiting(poer_language.msg_loging(language));
+//						if (IS_DEBUG) {
+//							console.log(email_value);
+//							plus.logger.consoleLog("EmailValue:" + email_value);
+//							plus.logger.consoleLog("Password:" + password_value);
+//						}
+						var url = poer_url.login();
+						var data = {
+							Email: email_value,
+							Passwd: password_value,
+							TimezoneOffset: 0 - new Date().getTimezoneOffset()
+						};
+//						plus.logger.consoleLog("Request Url:" + url);
+//						plus.logger.consoleLog("Request Data:" + JSON.stringify(data));
+						poer_function.login(url, JSON.stringify(data), login_success, login_fail);
+					}
+					loginButton.addEventListener('tap', function(event) {
+						//						isAutoLogin = false;
+						doLogin();
+					});
+					demoLoginButton.addEventListener('tap', function(event) {
+						var url = poer_url.login();
+						email_value = "demo@poersmart.com";
+						password_value = "demo";
+						var data = {
+							Email: email_value,
+							Passwd: password_value,
+							TimezoneOffset: 0 - new Date().getTimezoneOffset()
+						};
+//						plus.logger.consoleLog("Request URL:" + url);
+//						plus.logger.consoleLog("Request Data:" + JSON.stringify(data));
+						toastWaiting = poer_public.showWaiting(poer_language.msg_loging(language));
+						poer_function.login(url, JSON.stringify(data), login_success, login_fail);
+					});
+					doc.getElementById("btnReg").addEventListener('tap', function(event) {
+						poer_public.openWindow("html/register.html", 'register');
+					}, false);
+					forgetButton.addEventListener('tap', function(event) {
+						poer_public.openWindow("html/forget_password.html", 'forget_password');
+					}, false);
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if (backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast(poer_language.label_click_to_exit(language));
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+//					var onAliasAndTagsSeted = function(event) {
+//						var result = "result code: " + event.arguments.resultCode + " ";
+//						result += "tags: " + event.arguments.tags + " ";
+//						result += "alias: " + event.arguments.alias + " ";
+//						//					$("#tagAliasResult").html(result);
+//						//						plus.logger.consoleLog(result);
+//					};
+//					document.addEventListener("jpush.setTagsWithAlias", onAliasAndTagsSeted, false);
+
+					window.addEventListener("reloadData", function(e) {
+						reloadDatas();
+					});
+					
+					plus.poerDownload.checkUpdate(language);
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

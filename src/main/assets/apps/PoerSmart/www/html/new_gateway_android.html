@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/poer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style_progress.css"/>
+		<link rel="stylesheet" href="../css/ui-box.css">
+		<link rel="stylesheet" href="../css/gateway_main.css">
+		<link rel="stylesheet" href="../css/ui-color.css">
+		<style>
+			.fox_header{
+				background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+			}
+			.fox_content{
+				padding-top:45px;
+				width: 100%;
+    			-webkit-overflow-scrolling: touch;
+			}
+			 
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="label_add_gateway"></h1>
+		</header>
+		<div class="fox_content">
+			<div style="padding: 0px 10px;">
+				<div style="padding: 0px 10px;">
+					<div class="ub ub-ver uinn-FS2">
+		                <div class="ub">
+		                    <div class="ub ub-ver ub-f1">
+		                        <div class="ub-f1 ub ub-ac">
+		                            <div class="uwh-FS1 c-gra-FS1 uc-a-FS1 ub ub-ac ub-pc">
+		                                <div class="uwh-FS2 sc-bg-alert uc-a-FS2 ub ub-ac ub-pc">
+		                                    <div class="ub-img uwh-FS3 formStep1"></div>
+		                                </div>
+		                            </div>
+		                            <div class="ub-f1 uh-FS1 c-gra-FS1"></div>
+		                        </div>
+		                        <div class="ulev-2 umar-tFS1">
+		                            <span id="label_scan"></span><br/><span id="label_deviceid"></span>
+		                        </div>
+		                    </div>
+		                    <div class="ub ub-ver ub-f1">
+		                        <div class="ub-f1 ub ub-ac">
+		                            <div class="uwh-FS1 c-gra-FS1 uc-a-FS1 ub ub-ac ub-pc">
+		                                <div id="s2_flag" class="uwh-FS2 c-gra-FS2 uc-a-FS2 ub ub-ac ub-pc">
+		                                    <div class="ub-img uwh-FS3 formStep2"></div>
+		                                </div>
+		                            </div>
+		                            <div class="ub-f1 uh-FS1 c-gra-FS1"></div>
+		                        </div>
+		                        <div class="ulev-2 umar-tFS1">
+		                            <span id="label_connect"></span><br/><span id="label_gateway"></span>
+		                        </div>
+		                    </div>
+		                    <div class="ub ub-ver ub-f1">
+		                        <div class="ub-f1 ub ub-ac">
+		                            <div class="uwh-FS1 c-gra-FS1 uc-a-FS1 ub ub-ac ub-pc">
+		                                <div  id="s3_flag" class="uwh-FS2 c-gra-FS2  uc-a-FS2 ub ub-ac ub-pc">
+		                                    <div class="ub-img uwh-FS3 formStep3"></div>
+		                                </div>
+		                            </div>
+		                            <div class="ub-f1 uh-FS1 c-gra-FS1"></div>
+		                        </div>
+		                        <div class="ulev-2 umar-tFS1">
+		                            <span id="label_config"></span><br/>Wifi
+		                        </div>
+		                    </div>
+		                    <div class="ub ub-ver">
+		                        <div class="ub">
+		                            <div class="uwh-FS1 c-gra-FS1 uc-a-FS1 ub ub-ac ub-pc">
+		                                <div  id="s4_flag" class="uwh-FS2 c-gra-FS2 uc-a-FS2 ub ub-ac ub-pc">
+		                                    <div class="ub-img uwh-FS3 formStep4"></div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="ulev-2 umar-tFS1 tx-c">
+		                            <span id="label_check"></span><br/><span id="label_status"></span>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+				</div>
+			</div>
+			<div>
+				<div id="s1" class="mui-control-content mui-active" style="background-color:#ffffff;">
+					<div style="margin:20px 20px 0px 20px;" id="label_gateway_tip_one">
+					</div>
+					<div>
+						<center>
+							<img src="../img/lan_addgateway1.png" style="height:120px;width:150px;" />
+						</center>
+					</div>
+					<div class="mui-content-padded">
+						<button id='scan' class="mui-btn mui-btn-block mui-btn-blue"></button>
+					</div>
+					<div style="height: 1px;background-color: #c8c7cc;"></div>
+					<div class="mui-input-row">
+						<label id="label_deviceid2"></label>
+						<input id='mac' type="text" class="mui-input-clear mui-input" placeholder="" value="FCE892">
+					</div>
+					<div style="height: 1px;background-color: #c8c7cc;"></div>
+					<div class="mui-content-padded">
+						<button id='step1' class="mui-btn mui-btn-block mui-btn-blue"></button>
+					</div>
+				</div>
+				<div id="s2" class="mui-control-content" style="background-color:#ffffff;">
+                    <div style="padding:20px 0px 0px 20px;" id="label_gateway_tip_two">
+                    </div>
+	                <div class="mui-content-padded">
+						<button id='go_connect' class="mui-btn mui-btn-block mui-btn-blue"></button>
+					</div>
+	                <div style="padding:20px 0px 0px 20px;" id="label_connected_ap">
+                    </div>
+	                <div class="mui-content-padded">
+						<button id='step2' class="mui-btn mui-btn-block mui-btn-blue"></button>
+					</div>
+				</div>
+				<div id="s3" class="mui-control-content" style="background-color:#ffffff;">
+					<div style="padding:20px 0px 0px 20px;" id="label_gateway_tip_three">
+                    </div>
+					<div style="margin-top:20px; height: 1px;background-color: #c8c7cc;"></div>
+					<div class="mui-input-row">
+						<label>WIFI</label>
+						<input id='wifi' type="text" class="mui-input-clear mui-input" placeholder="" value="">
+					</div>
+					<div class="mui-input-row">
+						<label id="label_password"></label>
+						<input id='password' type="password" class="mui-input-clear mui-input" placeholder="" value="">
+					</div>
+					<div class="mui-content-padded">
+						<button id='step3' class="mui-btn mui-btn-block mui-btn-blue"></button>
+					</div>
+				</div>
+				<div id="s4" class="mui-control-content" style="background-color:#ffffff;">
+					<div style="padding:20px 0px 0px 20px;" id="label_gateway_tip_four">
+                    </div>
+	                <div class="mui-content-padded">
+						<button id='go_connect_again' class="mui-btn mui-btn-block mui-btn-blue"></button>
+					</div>
+	                <div style="padding:20px 0px 0px 20px;" id="label_connected_network">
+                    </div>
+					<div class="mui-content-padded">
+						<button id='step4' class="mui-btn mui-btn-block mui-btn-blue"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="progressPopover" class="mui-popover">
+			<div class="loading-bar">
+				<div class="amount green" style="width: 1%;" id="poer_progress_div">
+				</div>
+				<div>
+					<center id="check"></center>
+				</div>
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+			function show_label(){
+				document.getElementById("label_add_gateway").innerHTML = poer_language.label_add_gateway(language);
+				document.getElementById("label_scan").innerHTML = poer_language.label_scan(language);
+				document.getElementById("label_deviceid").innerHTML = poer_language.label_deviceid(language);
+				document.getElementById("label_deviceid2").innerHTML = poer_language.label_deviceid(language);
+				document.getElementById("label_connect").innerHTML = poer_language.label_connect(language);
+				document.getElementById("label_gateway").innerHTML = poer_language.label_gateway(language);
+				document.getElementById("label_config").innerHTML = poer_language.label_config(language); 
+				document.getElementById("label_check").innerHTML = poer_language.label_check(language);
+				document.getElementById("label_status").innerHTML = poer_language.label_status(language);
+				
+				document.getElementById("label_gateway_tip_one").innerHTML = poer_language.label_gateway_tip_one(language);
+				document.getElementById("scan").innerHTML = poer_language.label_scan(language);
+				document.getElementById("step1").innerHTML = poer_language.label_next_step(language);
+				
+				document.getElementById("label_gateway_tip_two").innerHTML = poer_language.label_gateway_tip_two(language);
+				document.getElementById("step2").innerHTML = poer_language.label_next_step(language);
+				document.getElementById("label_connected_ap").innerHTML = poer_language.label_connected_ap(language);
+				
+				document.getElementById("label_gateway_tip_three").innerHTML = poer_language.label_gateway_tip_three(language);
+				document.getElementById("wifi").placeholder = poer_language.label_wifi_empty(language);
+				document.getElementById("label_password").innerHTML = poer_language.label_password(language);
+				document.getElementById("password").placeholder = poer_language.label_password_empty(language);
+				document.getElementById("step3").innerHTML = poer_language.label_next_step(language);
+				
+				document.getElementById("label_gateway_tip_four").innerHTML = poer_language.label_gateway_tip_four(language);
+				document.getElementById("go_connect_again").innerHTML = poer_language.label_connect_network(language);
+				document.getElementById("label_connected_network").innerHTML = poer_language.label_connected_network(language);
+				document.getElementById("step4").innerHTML = poer_language.label_check(language);
+				
+				document.getElementById("check").innerHTML = poer_language.label_check_device(language);
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id; 
+					var locateId = poer_function.getLocalStorage("cur_locate_id");
+					
+					var macBox = doc.getElementById("mac");
+					poer_function.setLocalStorage("scan_code","");
+					var ssid;
+					
+					macBox.value = "FCE892A9A903";
+					
+					doc.getElementById("scan").addEventListener('tap', function(event) {
+						poer_function.setLocalStorage("scan_from", "add_gateway");
+						poer_public.openWindow("barcode_scan.html", "barcode_scan");
+					});
+					
+					window.addEventListener('findMac',function(event){
+						console.log("mouse");
+						//获得事件参数
+						var result = event.detail.mac;
+						macBox.value = result;
+					});
+					 
+					doc.getElementById('step1').addEventListener('tap', function(event) {
+						var mac_value = macBox.value.trim().toUpperCase();
+						if(mac_value.length!=12){
+							poer_public.alert(poer_language.label_mac_short(language));
+			    			return;
+						}
+						var pre_mac = mac_value.substring(0,6).toUpperCase();
+						//判断mac是否合法
+			    		if(pre_mac!="FCE892"){
+			    			poer_public.alert(poer_language.label_mac_error(language));
+			    			return;
+			    		}
+						ssid = "POR_"+mac_value.substring(6);
+						document.getElementById("go_connect").innerHTML = poer_language.label_connect(language)+" wifi "+ssid;
+						//doc.getElementById("ap_wifi").value = ssid;
+						
+						doc.getElementById("s1").className = "mui-control-content";
+						doc.getElementById("s2").className = "mui-control-content mui-active";
+						doc.getElementById("s2_flag").className = "uwh-FS2 uc-a-FS2 ub ub-ac ub-pc sc-bg-alert";
+
+						auto_link_wifi();
+					});
+					
+					function isExist(){
+						var existingConfigs = wifi_manager.getConfiguredNetworks();
+						console.log(JSON.stringify(existingConfigs));
+						
+						for (var existingConfig in existingConfigs) {
+							if (existingConfig.SSID == ("\"" + ssid + "\"")) {
+								return existingConfig;
+							}
+						}
+						return null;
+					}
+					
+					function createWifiInfo(SSID, Password, Type){
+						var config = new WifiConfiguration();
+						console.log("fox" + JSON.stringify(config));
+						config.allowedAuthAlgorithms = "";
+						config.allowedGroupCiphers = "";
+						config.allowedKeyManagement = "";
+						config.allowedPairwiseCiphers = "";
+						config.allowedProtocols = "";
+						config.SSID = "\""+SSID+"\"";
+						
+						config.preSharedKey = "\""+Password+"\"";
+						config.hiddenSSID = true;
+						config.allowedAuthAlgorithms = WifiConfiguration.AuthAlgorithm.OPEN;
+						config.allowedGroupCiphers = WifiConfiguration.GroupCipher.TKIP;
+						config.allowedKeyManagement = WifiConfiguration.KeyMgmt.WPA_PSK;
+						config.allowedPairwiseCiphers = WifiConfiguration.PairwiseCipher.TKIP;
+						// 此处需要修改否则不能自动重联
+						// config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+						config.allowedGroupCiphers = WifiConfiguration.GroupCipher.CCMP;
+						config.allowedPairwiseCiphers = WifiConfiguration.PairwiseCipher.CCMP;
+						config.status = WifiConfiguration.Status.ENABLED;
+						console.log(JSON.stringify(config));
+						return config;
+					}
+					
+					// 打开wifi功能
+					function openWifi() {
+						var bRet = true;
+						if (!wifi_manager.isWifiEnabled()) {
+							bRet = wifi_manager.setWifiEnabled(true);
+						}
+						return bRet;
+					}
+					
+					var check_wifi_status_count = 0;
+					function check_wifi_status(){
+						var state = wifi_manager.getWifiState();
+						if(state ==2 || state == 3){
+							auto_connect();
+							return true;
+						}
+						check_wifi_status_count++;
+						if(check_wifi_status_count>10){
+							check_wifi_status_count = 0;
+							auto_connect();
+							return true;
+						}
+						//console.log(wifi_manager.getWifiState(), WifiManager.WIFI_STATE_ENABLING);
+						setTimeout(check_wifi_status, 1000);
+					}
+					
+					function auto_connect(){
+						var wifiConfig = createWifiInfo(ssid, 'poer2015', '');
+						var tempConfig = isExist();
+						if(tempConfig!=null){
+							wifi_manager.removeNetwork(tempConfig.networkId);
+						}
+						
+						var netID = wifi_manager.addNetwork(wifiConfig);
+						console.log(netID);
+						var enabled = wifi_manager.enableNetwork(netID, true);
+						if(enabled){
+							console.log("fox");
+						}
+						else{
+							console.log("mouse");
+						}
+						var connected = wifi_manager.reconnect();
+						if(connected){
+							console.log("fox");
+						}
+						else{
+							console.log("mouse");
+						}
+					}
+					
+					var WifiManager;
+					var WifiConfiguration;
+					var wifi_manager;
+					function auto_link_wifi(){
+						//自动连接wifi
+						var Context = plus.android.importClass("android.content.Context");
+						WifiConfiguration = plus.android.importClass("android.net.wifi.WifiConfiguration");
+						var AuthAlgorithm = plus.android.importClass("android.net.wifi.WifiConfiguration.AuthAlgorithm");
+						var KeyMgmt = plus.android.importClass("android.net.wifi.WifiConfiguration.KeyMgmt");
+						WifiManager = plus.android.importClass("android.net.wifi.WifiManager");
+						
+						wifi_manager = plus.android.runtimeMainActivity().getSystemService(Context.WIFI_SERVICE);
+						var mWifiInfo = wifi_manager.getConnectionInfo();
+						console.log(JSON.stringify(mWifiInfo));
+						openWifi();
+						check_wifi_status();
+					}
+					
+					
+					doc.getElementById('go_connect').addEventListener('tap', function(event) {
+						if(mui.os.ios){
+							var UIApplication = plus.ios.import("UIApplication");
+							var NSURL = plus.ios.import("NSURL");
+							var setting = NSURL.URLWithString("app-settings:");
+							var application = UIApplication.sharedApplication();
+							application.openURL(setting);
+							plus.ios.deleteObject(setting);
+							plus.ios.deleteObject(application);
+						}
+						else{
+							var main = plus.android.runtimeMainActivity();
+							var Intent = plus.android.importClass("android.content.Intent");
+							var mIntent = new Intent('android.settings.WIFI_SETTINGS');
+							main.startActivity(mIntent);	
+						}
+					});
+					
+					function link_ap_success(data){
+						console.log(JSON.stringify(data));
+						var result = data['Request']["mac"].toUpperCase();
+						var wifi = ssid;//doc.getElementById("ap_wifi").value;
+						if(result.substring(6)!=wifi.substring(4)){
+							poer_public.alert(poer_language.label_link_wrong_ap(language)+wifi);
+							return;
+						}
+						
+						doc.getElementById("s2").className = "mui-control-content";
+						doc.getElementById("s3").className = "mui-control-content mui-active";
+						
+						doc.getElementById("s3_flag").className = "uwh-FS2 uc-a-FS2 ub ub-ac ub-pc sc-bg-alert";
+					}
+					
+					function link_ap_fail(xhr,textStatus,errorThrown){
+						poer_public.alert(poer_language.label_link_ap_failed(language)+" "+ssid);
+					}
+					
+					doc.getElementById("step2").addEventListener('tap', function(event) {
+						//判断有没有连接ap
+						var url = poer_url.link_ap_status();
+						poer_function.link_ap_status(url, {}, link_ap_success, link_ap_fail);
+					});
+					
+					function link_ap2_success(data){
+						poer_public.progress_stop();
+						console.log(JSON.stringify(data));
+						var result = data['Request']["status"];
+						//result = "3";
+						switch(result){
+							case 1:
+							case 2: 
+								poer_public.alert(poer_language.label_linkwifi_error2(language));
+								break;
+								
+							case 3: 
+								poer_public.alert(poer_language.label_linkwifi_error3(language));
+								doc.getElementById("s3").className = "mui-control-content";
+								doc.getElementById("s4").className = "mui-control-content mui-active";
+								doc.getElementById("s4_flag").className = "uwh-FS2 uc-a-FS2 ub ub-ac ub-pc sc-bg-alert";		
+								break;
+								
+							case 4: 
+								poer_public.alert(poer_language.label_linkwifi_error4(language));
+								break;
+								
+							case 6: 
+								poer_public.alert(poer_language.label_linkwifi_error6(language));
+								break;
+						}
+					}
+					
+					function link_ap2_fail(xhr,textStatus,errorThrown){
+						console.log("mouse");
+						poer_public.progress_stop();
+						poer_public.alert(poer_language.label_sendwifi_failed(language));
+					}
+					
+					function link_success(data){
+						console.log("ll");
+						//console.log("fox"+ data);
+						//发送之后，查询网关联网状态
+						var url = poer_url.link_ap_status();
+						
+						setTimeout(function(){
+							poer_function.link_ap_status(url, {}, link_ap2_success, link_ap2_fail);
+						},7000);
+					}
+					
+					function link_fail(xhr,textStatus,errorThrown){
+						//console.log("xiner");
+						poer_public.progress_stop();
+						poer_public.alert(poer_language.label_sendwifi_failed(language));
+					}
+					
+					doc.getElementById("step3").addEventListener('tap', function(event) {
+						var wifi = doc.getElementById("wifi").value.trim();
+						var password = doc.getElementById("password").value.trim();
+						//wifi = "LL";
+						//password = "lanlian@702";
+						if(wifi==""){
+							poer_public.alert(poer_language.label_wifi_empty(language));
+		    				return;
+						}
+						if(password==""){
+							poer_public.alert(poer_language.label_password_empty(language));
+		    				return;
+						}
+						
+						var data = {
+							"Request":{
+								"ssid": wifi,
+								"password": password	
+							}
+						};
+						
+						doc.getElementById("check").innerHTML = poer_language.label_check_ap_status(language);
+						poer_public.progress_start();
+						var url = poer_url.link_gateway();
+						poer_function.link_gateway(url, JSON.stringify(data), link_success, link_fail);
+						
+						/*
+						var CMD_SIZE = 1;
+						var SSID_SIZE = 32;
+						var PASSWD_SIZE = 64;
+						var i;
+						data[0] = 0x00;
+						data = data.concat(Str2Bytes(wifi));
+						var length = SSID_SIZE - wifi.length;
+						for(i = 0;i<length;i++){
+							data.push(0x00);
+						}
+						data = data.concat(Str2Bytes(password));
+						length = PASSWD_SIZE - password.length;
+						for(i = 0;i<length;i++){
+							data.push(0x00);
+						}
+						
+						if(mui.os.ios){
+						}
+						else{
+							var DatagramPacket = plus.android.importClass("java.net.DatagramPacket");
+						    var DatagramSocket = plus.android.importClass("java.net.DatagramSocket");
+						    var InetAddress = plus.android.importClass("java.net.InetAddress");
+							
+						    var ds = new DatagramSocket();
+						    var messageReceived = false;
+						    //var serverAddress = "192.168.4.1";
+						    var port = 2020; // 服务器设定好的监听端口
+						    var iAdd = new InetAddress();
+						    var dp = new DatagramPacket(data, data.length,iAdd.getByName("255.255.255.255"), port);
+						    while (!messageReceived){
+						        //var d = new Array(1024);
+						        //d = Str2Bytes("http://255.255.255.255:8898"); // 原java代码 byte[] data = new byte[1024]不知道如何改写，就随便写一个足够ip长度的string
+						        //var dp2 = new DatagramPacket(d, 1024);
+						        ds.send(dp); // 发出udp广播
+						        //ds.receive(dp2); //这里要是服务器没开就会卡住了。原java代码是另开一个线程，js是单线程，所以最好写一个10秒后断开再重试的代码。另，已发现HTML5支持多线程的web workers无法初始化plusready。
+						        //var dpData = Bytes2Str(dp2.getData()); // 转换数据流为我要的地址
+						        //console.log("receive:"+dpData);
+						        messageReceived=true;
+						        ds.close();
+						        
+						        doc.getElementById("s3").className = "mui-control-content";
+								doc.getElementById("s4").className = "mui-control-content mui-active";
+								doc.getElementById("s4_flag").className = "uwh-FS2 uc-a-FS2 ub ub-ac ub-pc sc-bg-alert";
+						    }
+						}
+						*/
+					});
+					
+					doc.getElementById('go_connect_again').addEventListener('tap', function(event) {
+						if(mui.os.ios){
+							var UIApplication = plus.ios.import("UIApplication");
+							var NSURL = plus.ios.import("NSURL");
+							var setting = NSURL.URLWithString("app-settings:");
+							var application = UIApplication.sharedApplication();
+							application.openURL(setting);
+							plus.ios.deleteObject(setting);
+							plus.ios.deleteObject(application);
+						}
+						else{
+							var main = plus.android.runtimeMainActivity();
+							var Intent = plus.android.importClass("android.content.Intent");
+							var mIntent = new Intent('android.settings.WIFI_SETTINGS');
+							main.startActivity(mIntent);	
+						}
+					});
+					
+					function check_success(data){
+						console.log(JSON.stringify(data));
+						if(data.Flag){
+							poer_public.progress_stop();
+							poer_public.alert(poer_language.label_bindgateway_success(language));
+						}
+						else{
+							console.log(check_count);
+							check_count++;
+							if(check_count>30){
+								poer_public.progress_stop();
+								poer_public.alert(poer_language.label_bindgateway_failed(language));
+								check_count = 0;
+							}
+							else{
+								setTimeout(check_gateway, 3000);
+							}
+						}
+					}
+					
+					function check_fail(xhr,textStatus,errorThrown){
+						poer_public.progress_stop();
+						poer_public.alert(poer_language.label_bindgateway_failed(language));
+						/*
+						console.log(check_count);
+						check_count++;
+						if(check_count>30){
+							poer_public.progress_stop();
+							poer_public.alert(poer_language.label_bindgateway_failed(language));
+							check_count = 0;
+						}
+						else{
+							console.log("fail");
+						
+							setTimeout(check_gateway, 3000);
+						}
+						*/
+					}
+					
+					function check_gateway(){
+						var url = poer_url.check_gateway(userId, locateId, ssid);
+						console.log(url);
+						poer_function.check_gateway(url, {}, check_success, check_fail);
+					}
+					
+					var check_count = 0;
+					
+					function get_user_success(data){
+						console.log(JSON.stringify(data));
+						
+						document.getElementById("check").innerHTML = poer_language.label_check_device(language);
+						poer_public.progress_start();
+						check_gateway();
+					}
+					
+					function get_user_fail(xhr,textStatus,errorThrown){
+						poer_public.alert(poer_language.label_link_wifi_failed(language));
+					}
+					
+					doc.getElementById("step4").addEventListener('tap', function(event) {
+						//判断是否切换回来wifi，通过获取user info来判断是否网络正常
+						var url = poer_url.get_user_info(userId);
+						poer_function.get_user_info(url, {}, get_user_success, get_user_fail);
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

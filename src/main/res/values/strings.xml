@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PoerSmart</string>
+    <string name="version_xml_url">http://open.poersmart.com:8012/update_file/version.xml</string>
+    <string name="apk_download_url">http://open.poersmart.com:8012/update_file/PoerSmart.apk</string>
+</resources>

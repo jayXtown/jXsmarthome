@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/poer.css" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style_progress.css" />
+		<link rel="stylesheet" type="text/css" href="../css/security_device_info.css" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="node_name"></h1>
+			<!--			<a id="menu" class="mui-icon mui-icon-bars mui-pull-right mui-plus-visible fox-white"></a>-->
+		</header>
+		<nav class="fox-bar mui-bar-tab">
+			<a id="delete_btn" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-delete"></div>
+					<div class="fox-tab-label" id="label_delete"></div>
+				</div>
+			</a>
+			<a id="save_btn" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-save"></div>
+					<div class="fox-tab-label" id="label_save"></div>
+				</div>
+			</a>
+		</nav>
+		<div class="fox_content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label id="label_name"></label>
+					<input id='info_name' type="text" class="mui-input-clear mui-input fox-blue" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label id="label_detection_of_gas"></label>
+					<input id="info_detection_of_gas" type="text" class="mui-input" readonly="readonly" value="CH4" />
+				</div>
+				<div class="mui-input-row">
+					<label id="label_sn"></label>
+					<input id='info_sn' type="text" class="mui-input" readonly="readonly" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label id="label_software"></label>
+					<input id='software' type="text" class="mui-input" readonly="readonly" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label id="label_hardware"></label>
+					<input id='hardware' type="text" class="mui-input" readonly="readonly" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label id="label_gateway"></label>
+					<input id='info_gateway' type="text" class="mui-input" readonly="readonly" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label id="label_concentration"></label>
+					<!--<div style="width: 20px;height: 40px;margin: 0;"></div>-->
+					<input id="info_concentration" style="width: 50%;" type="text" class="mui-input" readonly="readonly" placeholder="" value="">
+				</div>
+				<div class="mui-input-row">
+					<label id="label_alerm_valve_value" style="width: 50%;"></label>
+					<div class="fox-blue" style="width: 50%;height: 100%;float: right;" id="div_alerm_valve_value">7%LEL</div>
+					<input type="hidden" id="hidAlermValveValue" />
+				</div>
+			</form>
+			<div style=clear: both;></div>
+			<div style="height:50px;display:none;padding-top:40px;" id="set_updating_div">
+				<center id="label_updating"></center>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/logger.js"></script>
+	<script src="../js/function.js"></script>
+	<script src="../js/url.js"></script>
+	<script src="../js/public.js"></script>
+	<script src="../js/mui.picker.js"></script>
+	<script src="../js/mui.poppicker.js"></script>
+	<script src="../js/language.js"></script>
+	<script>
+		var div_alerm_valve_value = document.getElementById("div_alerm_valve_value");
+		var offH = div_alerm_valve_value.offsetHeight;
+		div_alerm_valve_value.style.lineHeight = offH + "px";
+		var language;
+
+		function show_labels() {
+			document.getElementById("label_name").innerHTML = poer_language.label_name(language);
+			document.getElementById("label_detection_of_gas").innerHTML = poer_language.label_detection_of_gas(language);
+			document.getElementById("label_sn").innerHTML = poer_language.label_sn(language);
+			document.getElementById("label_software").innerHTML = poer_language.label_software(language);
+			document.getElementById("label_hardware").innerHTML = poer_language.label_hardware(language);
+			document.getElementById("label_gateway").innerHTML = poer_language.label_gateway(language);
+			document.getElementById("label_concentration").innerHTML = poer_language.label_concentration(language);
+			document.getElementById("label_alerm_valve_value").innerHTML = poer_language.label_alerm_valve_value(language);
+			document.getElementById("label_updating").innerHTML = poer_language.label_updating(language) + "<img src='../img/lan_icon_waitting.gif' style='width:15px;height:15px;'/>";
+			document.getElementById("label_save").innerHTML = poer_language.label_save(language);
+			document.getElementById("label_delete").innerHTML = poer_language.label_delete(language);
+		}
+		(function($, doc) {
+			$.init({
+				statusBarBackground: '#f7f7f7'
+			});
+			$.plusReady(function() {
+				plus.screen.lockOrientation("portrait-primary");
+				var settings_login_info = poer_function.getLocalStorage("login_info");
+				language = settings_login_info.language;
+				show_labels();
+				var info_name = doc.getElementById("info_name");
+				var delete_btn = doc.getElementById("delete_btn");
+				var save_btn = doc.getElementById("save_btn");
+				var settings_user_info = poer_function.getLocalStorage("user_info");
+				var userId = settings_user_info.Id;
+				var userTempUnit = settings_user_info.DisplayMode;
+				var node_list = poer_function.getLocalStorage("node_list");
+				var gateway_list = poer_function.getLocalStorage("gateway_list");
+				var nodeId = poer_function.getLocalStorage("node_detail_id");
+				var node_info; //当前node信息
+				var gateway_info;
+				var set_updating_div = doc.getElementById("set_updating_div");
+				for (var i in node_list) {
+					if (node_list[i]['Id'] == nodeId) {
+						node_info = node_list[i];
+						break;
+					}
+				}
+				if (node_info == null) {
+					poer_public.alert(poer_language.label_node_noexist(language));
+					return;
+				}
+				var gateway_id = node_info['GatewayId'];
+				for (var i in gateway_list) {
+					if (gateway_list[i]['Id'] == gateway_id) {
+						gateway_info = gateway_list[i];
+						break;
+					}
+				}
+				if (gateway_info == null) {
+					poer_public.alert(poer_language.label_gateway_noexist(language));
+					return;
+				}
+				var back_refresh_flag = true;
+				set_security_info();
+
+				function set_security_info() {
+					//console.log(JSON.stringify(node_info));
+					var nodeName = node_info['NodeName'];
+					if (nodeName == null || nodeName == "") {
+						nodeName = node_info['NodeSN'];
+					}
+					doc.getElementById("node_name").innerHTML = nodeName;
+					doc.getElementById("info_name").value = nodeName;
+					doc.getElementById("info_sn").value = node_info['NodeSN'];
+					doc.getElementById("software").value = node_info['SoftVersion'];
+					doc.getElementById("hardware").value = node_info['HardVersion'];
+					doc.getElementById("info_gateway").value = gateway_info['GatewaySN'];
+					console.log(JSON.stringify(node_info));
+					//					delete_btn.style.display = "";
+					/*
+											if(node_info['RfLinkGateway']){
+												delete_btn.style.display = "none";
+											}
+											else{
+												delete_btn.style.display = "";
+											}
+											*/
+					doc.getElementById("info_concentration").value = node_info["CurTemperature"] + "%LEL";
+					div_alerm_valve_value.innerHTML = node_info["OverrideTemperature"] + "%LEL";
+					doc.getElementById("hidAlermValveValue").value = node_info["OverrideTemperature"];
+					//					alert(JSON.stringify(node_info));
+					console.log("node_info:" + JSON.stringify(node_info));
+					var alermValveValue = parseInt(node_info["OverrideTemperature"]);
+				}
+
+				function setBackTask(status) {
+					if (!status) {
+						update_times = 0;
+					}
+					var write_status_info = poer_function.getLocalStorage("write_status_info");
+					for (var i in write_status_info) {
+						if (write_status_info[i]['Id'] == nodeId) {
+							write_status_info[i]['Type'] = 'set_node';
+							write_status_info[i]['Status'] = status ? 1 : 0;
+							poer_function.setLocalStorage('write_status_info', write_status_info);
+							break;
+						}
+					}
+					set_updating_div.style.display = status ? "none" : "";
+				}
+				delete_btn.addEventListener("tap", function() {
+					var btnArray = [poer_language.label_no(language), poer_language.label_yes(language)];
+					$.confirm(poer_language.label_delete(language) + "?", poer_language.label_confirm(language), btnArray, function(e) {
+						if (e.index == 1) {
+							var url = poer_url.delete_node(userId, nodeId);
+							poer_function.delete_node(url, {}, delete_success, delete_fail);
+						}
+					});
+				});
+				var isNameChanged = false;
+				var isNodeChanged = false;
+				save_btn.addEventListener("tap", function() {
+					var name = doc.getElementById("info_name").value.trim();
+					if (name == "") {
+						poer_public.alert(poer_language.label_name_empty(language));
+						return;
+					}
+					isNameChanged = node_info["NodeName"] != name;
+					isNodeChanged = parseInt(node_info["SetPoint"]) != parseInt(doc.getElementById("hidAlermValveValue").value);
+					if (isNameChanged || isNodeChanged) {
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						for (var i in write_status_info) {
+							if (write_status_info[i]['Id'] == nodeId) {
+								if (write_status_info[i]['Status'] == 0) {
+									poer_public.alert(poer_language.label_set_updating(language));
+									return;
+								}
+							}
+						}
+						setBackTask(false);
+						node_info["NodeName"] = name;
+						if (isNameChanged)
+							updateNodeName();
+						else
+							updateNodeInfo();
+					} else {
+						poer_public.alert(poer_language.msg_has_none_changed(language));
+					}
+					//					updateNodeInfo();
+				});
+
+				function updateNodeName() {
+					console.log("updateNodeName");
+					var reqUrl = poer_url.post_update_node_name(userId, nodeId);
+					var reqData = {
+						//							Id: nodeId,
+						NodeName: node_info['NodeName']
+					}
+					console.log(reqUrl);
+					console.log(JSON.stringify(reqData));
+					poer_function.update_node_name(reqUrl, JSON.stringify(reqData), updateNodeNameSuccess, updateNodeNameFailed);
+				}
+
+				function updateNodeNameSuccess(result) {
+					console.log("updateNodeNameSuccess");
+					console.log(JSON.stringify(result));
+					if (result.Flag) {
+						if (isNodeChanged) {
+							updateNodeInfo();
+						} else {
+							setBackTask(true);
+							poer_public.toast(poer_language.label_update_success(language), {
+								verticalAlign: "center"
+							});
+						}
+					} else {
+						poer_public.toast(poer_language.label_update_failed(language), {
+							verticalAlign: "center"
+						});
+						setBackTask(true);
+					}
+				}
+
+				function updateNodeNameFailed(xhr) {
+					console.log("updateNodeNameFailed");
+					poer_public.toast(poer_language.label_update_failed(language), {
+						verticalAlign: "center"
+					});
+					setBackTask(true);
+				}
+
+				function updateNodeInfo() {
+					var url = poer_url.set_gas_valve_override(userId, nodeId);
+					var data = {
+						"NodeName": doc.getElementById("info_name").value.trim(),
+						"TestDevice": false,
+						"CtrlValve": false,
+						"CtrlBeep": false,
+						"SetPoint": parseInt(doc.getElementById("hidAlermValveValue").value)
+					};
+					poer_function.set_gas_valve_override(url, JSON.stringify(data), update_success, update_fail);
+				}
+
+				function update_success(data) {
+					var Flag = data.Flag;
+					if (Flag) {
+						get_write_status();
+					} else {
+						poer_public.alert(poer_language.label_update_failed(language));
+						setBackTask(true);
+					}
+				}
+
+				function update_fail(xhr, textStatus, errorThrown) {
+					poer_public.alert(poer_language.label_update_failed(language));
+					if (button_type == "update_tempunit") {
+						setBackTask(true);
+					}
+				}
+
+				function get_write_status() {
+					console.log(update_times);
+					update_times++;
+					var url = poer_url.write_status(userId, nodeId);
+					var data = {};
+					poer_function.write_status(url, data, writestatus_success, writestatus_fail);
+				}
+
+				function writestatus_success(data) {
+					var Flag = data.TranStatus;
+					if (Flag) {
+						poer_public.alert(poer_language.label_update_success(language));
+						setBackTask(true);
+						for (var i in node_list) {
+							if (node_list[i]['Id'] == nodeId) {
+								node_info["OverrideTemperature"] = parseInt(doc.getElementById("hidAlermValveValue").value);
+								node_list[i] = node_info;
+								poer_function.setLocalStorage("node_list", node_list);
+								break;
+							}
+						}
+						set_security_info();
+					} else {
+						if (update_times > 60) {
+							poer_public.alert(poer_language.label_update_failed(language));
+							setBackTask(true);
+							return;
+						}
+						setTimeout(get_write_status, 3000);
+					}
+				}
+
+				function writestatus_fail(xhr, textStatus, errorThrown) {
+					if (update_times > 60) {
+						poer_public.alert(poer_language.label_update_failed(language));
+						setBackTask(true);
+						return;
+					}
+					setTimeout(get_write_status, 3000);
+				}
+
+				function delete_success(data) {
+					var Flag = data.Flag;
+					if (Flag) {
+						poer_public.alert(poer_language.label_delete_success(language));
+						var node_list = poer_function.getLocalStorage("node_list");
+						var count = 0;
+						for (var i in node_list) {
+							if (node_list[i]['Id'] == nodeId) {
+								node_list.slice(count, 1);
+								break;
+							}
+							count++;
+						}
+						poer_function.setLocalStorage(node_list);
+						console.log(JSON.stringify(node_list));
+						var node_detail_page = plus.webview.getWebviewById('security_detail');
+						$.fire(node_detail_page, 'deleteNode', {});
+						$.back();
+					} else {
+						poer_public.alert(poer_language.label_delete_failed(language));
+						setBackTask(true);
+					}
+				}
+				var alermValveValuePicker = new $.PopPicker();
+				alermValveValuePicker.setData([{
+					value: 7,
+					text: "7%LEL"
+				}, {
+					value: 8,
+					text: "8%LEL"
+				}, {
+					value: 9,
+					text: "9%LEL"
+				}, {
+					value: 10,
+					text: "10%LEL"
+				}, ]);
+				div_alerm_valve_value.addEventListener("tap", function(e) {
+					alermValveValuePicker.show(function(items) {
+						var item = items[0];
+						div_alerm_valve_value.innerHTML = item.text;
+						doc.getElementById("hidAlermValveValue").value = item.value;
+					});
+				}, false);
+
+				function delete_fail(data) {
+					poer_public.alert(poer_language.label_delete_failed(language));
+				}
+			});
+		}(mui, document));
+	</script>
+
+</html>

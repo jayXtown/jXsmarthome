@@ -1,0 +1,29 @@
+.fox_header{
+	background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+}
+.fox-white{
+	color: #ffffff;
+}
+.mui-list-icon-size
+{
+	line-height: 20px;
+
+    max-width: 20px;
+    height: 20px;
+}
+.mui-img-text-padding
+{
+	float: left;
+	padding-left: 10px;
+}
+.fox-backgound-white{
+	background-color: #FFFFFF;
+}
+.fox_content{
+	//height: 500px;
+	width: 100%;
+	padding-top:45px;
+	//background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#000000));
+	//background-color: #DEDEDE;
+	//background: url(../img/lan_icon_background.png) no-repeat;
+}

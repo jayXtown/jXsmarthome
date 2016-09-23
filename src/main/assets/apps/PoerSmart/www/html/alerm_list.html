@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/alerm_list.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 id="pageTitle" class="mui-title fox-white"></h1>
+		</header>
+		<div id="listContent" class="mui-content">
+			<ul id="listBox" class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="display: none;">
+				<!--<li class="mui-table-view-cell">
+					<div class="mui-table">
+						<div class="mui-table-cell mui-col-xs-10">
+							<h4 class="mui-ellipsis">信息化推进办公室张彦合同付款信息化</h4>
+							<h5>申请人：李四</h5>
+							<p class="mui-h6 mui-ellipsis">Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p>
+						</div>
+						<div class="mui-table-cell mui-col-xs-2 mui-text-right">
+							<span class="mui-h5">12:25</span>
+						</div>
+					</div>
+				</li>-->
+			</ul>
+		</div>
+		<script src="../js/mui.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<!--<script src="../js/alerm_list.js"></script>-->
+		<script>
+			var language;
+			var _pageNum = 0;
+			(function($, doc) {
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var myFunction = poer_function;
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					var userId = poer_function.getLocalStorage("user_info").Id;
+					doc.getElementById("pageTitle").innerHTML = poer_language.title_alerm_messages(language);
+					getMessages();
+
+					function getMessages() {
+						var reqUrl = poer_url.alerm_message_list(userId);
+						var data = JSON.stringify({
+							pageSize: 20,
+							pageNumber: _pageNum
+						});
+						console.log(reqUrl);
+						console.log(data);
+						poer_function = poer_function.alerm_message_list(reqUrl, data, getMessageSuccess, getMessageFail);
+					}
+
+					function getMessageSuccess(result) {
+						console.log(JSON.stringify(result));
+						switch (result.Status) {
+							case RespStatus.SUCCESS:
+								var listBox = doc.getElementById("listBox");
+								if (result.Data.totalNum == 0) {
+									listBox.style.display = "none";
+								} else {
+									var alermList = result.Data.message;
+									for (var i in alermList) {
+										var alermInfo = alermList[i];
+										var alermItem = createElement(alermInfo);
+										listBox.appendChild(alermItem);
+									}
+									listBox.style.removeProperty("display");
+								}
+								break;
+							case RespStatus.E0001:
+								break;
+							default:
+								break;
+						}
+					}
+
+					function getMessageFail(xhr) {}
+
+					function createElement(alermInfo) {
+						var li = document.createElement("li");
+						li.className = "mui-table-view-cell";
+						var div = document.createElement("div");
+						div.className = "mui-table";
+						var contentDiv = document.createElement("div");
+						contentDiv.className = "mui-table-cell mui-col-xs-10";
+						// 标题
+						var alermTitle = document.createElement("h4");
+						alermTitle.className = "mui-ellipsis";
+						alermTitle.innerHTML = alermInfo.title;
+						contentDiv.appendChild(alermTitle);
+						// 子标题
+						var alermSubTitle = document.createElement("h5");
+						contentDiv.appendChild(alermSubTitle);
+						// 消息内容
+						var alermContent = document.createElement("p");
+						alermContent.className = "mui-h6 mui-ellipsis";
+						alermContent.innerHTML = alermInfo.message;
+						contentDiv.appendChild(alermContent);
+						div.appendChild(contentDiv);
+						// 消息时间
+						var timeDiv = document.createElement("div");
+						var alermTime = document.createElement("span");
+						timeDiv.appendChild(alermTime);
+						div.appendChild(alermTime);
+						li.appendChild(div);
+						li.addEventListener("tap", function() {
+							myFunction.setLocalStorage("event_id", alermInfo.eventid);
+							poer_public.openWindow("alerm_detail.html", "alert_detail");
+						});
+						return li;
+					}
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

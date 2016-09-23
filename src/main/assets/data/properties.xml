@@ -1,0 +1,47 @@
+<properties>
+	<features>
+	    <feature name="Barcode" value="io.dcloud.feature.barcode.BarcodeFeatureImpl"></feature>
+		<feature name="Contacts" value="io.dcloud.feature.contacts.ContactsFeatureImpl"></feature>
+		<feature name="Messaging" value="io.dcloud.adapter.messaging.MessagingPluginImpl"></feature>
+		<feature name="Camera" value="io.dcloud.js.camera.CameraFeatureImpl"></feature>
+		<feature name="Console" value="io.dcloud.feature.pdr.LoggerFeatureImpl"></feature>
+		<feature name="Device" value="io.dcloud.feature.device.DeviceFeatureImpl"></feature>
+		<feature name="File" value="io.dcloud.js.file.FileFeatureImpl"></feature>
+		<feature name="Proximity" value="io.dcloud.feature.sensor.ProximityFeatureImpl"></feature>
+		<feature name="Storage" value="io.dcloud.feature.pdr.NStorageFeatureImpl"></feature>
+		<feature name="Cache" value="io.dcloud.feature.pdr.CoreCacheFeatureImpl"></feature>
+		<feature name="Invocation" value="io.dcloud.invocation.Invocation"></feature>
+		<feature name="Navigator" value="io.dcloud.feature.ui.navigator.NavigatorUIFeatureImpl"></feature>
+		<feature name="NativeUI" value="io.dcloud.feature.ui.nativeui.NativeUIFeatureImpl"></feature>
+		<feature name="UI" value="io.dcloud.feature.ui.UIFeatureImpl">
+			<module name="Navigator" value="io.dcloud.feature.ui.NavView"/>
+		</feature>
+		<feature name="Gallery" value="io.dcloud.js.gallery.GalleryFeatureImpl"></feature>
+		<feature name="Downloader" value="io.dcloud.net.DownloaderFeatureImpl"></feature>
+		<feature name="Uploader" value="io.dcloud.net.UploadFeature"></feature>
+		<!--<feature name="Push" value="io.dcloud.feature.aps.APSFeatureImpl">-->
+			<!--<module name="igexin" value="io.dcloud.feature.apsGt.GTPushService"/>-->
+		<!--</feature>-->
+		<feature
+			name="Push"
+			value="io.dcloud.feature.jPush.JPushService" >
+		</feature>
+		<feature name="Zip" value="io.dcloud.feature.pdr.ZipFeature"></feature>
+		<feature name="Audio" value="io.dcloud.feature.audio.AudioFeatureImpl"></feature>
+		<feature name="Runtime" value="io.dcloud.feature.pdr.RuntimeFeatureImpl"></feature>
+		<feature name="XMLHttpRequest" value="io.dcloud.net.XMLHttpRequestFeature"></feature>
+		<feature name="Accelerometer" value="io.dcloud.feature.sensor.AccelerometerFeatureImpl"/>
+		<feature name="Orientation" value="io.dcloud.feature.sensor.OrientationFeatureImpl"/>
+		
+		<feature name="PoerWifi" value="com.poersmart.smarthome.PoerNetWorkManager"></feature>
+		<feature name="PoerSmartConfig" value="com.poersmart.smarthome.PoerSmartConfigManager"></feature>
+		<feature name="PoerLogger" value="com.poersmart.smarthome.common.PoerLogger"></feature>
+		<feature name="PoerDownload" value="com.poersmart.smarthome.PoerDownload"></feature>
+	</features>	
+
+	<services>
+		<service name="push" value="io.dcloud.feature.aps.APSFeatureImpl"/>
+		<service name="Statistic" value="io.dcloud.feature.statistics.StatisticsBootImpl"/>
+		<service name="Downloader" value="io.dcloud.net.DownloaderBootImpl"/>
+	</services>
+</properties>

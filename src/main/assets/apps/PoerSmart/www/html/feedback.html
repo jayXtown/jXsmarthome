@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/feedback.css" rel="stylesheet" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_feedback"></h1>
+		</header>
+		<div class="fox_content">
+			<div class="fox_textarea">
+				<textarea id="content" rows="5" placeholder=""></textarea>
+			</div>
+			<div style="margin-top:20px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="save" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="save_text"></font></button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+			function show_label(){
+				document.getElementById("label_feedback").innerHTML = poer_language.label_feedback(language);
+				document.getElementById("content").placeholder = poer_language.label_feedback_empty(language);
+				document.getElementById("save_text").innerHTML = poer_language.label_save(language);
+			}
+		
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id; 
+					var contentBox = doc.getElementById("content");
+					//var contactBox = doc.getElementById("contact");
+					var content_value;
+					var contact_value;
+
+					function update_success(data){
+ 						poer_public.toast(poer_language.label_update_success(language));
+					}
+					
+					function update_fail(xhr,textStatus,errorThrown){
+						poer_public.toast(poer_language.label_update_failed(language));
+					}
+					
+					doc.getElementById("save").addEventListener('tap', function(event) {
+						content_value = contentBox.value.trim();
+						if(content_value<10){
+							poer_public.toast(poer_language.label_feedback_too_short(language));
+							return;
+						}
+						if(content_value>200){
+							poer_public.toast(poer_language.label_feedback_too_long(language));
+							return;
+						}
+						contact_value = "null";//contactBox.value.trim();
+						
+						var url = poer_url.feedback(userId);
+						var data = {
+							Content: content_value,
+							Contact: contact_value
+						};
+						poer_function.feedback(url, JSON.stringify(data), update_success, update_fail);
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

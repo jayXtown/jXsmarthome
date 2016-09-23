@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/about_us.css" rel="stylesheet" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_about_us"></h1>
+		</header>
+		<div class="fox_content">
+			<center>
+				<div style="padding-top: 50px;">
+					<img src="../img/lan_about_logo.png" style="height:45px;"/>
+				</div>
+				<div style="padding-top: 50px;">
+					<font size="5px" id="label_smart_home"></font>
+				</div>
+				<div style="padding-top: 5px;" id="version">
+				</div>
+				<div style="padding-top: 20px;">
+					<a href="#" style="color:#000000;">http://www.poersmart.com</a>
+				</div>
+				<div style="padding-top: 20px;">
+					<font size="3px" id="label_privacy_policy"></font>
+				</div>
+				<div  style="padding-top: 10px;">
+					<font size="3px" id="label_copyright"></font>
+				</div>
+			</center>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+			function show_label(){
+				document.getElementById("label_about_us").innerHTML = poer_language.label_aboutus(language);
+				document.getElementById("label_smart_home").innerHTML = poer_language.label_smart_home(language);
+				document.getElementById("label_privacy_policy").innerHTML = poer_language.label_privacy_policy(language);
+				document.getElementById("label_copyright").innerHTML = poer_language.label_copyright(language);
+			}
+		
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					
+					doc.getElementById("version").innerHTML = "<font size='3px'>"+poer_language.label_version(language) +plus.runtime.version+"</font>"
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

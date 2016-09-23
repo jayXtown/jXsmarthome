@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/node_detail.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="node_name"></h1>
+			<a id="menu" class="mui-icon mui-icon-bars mui-pull-right mui-plus-visible fox-white"></a>
+		</header>
+		<nav class="fox-bar mui-bar-tab">
+			<a id="home_btn" class="fox-tab-item">
+				<div>
+					<div id="home_icon"></div>
+					<div class="fox-tab-label" id="label_home"></div>
+				</div>
+			</a>
+			<a id="away_btn" class="fox-tab-item">
+				<div>
+					<div id="away_icon"></div>
+					<div class="fox-tab-label" id="label_away"></div>
+				</div>
+			</a>
+			<a id="holiday_btn" class="fox-tab-item">
+				<div>
+					<div id="holiday_icon"></div>
+					<div class="fox-tab-label" id="label_holiday"></div>
+				</div>
+			</a>
+			<a id="off_btn" class="fox-tab-item">
+				<div>
+					<div id="off_icon"></div>
+					<div class="fox-tab-label" id="label_off"></div>
+				</div>
+			</a>
+		</nav>
+		<div class="fox_content">
+			<div class="fox-top1">
+				<div class="fox-top1-left">
+					<div style="float:left;" id="schedule" class="fox_div_schedule">
+						<div style="margin-top:5px;">
+							<div style="float:left;" class="fox_schedule_icon"></div>
+							<div style="width:75px;float:left;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;font-size:10px;" class="fox-white" id="label_schedule"></div>
+						</div>
+					</div>
+				</div>
+				<div class="fox-top1-right" id="energy_curves">
+					<img src="../img/lan_energy_save.png" style="width:17px;float:left;" />
+					<div id="label_energy_save" style='float:left;margin:9px 0px 0px 0px;font-size:14px;color: #5b636a;'></div>
+					<div id="energy_save" style='float:left;margin:7px 0px 0px 6px;font-weight: 700; font-size:18px;color:#66CD00;'></div>
+					<!--
+					<div id="off_btn"></div>
+					-->
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div class="fox_main_div">
+				<div class="fox-top2">
+					<div class="fox-top2-left">
+						<div class="fox-top2-left-top" id="label_current" style="font-size: 15px;">
+						</div>
+						<div class="fox-top2-left-bottom">
+							<div class="fox_div_temp" id="cur_temp">
+								<!--<img src="../img/lan_icon_waitting.gif" width="40px" />-->
+							</div>
+							<div class="fox_div_tempunit" id="cur_temp_unit"></div>
+						</div>
+					</div>
+					<div class="fox-top2-right">
+						<div style="float:left;">
+							<div class="fox-top2-right-top" id="label_target" style="font-size: 15px;">
+							</div>
+							<div class="fox-top2-right-bottom" style="margin-top:4px;">
+								<div class="fox_div_temp2 target_temp_div" id="target_temp">
+									<!--
+									<select id="target_temp" class="target_temp_div" onchange="change_target_temp(this.options[this.options.selectedIndex].value)">
+									</select>
+									-->
+									<!--<img src="../img/lan_icon_waitting.gif" width="40px" style="margin-top: 30px;" />-->
+								</div>
+								<div class="fox_div_tempunit2" id="target_temp_unit"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+				<div class="fox-top3">
+					<div class="fox-top3-left" id="humidity_div">
+						<div style="float:left;">
+							<img src="../img/humidity.png" style="width:20px;margin-top:16px;"/>
+						</div>
+						<div style="float:left;" class="fox-per" id="humidity_value">
+						</div>
+					</div>
+					<div class="fox-top3-middle" id="open_div">
+						<div id="device_one_open" style="width:20px; margin:0 auto;">
+							<img id="open_img" style="width:22px;margin-top:12px;" src="../img/lan_icon_waitting.gif"/>
+						</div>
+						<div id="device_two_open" style="padding-left: 20px;">
+							<div style="float:left;">
+								<img id="open_img2" style="width:16px;margin-top:12px;"/>
+							</div>
+							<div style="float:left;" class="fox-per" id="open_value">
+							</div>
+						</div>
+					</div>
+					<div class="fox-top3-right" id="power_div">
+						<div id="device_one_power" style="padding-left: 20px;">
+							<div style="float:left;">
+								<img id="power_img" style="width:16px;margin-top:12px;"/>
+							</div>
+							<div style="float:left;" class="fox-per" id="power_value">
+							</div>
+						</div>
+						<div id="device_two_power" style="width:30px; margin:0 auto;">
+							<img id="power_img2" class="ani_power"/>
+						</div>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+				<div id="override_div" class="fox-top4" style="display: none;">
+					<div style="width: 95%;margin:0 auto;">
+						<div style="float:left;" id="label_hold_until_one"></div>
+						<div style="float:right;" id="show_override_time"></div>
+					</div>
+					<div style="clear: both;"></div>
+					<div style="margin-top:60px;">
+						<div style="width:100%">
+							<button id="btn_press" type="button" class="fox_btn_press"><font color="#ffffff" id="label_btn_press"></font></button>
+						</div>
+					</div>
+				</div>
+				<div id="normal_div" class="fox-top5" style="display: none;">
+					<div id="label_follow_schedule" style="text-align:center;margin-bottom: 10px;">
+					</div>
+					<div style="height:1px;border: 1px solid grey;margin-top:5px;"></div>
+					<div style="padding:5px 0px 5px 0px;width: auto;margin:0 auto;">
+						<div style="float:left;"><img src='../img/lan_icon_time.png' style="height:20px;padding-right:10px;" /></div>
+						<div style="float:left;font-size:17px;padding-top:2px;" id="label_hold_until_two"></div>
+						<div style="float:right;" id="show_normal_time"></div>
+					</div>
+					<div style="clear: both;"></div>
+					<div style="height:1px;border: 1px solid grey;margin-top:5px;"></div>
+				</div>
+				<div style="clear: both;"></div>
+				<div id="set_override_div" class="fox-top6" style="display: none;">
+					<div class="fox-top6-one">
+						<div class="fox-top6-one-top" id="label_hold_until_three"></div>
+						<div class="fox-top6-one-bottom target_time_div" id="set_override_time">
+							<!--<select id="set_override_time" class="target_time_div" onchange="change_target_time(this.options[this.options.selectedIndex].value)">
+							</select>-->
+						</div>
+					</div>
+					<div class="fox-top6-three">
+						<div style="float:left;width:49%">
+							<button id="btn_cancel" type="button" class="fox_btn_blue"><font color="#ffffff" id="label_cancel"></font></button>
+						</div>
+						<div style="float:right;width:49%">
+							<button id="btn_submit" type="button" class="fox_btn_blue"><font color="#ffffff" id="label_submit"></font></button>
+						</div>
+						<!--
+						<div style="clear: both;"></div>
+						<div style="width:100%;margin-top:10px;">
+							<button id="btn_cancelhold" type="button" class="fox_btn_blue"><font color="#ffffff" id="label_cancelhold"></font></button>
+						</div>
+						-->
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+				<div id="set_updating_div" class="fox-top5" style="display: none;">
+					<div id="label_updating" style="text-align:center;margin-bottom: 10px;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var userTempUnit;
+			var node_list;
+			var userId;
+			var nodeId;
+			var node_info;
+			var node_schedule_info;
+			var temp_unit_value;
+			var cur_temp_value;
+			var target_temp_value;
+			var work_mode;
+			var child_workmode;
+			var nodeName;
+			var curTime;
+			var back_refresh_interval = 1;
+			var override_time;
+			var override_time_value = 0;
+			//var override_time_hour = 0;
+			//var override_time_min = 0;
+			var cur_temp;
+			var cur_temp_unit;
+			var target_temp;
+			var target_temp_unit;
+			var humidity_value;
+			var power_value;
+			var open_value;
+			var humidity_div;
+			var power_div;
+			var open_div;
+			var node_name;
+			var energy_save_div;
+			var set_override_div;
+			var override_div;
+			var normal_div;
+			var set_updating_div;
+			var set_override_time;
+			//var show_override_time;
+			var show_override_time_div;
+			var show_normal_time_div;
+			var home_btn;
+			var away_btn;
+			var holiday_btn;
+			var off_btn;
+			var home_btn_icon;
+			var away_btn_icon;
+			var holiday_btn_icon;
+			var off_btn_icon;
+			var power_img; //温控器
+			var power_img2; //温控阀
+			var open_img; //温控器
+			var open_img2; //温控阀
+			var device_one_open_div; //温控器
+			var device_two_open_div; //温控阀
+			var device_one_power_div; //温控器
+			var device_two_power_div; //温控阀
+			var can_write = true;
+			var no_write_type = 0; //不能操作的原因  0:设备正在写, 1:网关离线, 2:设备离线
+			var back_refresh_flag = true;
+			var tempPicker;
+			var timePicker;
+			var nodeType;
+			var needTryTimes = [100, 300],
+				needWaitTimes = [5, 15];
+
+			function checkIsOffMode() {
+				if (parseInt(node_info["WorkMode"]) == 2) {
+					poer_public.alert(poer_language.msg_wake_up_remind(language));
+					return false;
+				}
+				return true;
+			}
+
+			function refreshPage() {
+				if (!back_refresh_flag) {
+					return;
+				}
+				node_list = poer_function.getLocalStorage("node_list");
+				for (var i in node_list) {
+					if (node_list[i]['Id'] == nodeId) {
+						node_info = node_list[i];
+						break;
+					}
+				}
+				if (node_info == null) {
+					poer_public.toast(poer_language.label_node_noexist(language));
+					return;
+				}
+				nodeType = node_info["nodeType"];
+				nodeName = node_info['NodeName'];
+				if (nodeName == null || nodeName == "") {
+					nodeName = node_info['NodeSN'];
+				}
+				node_name.innerHTML = nodeName;
+				//				energy_save_div.innerHTML = node_info['EnergySaveing']+"%";
+				energy_save_div.innerHTML = poer_language.label_energy_good(language);
+				temp_unit_value = userTempUnit == 0 ? "°C" : "°F";
+				cur_temp_unit.innerHTML = temp_unit_value;
+				target_temp_unit.innerHTML = temp_unit_value;
+				cur_temp_value = node_info['CurTemperature'];
+				cur_temp.innerHTML = parseInt(cur_temp_value / 10) + "." + (cur_temp_value % 10);
+				child_workmode = node_info['OverrideIsOpen'];
+				curTime = new Date().getTime() / 1000;
+				var off_class = off_btn.className;
+				if (child_workmode == 1) {
+					//越控模式下
+					work_mode = "Override";
+					home_btn.className = "fox-tab-item";
+					home_btn_icon.className = "fox-icon mui-icon-home";
+					away_btn.className = "fox-tab-item";
+					away_btn_icon.className = "fox-icon mui-icon-away";
+					holiday_btn.className = "fox-tab-item";
+					holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+					off_btn.className = "fox-tab-item";
+					off_btn_icon.className = "fox-icon mui-icon-off";
+					target_temp_value = node_info['OverrideTemperature'];
+					override_time_value = node_info['OverrideTime'];
+				} else if (node_info['HolidayEnable'] && (node_info['HolidayEnd'] - node_info['HolidayStart'] > 0) && (curTime - node_info['HolidayEnd'] < 0)) {
+					//假日模式下
+					work_mode = "Holiday";
+					home_btn.className = "fox-tab-item";
+					home_btn_icon.className = "fox-icon mui-icon-home";
+					away_btn.className = "fox-tab-item";
+					away_btn_icon.className = "fox-icon mui-icon-away";
+					holiday_btn.className = "fox-tab-item fox-workmode-choose";
+					holiday_btn_icon.className = "fox-icon mui-icon-holiday-choosed";
+					off_btn.className = "fox-tab-item";
+					off_btn_icon.className = "fox-icon mui-icon-off";
+					target_temp_value = node_info['EcoTemperature'];
+				} else {
+					child_workmode = node_info['WorkMode'];
+					switch (child_workmode) {
+						case 0:
+							work_mode = "Home";
+							home_btn.className = "fox-tab-item fox-workmode-choose";
+							home_btn_icon.className = "fox-icon mui-icon-home-choosed";
+							away_btn.className = "fox-tab-item";
+							away_btn_icon.className = "fox-icon mui-icon-away";
+							holiday_btn.className = "fox-tab-item";
+							holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+							off_btn.className = "fox-tab-item";
+							off_btn_icon.className = "fox-icon mui-icon-off";
+							target_temp_value = node_info['CurTemperature'];
+							break;
+						case 1: //特殊处理
+							work_mode = "Home";
+							home_btn.className = "fox-tab-item fox-workmode-choose";
+							home_btn_icon.className = "fox-icon mui-icon-home-choosed";
+							away_btn.className = "fox-tab-item";
+							away_btn_icon.className = "fox-icon mui-icon-away";
+							holiday_btn.className = "fox-tab-item";
+							holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+							off_btn.className = "fox-tab-item";
+							off_btn_icon.className = "fox-icon mui-icon-off";
+							target_temp_value = node_info['CurTemperature'];
+							break;
+						case 2:
+							work_mode = "Off";
+							home_btn.className = "fox-tab-item";
+							home_btn_icon.className = "fox-icon mui-icon-home";
+							away_btn.className = "fox-tab-item";
+							away_btn_icon.className = "fox-icon mui-icon-away";
+							holiday_btn.className = "fox-tab-item";
+							holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+							off_btn.className = "fox-tab-item fox-workmode-choose";
+							off_btn_icon.className = "fox-icon mui-icon-off-choosed";
+							target_temp_value = node_info['OffTemperature'];
+							break;
+						case 3:
+							work_mode = "Away";
+							home_btn.className = "fox-tab-item";
+							home_btn_icon.className = "fox-icon mui-icon-home";
+							away_btn.className = "fox-tab-item fox-workmode-choose";
+							away_btn_icon.className = "fox-icon mui-icon-away-choosed";
+							holiday_btn.className = "fox-tab-item";
+							holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+							off_btn.className = "fox-tab-item";
+							off_btn_icon.className = "fox-icon mui-icon-off";
+							target_temp_value = node_info['EcoTemperature'];
+							break;
+					}
+				}
+				//				target_temp.innerHTML = transfer_temp(target_temp_value);
+				if (target_temp_value % 5 != 0) {
+					target_temp_value -= target_temp_value % 5;
+				}
+				tempPicker.pickers[0].setSelectedValue(target_temp_value);
+				humidity_value.innerHTML = node_info['Humidity'] + "%";
+				//电量不同显示
+				if (node_info['NodeType'] == 0) { //温控器
+					//					open_img.src = "../img/lan_fire_on.png";
+					getAtuatorStatus();
+					var battery_per = node_info['BatteryPercent'];
+					if (battery_per < 10) {
+						power_img.src = "../img/lan_power_0.png";
+					} else if (battery_per < 30) {
+						power_img.src = "../img/lan_power_1.png";
+					} else if (battery_per < 60) {
+						power_img.src = "../img/lan_power_2.png";
+					} else if (battery_per < 90) {
+						power_img.src = "../img/lan_power_3.png";
+					} else {
+						power_img.src = "../img/lan_power_4.png";
+					}
+					power_value.innerHTML = battery_per + "%";
+				} else {
+					//open_value.innerHTML = "30%";
+					//open_img2.src = "../img/lan_open_4.png";
+					var vol = node_info['VoltTrl'];
+					power_img2.src = "../img/icon_windmill.png";
+				}
+				var write_status_info = poer_function.getLocalStorage("write_status_info");
+				var device_status_info;
+				for (var i in write_status_info) {
+					if (write_status_info[i]['Id'] == nodeId) {
+						device_status_info = write_status_info[i];
+						if (device_status_info['Status'] == 1) {
+							can_write = true;
+						} else {
+							can_write = false;
+							no_write_type = 0; //正在更新中
+						}
+						break;
+					}
+				}
+				//判断网关是否离线以及设备是否离线
+				var gateway_list = poer_function.getLocalStorage("gateway_list");
+				if (!node_info['RfLinkGateway']) { //设备离线
+					can_write = false;
+					no_write_type = 2;
+				}
+				var gatewayId = node_info['GatewayId'];
+				var gateway_info;
+				for (var i in gateway_list) {
+					gateway_info = gateway_list[i];
+					if (gateway_info['Id'] == gatewayId) {
+						if (!gateway_info['IsOnline']) { //网关离线
+							can_write = false;
+							no_write_type = 1;
+						}
+						break;
+					}
+				}
+				console.log(device_status_info);
+				//console.log(JSON.stringify(device_status_info));
+				if (device_status_info['Type'] == 'set_node' && device_status_info['Status'] == 0) {
+					override_div.style.display = "none";
+					set_override_div.style.display = "none";
+					normal_div.style.display = "none";
+					set_updating_div.style.display = "";
+				} else if (work_mode == "Override") {
+					override_div.style.display = "";
+					set_override_div.style.display = "none";
+					normal_div.style.display = "none";
+					set_updating_div.style.display = "none";
+					//console.log("time:"+override_time_value);
+					timePicker.pickers[0].setSelectedValue(override_time_value);
+					set_override_time.innerHTML = transfer_time(override_time_value);
+					show_override_time_div.innerHTML = transfer_time(override_time_value);
+				} else if (work_mode == "Home") {
+					override_div.style.display = "none";
+					set_override_div.style.display = "none";
+					normal_div.style.display = "";
+					set_updating_div.style.display = "none";
+					if (node_schedule_info != null && node_schedule_info != "") {
+						var myDate = new Date();
+						var cur_second = myDate.getHours() * 3600 + myDate.getMinutes() * 60;
+						for (var i in node_schedule_info) {
+							if (node_schedule_info[i]['Sec'] > cur_second) {
+								var hour = node_schedule_info[i]['Hour'];
+								var min = node_schedule_info[i]['Min'];
+								var show = (hour < 10 ? "0" + hour : hour) + ":" + (min < 10 ? "0" + min : min);
+								show_normal_time_div.innerHTML = show;
+								show_override_time_div.innerHTML = show;
+								override_time_value = node_schedule_info[i]['Sec'];
+								//console.log("time2:"+override_time_value);
+								timePicker.pickers[0].setSelectedValue(override_time_value);
+								set_override_time.innerHTML = transfer_time(override_time_value);
+								break;
+							}
+						}
+					}
+				} else {
+					override_div.style.display = "none";
+					set_override_div.style.display = "none";
+					normal_div.style.display = "none";
+					set_updating_div.style.display = "none";
+				}
+			}
+
+			function transfer_temp(temp) {
+				if (temp % 10 == 0) {
+					return temp / 10 + ".0";
+				} else {
+					return temp / 10;
+				}
+			}
+
+			function change_target_temp(change_value) {
+				//只有越控和Home模式下才能进行越控操作
+				if (work_mode != "Override" && work_mode != "Home") {
+					poer_public.toast(poer_language.label_cannot_override(language));
+					refreshPage();
+					return;
+				}
+				back_refresh_flag = false;
+				target_temp_value = change_value;
+				target_temp.innerHTML = transfer_temp(change_value);
+				if (set_override_div.style.display == "none") {
+					set_override_div.style.display = "";
+					//btn_cancelhold.style.display = work_mode!="override" ? "none" : "";
+					//btn_cancelhold.style.display = "none";
+					override_div.style.display = "none";
+					normal_div.style.display = "none";
+				}
+			}
+
+			function transfer_time(time) {
+				var override_time_hour = parseInt(time / 3600);
+				var override_time_min = parseInt(time % 3600 / 60);
+				var show_override_time = (override_time_hour < 10 ? "0" + override_time_hour : override_time_hour) + ":" + (override_time_min < 10 ? "0" + override_time_min : override_time_min);
+				return show_override_time;
+			}
+
+			function show_no_write(type) {
+				var text;
+				switch (type) {
+					case 0:
+						text = poer_language.label_set_updating(language);
+						break;
+					case 1:
+						text = poer_language.label_gateway_offline(language);
+						break;
+					case 2:
+						text = poer_language.label_offline(language);
+						break;
+				}
+				poer_public.alert(text);
+			}
+
+			function change_target_time(change_value) {
+				if (!can_write) {
+					show_no_write(no_write_type);
+					refreshPage();
+					return;
+				}
+				//setBackTask(false);
+				back_refresh_flag = false;
+				override_time_value = change_value;
+				set_override_time.innerHTML = transfer_time(change_value);
+			}
+			/**
+			 * 获取温控器状态
+			 */
+			function getAtuatorStatus() {
+				//				console.log("userId:" + userId + ",nodeId:" + nodeId);
+				var reqUrl = poer_url.actuator_status(userId, nodeId);
+				//				console.log("reqUrl:" + reqUrl);
+				poer_function.actuator_status(reqUrl, {}, getAtuatorStatusSuccess, getAtuatorStatusFail);
+			}
+
+			function getAtuatorStatusSuccess(result) {
+				//				console.log("getAtuatorStatusSuccess");
+				if (result.LinkStatus)
+					if (result.HeatStatus)
+						open_img.src = "../img/lan_fire_on.png";
+					else
+						open_img.src = "../img/lan_fire_off.png";
+				else
+					open_img.src = "../img/lan_fire_off.png";
+			}
+
+			function getAtuatorStatusFail(xhr, textStatus, errorThrown) {
+				console.log("getAtuatorStatusFail");
+				//				console.log("resultError:" + JSON.stringify(xhr));
+				open_img.src = "../img/lan_fire_off.png";
+			}
+			var language;
+
+			function show_label() {
+				document.getElementById("label_home").innerHTML = poer_language.label_home(language);
+				document.getElementById("label_away").innerHTML = poer_language.label_away(language);
+				document.getElementById("label_holiday").innerHTML = poer_language.label_holiday(language);
+				document.getElementById("label_off").innerHTML = poer_language.label_off(language);
+				document.getElementById("label_schedule").innerHTML = poer_language.label_schedule(language);
+				document.getElementById("label_energy_save").innerHTML = poer_language.label_energy_save(language);
+				document.getElementById("label_current").innerHTML = poer_language.label_current(language);
+				document.getElementById("label_target").innerHTML = poer_language.label_target(language);
+				//document.getElementById("label_humidity").innerHTML = poer_language.label_humidity(language)+":";
+				//document.getElementById("label_electricity").innerHTML = poer_language.label_electricity(language)+":";
+				//document.getElementById("label_generator").innerHTML = poer_language.label_generator(language)+":";
+				document.getElementById("label_hold_until_one").innerHTML = poer_language.label_holduntil(language);
+				document.getElementById("label_hold_until_two").innerHTML = poer_language.label_holduntil(language);
+				document.getElementById("label_hold_until_three").innerHTML = poer_language.label_holduntil(language);
+				document.getElementById("label_btn_press").innerHTML = poer_language.label_btn_press(language);
+				document.getElementById("label_follow_schedule").innerHTML = poer_language.label_follow_schedule(language);
+				document.getElementById("label_cancel").innerHTML = poer_language.label_cancel(language);
+				document.getElementById("label_submit").innerHTML = poer_language.label_submit(language);
+				//document.getElementById("label_cancelhold").innerHTML = poer_language.label_cancelhold(language);
+				document.getElementById("label_updating").innerHTML = poer_language.label_updating(language) + "<img src='../img/lan_icon_waitting.gif' style='width:15px;height:15px;'/>";
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				mui('body').on('shown', '.mui-popover', function(e) {
+					//console.log('shown', e.detail.id);//detail为当前popover元素
+				});
+				mui('body').on('hidden', '.mui-popover', function(e) {
+					//console.log('hidden', e.detail.id);//detail为当前popover元素
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					userId = settings_user_info.Id;
+					userTempUnit = settings_user_info.DisplayMode;
+					nodeId = poer_function.getLocalStorage("node_detail_id");
+					show_label();
+					cur_temp = doc.getElementById("cur_temp");
+					cur_temp_unit = doc.getElementById("cur_temp_unit");
+					target_temp = doc.getElementById("target_temp");
+					tempPicker = new $.PopPicker({
+						buttons: [poer_language.label_cancel(language),
+							poer_language.label_ok(language)
+						]
+					});
+					var temp_data = new Array();
+					timePicker = new $.PopPicker({
+						buttons: [poer_language.label_cancel(language),
+							poer_language.label_ok(language)
+						]
+					});
+					var time_data = new Array();
+					if (userTempUnit == 0) { //摄氏度
+						for (var i = 50; i <= 320; i += 5) {
+							temp_data.push({
+								value: i,
+								text: i % 10 == 0 ? i / 10 + ".0" : i / 10
+							});
+						}
+					} else { //华氏度
+						for (var i = 400; i <= 900; i += 10) {
+							temp_data.push({
+								value: i,
+								text: i / 10
+							});
+						}
+					}
+					tempPicker.setData(temp_data);
+					target_temp.addEventListener('tap', function(event) {
+						if (checkIsOffMode()) {
+							tempPicker.show(function(items) {
+								change_target_temp(items[0].value);
+							});
+						}
+					}, false);
+					energy_save_div = doc.getElementById('energy_save');
+					target_temp_unit = doc.getElementById("target_temp_unit");
+					power_img = doc.getElementById("power_img");
+					power_img2 = doc.getElementById("power_img2");
+					open_img = doc.getElementById("open_img");
+					open_img2 = doc.getElementById("open_img2");
+					humidity_value = doc.getElementById("humidity_value");
+					power_value = doc.getElementById("power_value");
+					open_value = doc.getElementById("open_value");
+					humidity_div = doc.getElementById("humidity_div");
+					open_div = doc.getElementById("open_div");
+					device_one_open_div = doc.getElementById("device_one_open");
+					device_two_open_div = doc.getElementById("device_two_open");
+					device_one_power_div = doc.getElementById("device_one_power");
+					device_two_power_div = doc.getElementById("device_two_power");
+					power_div = doc.getElementById("power_div");
+					node_name = doc.getElementById("node_name");
+					set_override_div = doc.getElementById("set_override_div");
+					override_div = doc.getElementById("override_div");
+					normal_div = doc.getElementById("normal_div");
+					set_updating_div = doc.getElementById("set_updating_div");
+					set_override_time = doc.getElementById("set_override_time");
+					//show_override_time;
+					show_override_time_div = doc.getElementById("show_override_time");
+					show_normal_time_div = doc.getElementById("show_normal_time");
+					home_btn = doc.getElementById("home_btn");
+					away_btn = doc.getElementById("away_btn");
+					holiday_btn = doc.getElementById("holiday_btn");
+					off_btn = doc.getElementById("off_btn");
+					home_btn_icon = doc.getElementById("home_icon");
+					away_btn_icon = doc.getElementById("away_icon");
+					holiday_btn_icon = doc.getElementById("holiday_icon");
+					off_btn_icon = doc.getElementById("off_icon");
+					//cancel_hold_btn = doc.getElementById("btn_cancelhold");
+					for (var i = 0; i <= 86400; i += 900) {
+						time_data.push({
+							value: i,
+							text: transfer_time(i)
+						});
+					}
+					timePicker.setData(time_data);
+					set_override_time.addEventListener('tap', function(event) {
+						if (checkIsOffMode()) {
+							timePicker.show(function(items) {
+								change_target_time(items[0].value);
+							});
+						}
+					}, false);
+					refreshPage();
+					console.log("NodeInfo:" + JSON.stringify(node_info));
+					plus.logger.consoleLog("NodeInfo:" + JSON.stringify(node_info));
+					if (node_info['NodeType'] == 0) {
+						device_one_open_div.style.display = "";
+						device_two_open_div.style.display = "none";
+						device_one_power_div.style.display = "";
+						device_two_power_div.style.display = "none";
+					} else {
+						device_one_open_div.style.display = "none";
+						device_two_open_div.style.display = "";
+						device_one_power_div.style.display = "none";
+						device_two_power_div.style.display = "";
+						//获取能量
+						console.log(new Date().getSeconds());
+						get_energy_info();
+					}
+
+					function energy_success(data) {
+						//						console.log(new Date().getSeconds());
+						//						console.log(JSON.stringify(data));
+						var ValveOpen = data['ValveOpen'];
+						open_value.innerHTML = ValveOpen + "%";
+						if (ValveOpen < 10) {
+							open_img2.src = "../img/lan_open_0.png";
+						} else if (ValveOpen < 30) {
+							open_img2.src = "../img/lan_open_1.png";
+						} else if (ValveOpen < 60) {
+							open_img2.src = "../img/lan_open_2.png";
+						} else if (ValveOpen < 90) {
+							open_img2.src = "../img/lan_open_3.png";
+						} else {
+							open_img2.src = "../img/lan_open_4.png";
+						}
+						poer_function.setLocalStorage("energy_" + nodeId, data);
+					}
+
+					function energy_fail(xhr, textStatus, errorThrown) {
+						//						poer_public.alert(poer_language.label_energy_error(language));
+					}
+
+					function get_energy_info() {
+						var url = poer_url.energy_info(userId, nodeId);
+						poer_function.energy_info(url, {}, energy_success, energy_fail);
+					}
+
+					function get_schedule_success(data) {
+						if (data == null) {
+							poer_public.toast(poer_language.label_schedule_error(language));
+							return;
+						}
+						var program_key = data["ProgramKey"];
+						poer_function.setLocalStorage("program_key_" + nodeId, program_key);
+						var content = data["ProgramMap"][program_key];
+						var item;
+						var child;
+						var new_item;
+						var new_content = new Array();
+						var new_map;
+						for (var i in content) {
+							item = content[i]['ProgramTime'];
+							new_item = new Array();
+							new_map = new Array();
+							for (var j in item) {
+								child = item[j];
+								if (child['Temprature'] > 0) {
+									child['Sec'] = child['Hour'] * 3600 + child['Min'] * 60;
+									child['Temprature'] = userTempUnit == 0 ? parseInt(child['Temprature'] / 9) :
+										parseInt(320 + child['Temprature'] / 5);
+									new_item.push(child);
+								}
+							}
+							new_map = {
+								'ProgramTime': new_item
+							};
+							new_content.push(new_map);
+						}
+						//						console.log("set schedule info");
+						poer_function.setLocalStorage("schedule_" + nodeId, new_content);
+						var myDate = new Date();
+						node_schedule_info = new_content[myDate.getDay()]['ProgramTime'];
+						//特殊处理
+						var myDate = new Date();
+						var cur_second = myDate.getHours() * 3600 + myDate.getMinutes() * 60;
+						var tempVal = transfer_temp(node_info['OverrideTemperature']);
+						var oIsOpen = node_info['OverrideIsOpen'];
+						var holEnable = node_info['HolidayEnable'];
+						var endQtStart = node_info['HolidayEnd'] - node_info['HolidayStart'] > 0;
+						var curLtEnd = new Date().getTime() / 1000 - node_info['HolidayEnd'] < 0;
+						var scheTempVal;
+						for (var i in node_schedule_info) {
+							if (node_schedule_info[i]['Sec'] > cur_second) {
+								var hour = node_schedule_info[i]['Hour'];
+								var min = node_schedule_info[i]['Min'];
+								var show = (hour < 10 ? "0" + hour : hour) + ":" + (min < 10 ? "0" + min : min);
+								show_normal_time_div.innerHTML = show;
+								scheTempVal = node_schedule_info[i - 1]["Temprature"] / 10;
+								if (work_mode != "Override") {
+									show_override_time_div.innerHTML = show;
+									override_time_value = node_schedule_info[i]['Sec'];
+									//console.log("time3:"+override_time_value);
+									timePicker.pickers[0].setSelectedValue(override_time_value);
+									set_override_time.innerHTML = transfer_time(override_time_value);
+								}
+								break;
+							}
+						}
+						if (oIsOpen == 1) {
+							tempVal = transfer_temp(node_info["OverrideTemperature"]);
+						} else if (holEnable && endQtStart && curLtEnd) {
+							tempVal = transfer_temp(node_info["EcoTemperature"]);
+						} else {
+							var dWorkMode = node_info["WorkMode"];
+							switch (dWorkMode) {
+								case 0: // auto|home
+									tempVal = scheTempVal;
+									break;
+								case 1: // man
+									tempVal = scheTempVal;
+									break;
+								case 2: // off
+									tempVal = transfer_temp(node_info["OffTemperature"]);
+									break;
+								case 3: // eco
+									tempVal = transfer_temp(node_info["EcoTemperature"]);
+									break;
+							}
+						}
+						target_temp.innerHTML = tempVal;
+						var edit_schedule_page = plus.webview.getWebviewById("edit_schedule_" + nodeId);
+						if (edit_schedule_page != null) {
+							mui.fire(edit_schedule_page, 'refresh_page', {});
+						}
+					}
+
+					function get_schedule_fail(xhr, textStatus, errorThrown) {
+						poer_public.toast(poer_language.label_schedule_error(language));
+					}
+					//获取locate列表信息
+					function getScheduleInfo() {
+						var url = poer_url.schedule(userId, nodeId);
+						poer_function.get_schedule(url, {}, get_schedule_success, get_schedule_fail);
+					}
+					getScheduleInfo();
+					var update_times = 0;
+
+					function setBackTask(status) {
+						if (!status) {
+							update_times = 0;
+						}
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						for (var i in write_status_info) {
+							if (write_status_info[i]['Id'] == nodeId) {
+								write_status_info[i]['Type'] = 'set_node';
+								write_status_info[i]['Status'] = status ? 1 : 0;
+								poer_function.setLocalStorage('write_status_info', write_status_info);
+								break;
+							}
+						}
+						poer_function.setLocalStorage('update_back_refresh', status);
+						if (status) {
+							back_refresh_flag = status;
+							refreshPage();
+						} else {
+							refreshPage();
+							back_refresh_flag = status;
+						}
+					}
+					//后台定时刷新数据,5秒
+					function backRefresh() {
+						back_refresh_interval = setInterval(function() {
+							refreshPage();
+							if (node_info["NodeType"] == 1)
+								get_energy_info();
+						}, 5000);
+					}
+					setTimeout(backRefresh, 5000);
+					//获取编程信息
+					function writestatus_success(data) {
+						//console.log(JSON.stringify(data));
+						var Flag = data.TranStatus;
+						if (Flag) {
+							//							poer_public.progress_stop();
+							poer_public.toast(poer_language.label_update_success(language));
+							for (var i in node_list) {
+								if (node_list[i]['Id'] == nodeId) {
+									console.log("fox");
+									node_list[i] = node_info;
+									console.log(JSON.stringify(node_list));
+									poer_function.setLocalStorage("node_list", node_list);
+									break;
+								}
+							}
+							setBackTask(true);
+						} else {
+							if (update_times > 60) {
+								//								poer_public.progress_stop();
+								poer_public.toast(poer_language.label_update_failed(language));
+								setBackTask(true);
+								return;
+							}
+							setTimeout(get_write_status, 3000);
+						}
+					}
+
+					function writestatus_fail(xhr, textStatus, errorThrown) {
+						if (update_times > 60) {
+							//							poer_public.progress_stop();
+							poer_public.toast(poer_language.label_update_failed(language));
+							setBackTask(true);
+							return;
+						}
+						setTimeout(get_write_status, 3000);
+					}
+
+					function get_write_status() {
+						update_times++;
+						console.log(update_times);
+						var url = poer_url.write_status(userId, nodeId);
+						var data = {};
+						poer_function.write_status(url, data, writestatus_success, writestatus_fail);
+					}
+
+					function changemode_success(data) {
+						//console.log(JSON.stringify(data));
+						var Flag = data.Flag;
+						if (Flag) {
+							get_write_status();
+						} else {
+							poer_public.toast(poer_language.label_update_failed(language));
+							setBackTask(true);
+						}
+					}
+
+					function changemode_fail(xhr, textStatus, errorThrown) {
+						poer_public.toast(poer_language.label_update_failed(language));
+						setBackTask(true);
+					}
+
+					function change_mode(node_info) {
+						var url = poer_url.update_node(userId, nodeId);
+						var data = poer_public.node_to_json(node_info, userTempUnit);
+						poer_function.update_node(url, data, changemode_success, changemode_fail);
+					}
+
+					function change_work_mode(child_workmode) {
+						if (child_workmode == work_mode) {
+							poer_public.toast(poer_language.label_no_change(language));
+							return;
+						}
+						var show_workmode;
+						var child_work_mode;
+						switch (child_workmode) {
+							case 'Home':
+								show_workmode = poer_language.label_home(language);
+								break;
+							case 'Away':
+								show_workmode = poer_language.label_away(language);
+								break;
+							case 'Off':
+								show_workmode = poer_language.label_off(language);
+								break;
+						}
+						var btnArray = [poer_language.label_no(language), poer_language.label_yes(language)];
+						mui.confirm(poer_language.label_change_workmode_to(language) + "'" + show_workmode + "'?",
+							poer_language.label_confirm(language), btnArray,
+							function(e) {
+								if (e.index == 1) { //确认修改
+									if (!can_write) {
+										show_no_write(no_write_type);
+										return;
+									}
+									setBackTask(false);
+									switch (child_workmode) {
+										case 'Home':
+											child_work_mode = 0;
+											home_btn.className = "fox-tab-item fox-workmode-choose";
+											home_btn_icon.className = "fox-icon mui-icon-home-choosed";
+											away_btn.className = "fox-tab-item";
+											away_btn_icon.className = "fox-icon mui-icon-away";
+											holiday_btn.className = "fox-tab-item";
+											holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+											off_btn.className = "fox-tab-item";
+											off_btn_icon.className = "fox-icon mui-icon-off";
+											break;
+										case 'Away':
+											child_work_mode = 3;
+											home_btn.className = "fox-tab-item";
+											home_btn_icon.className = "fox-icon mui-icon-home";
+											away_btn.className = "fox-tab-item fox-workmode-choose";
+											away_btn_icon.className = "fox-icon mui-icon-away-choosed";
+											holiday_btn.className = "fox-tab-item";
+											holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+											off_btn.className = "fox-tab-item";
+											off_btn_icon.className = "fox-icon mui-icon-off";
+											break;
+										case 'Off':
+											child_work_mode = 2;
+											home_btn.className = "fox-tab-item";
+											home_btn_icon.className = "fox-icon mui-icon-home";
+											away_btn.className = "fox-tab-item";
+											away_btn_icon.className = "fox-icon mui-icon-away";
+											holiday_btn.className = "fox-tab-item";
+											holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+											off_btn.className = "fox-tab-item fox-workmode-choose";
+											off_btn_icon.className = "fox-icon mui-icon-off-choosed";
+											break;
+									}
+									//poer_public.progress_start();
+									node_info.WorkMode = child_work_mode;
+									node_info.HolidayEnable = false;
+									node_info.HolidayStart = 0;
+									node_info.HolidayEnd = 0;
+									node_info.OverrideIsOpen = false;
+									node_info.OverrideTemperature = 0;
+									node_info.OverrideTime = 0;
+									change_mode(node_info);
+								} else {
+									setBackTask(true);
+									//refreshPage();
+								}
+							});
+					}
+
+					function writestatus_success2(data) {
+						var Flag = data.TranStatus;
+						if (Flag) {
+							poer_public.toast(poer_language.label_update_success(language));
+							for (var i in node_list) {
+								if (node_list[i]['Id'] == nodeId) {
+									node_list[i] = node_info;
+									poer_function.setLocalStorage("node_list", node_list);
+									break;
+								}
+							}
+							setBackTask(true); //完成
+						} else {
+							if (update_times > 60) {
+								poer_public.toast(poer_language.label_update_failed(language));
+								setBackTask(true);
+								return;
+							}
+							setTimeout(get_write_status2, 3000);
+						}
+					}
+
+					function writestatus_fail2(xhr, textStatus, errorThrown) {
+						if (update_times > 60) {
+							poer_public.toast(poer_language.label_update_failed(language));
+							setBackTask(true);
+							return;
+						}
+						setTimeout(get_write_status2, 3000);
+					}
+
+					function get_write_status2() {
+						//console.log(update_times);
+						update_times++;
+						var url = poer_url.write_status(userId, nodeId);
+						var data = {};
+						poer_function.write_status(url, data, writestatus_success2, writestatus_fail2);
+					}
+
+					function override_success(data) {
+						var Flag = data.Flag;
+						if (Flag) {
+							get_write_status2();
+						} else {
+							poer_public.toast(poer_language.label_update_failed(language));
+							setBackTask(true);
+						}
+					}
+
+					function override_fail(xhr, textStatus, errorThrown) {
+						poer_public.toast(poer_language.label_update_failed(language));
+						setBackTask(true);
+					}
+
+					function set_temp_override(content) {
+						var url = poer_url.set_temp_override(userId, nodeId);
+						poer_function.set_temp_override(url, JSON.stringify(content), override_success, override_fail);
+					}
+					doc.getElementById("btn_cancel").addEventListener('tap', function() {
+						if (checkIsOffMode()) {
+							back_refresh_interval = 1;
+							back_refresh_flag = true;
+							refreshPage();
+						}
+					});
+					doc.getElementById("btn_submit").addEventListener('tap', function() {
+						if (checkIsOffMode()) {
+							var myDate = new Date();
+							var cur_second = myDate.getHours() * 3600 + myDate.getMinutes() * 60;
+							if (override_time_value - cur_second <= 0) {
+								poer_public.toast(poer_language.label_override_time_error(language));
+								return;
+							}
+							if (!can_write) {
+								show_no_write(no_write_type);
+								return;
+							}
+							setBackTask(false);
+							//特殊处理，不能刷新页面 
+							override_div.style.display = "none";
+							set_override_div.style.display = "none";
+							normal_div.style.display = "none";
+							set_updating_div.style.display = "";
+							node_info.WorkMode = 0;
+							node_info.HolidayEnable = false;
+							node_info.HolidayStart = 0;
+							node_info.HolidayEnd = 0;
+							node_info.OverrideIsOpen = true;
+							node_info.OverrideTemperature = target_temp_value;
+							node_info.OverrideTime = override_time_value;
+							var content = {
+								'Temperature': userTempUnit == 0 ? target_temp_value * 9 : (target_temp_value - 320) * 5,
+								'Hour': parseInt(override_time_value / 3600),
+								'Min': parseInt(override_time_value % 3600 / 60)
+							};
+							set_temp_override(content);
+							/*   永久越控
+							var pre_start;   //起始点前面的最后一个点
+							var next_end;    //结束点后面的第一个点
+							var pre_end;     //结束点前面的最后一个点
+							cur_second -= cur_second%1800;
+						
+							var length = node_schedule_info.length;
+							var cur_node_schedule_info = node_schedule_info;
+							var i;
+							for(i=0;i<length;i++){
+								if(cur_node_schedule_info[i]['Sec'] - cur_second > 0){
+									 pre_start = i-1;
+									 break;
+								}
+							}
+							for(i=0;i<length;i++){
+								if(cur_node_schedule_info[i]['Sec'] - override_time >0){
+									next_end = i;
+									break;
+								}
+							}
+							for(i=length-1;i>-1;i--){
+								if(cur_node_schedule_info[i]['Sec'] - override_time <=0){
+									pre_end = i;
+									break;
+								}
+							}
+						
+							var child_temp = cur_node_schedule_info[pre_end]['Temprature'];
+							cur_node_schedule_info.splice(pre_start+1,next_end-pre_start-1,{
+								'Hour': parseInt(cur_second/3600),
+								'Min': parseInt(cur_second%3600/60),
+								'Temprature': target_temp,
+								'Sec': cur_second
+							},{
+								'Hour': parseInt(override_time/3600),
+								'Min': parseInt(override_time%3600/60),
+								'Temprature': child_temp,
+								'Sec': override_time
+							});
+
+							if(cur_node_schedule_info.length>13){
+								poer_public.alert("The max number of the points is 13!");
+								return;
+							}
+						
+							var content;
+							var result_array = new Array();
+							var item;
+							var temperature;
+							for(var i in cur_node_schedule_info){
+								item = cur_node_schedule_info[i];
+								temperature = item['Temprature'];
+								result_array.push({
+									'Hour': item['Hour'],
+									'Min': item['Min'],
+									'Temprature': userTempUnit==0? temperature*9 : (temperature-320)*5 
+								});
+							}
+							content = {
+								'ProgramTime': result_array,
+								'Temperature': userTempUnit==0? target_temp*9 : (target_temp-320)*5 
+							};
+							set_override(content);
+							*/
+						}
+					});
+					/*
+					doc.getElementById("btn_cancelhold").addEventListener('tap', function() {
+						home_btn.className = "fox-tab-item fox-workmode-choose";
+						home_btn_icon.className = "fox-icon mui-icon-home-choosed";
+						away_btn.className = "fox-tab-item";
+						away_btn_icon.className = "fox-icon mui-icon-away";
+						holiday_btn.className = "fox-tab-item";
+						holiday_btn_icon.className = "fox-icon mui-icon-holiday";
+						
+						setBackTask(false);
+						//特殊处理，不能刷新页面 
+						override_div.style.display = "none";
+						set_override_div.style.display = "none";
+						normal_div.style.display = "none";
+						set_updating_div.style.display = "";
+						
+						node_info.WorkMode = 0;
+						node_info.HolidayEnable = false;
+						node_info.HolidayStart = 0;
+						node_info.HolidayEnd = 0;
+						node_info.OverrideIsOpen = false;
+						node_info.OverrideTemperature = 0;
+						node_info.OverrideTime = 0;
+						
+						change_mode(node_info);
+					});
+					*/
+					doc.getElementById("btn_press").addEventListener('tap', function() {
+						if (checkIsOffMode()) {
+							//console.log("fox");
+							if (!can_write) {
+								show_no_write(no_write_type);
+								return;
+							}
+							back_refresh_flag = false;
+							set_override_div.style.display = "";
+							override_div.style.display = "none";
+							normal_div.style.display = "none";
+							set_updating_div.style.display = "none";
+							//console.log("fox"+work_mode);
+							//btn_cancelhold.style.display = work_mode!="override" ? "none" : "";
+						}
+					});
+					home_btn.addEventListener('tap', function() {
+						if (parseInt(node_info["WorkMode"]) == 2) {
+							console.log(needWaitTimes);
+							console.log(nodeType);
+							poer_public.alert(poer_language.msg_week_device_need_wait(language, needWaitTimes[nodeType]), changeToHomeMode);
+						} else {
+							changeToHomeMode();
+						}
+					});
+
+					function changeToHomeMode() {
+						change_work_mode('Home');
+					}
+					away_btn.addEventListener('tap', function() {
+						//						if (!can_write) {
+						//							show_no_write(no_write_type);
+						//							return;
+						//						}
+						change_work_mode('Away');
+					});
+					holiday_btn.addEventListener('tap', function() {
+						//						if (!can_write) {
+						//							show_no_write(no_write_type);
+						//							return;
+						//						}
+						//change_holiday_mode();
+						poer_function.setLocalStorage("holiday_from", 'node_detail');
+						poer_public.openWindow("holiday_setting.html", "holiday_set");
+					});
+					off_btn.addEventListener('tap', function() {
+						//						if (!can_write) {
+						//							show_no_write(no_write_type);
+						//							return;
+						//						}
+						change_work_mode('Off');
+					});
+					doc.getElementById('schedule').addEventListener('tap', function() {
+						if (checkIsOffMode()) {
+							if (!can_write && no_write_type != 0) {
+								show_no_write(no_write_type);
+								return;
+							}
+							var edit_schedule_page = plus.webview.getWebviewById("edit_schedule_" + nodeId);
+							if (edit_schedule_page != null) {
+								mui.fire(edit_schedule_page, 'refresh_page', {});
+							}
+							//							poer_public.openWindow("edit_schedule.html", 'edit_schedule_' + nodeId);
+							if (plus.os.name == "Android")
+								plus.screen.lockOrientation("landscape-primary");
+							else
+								plus.screen.lockOrientation("landscape-secondary");
+							poer_public.openWindow("edit_schedule_everyday.html", 'edit_schedule_' + nodeId);
+						}
+					}, false);
+					doc.getElementById('menu').addEventListener('tap', function() {
+						var device_info_page = plus.webview.getWebviewById("device_info_" + nodeId);
+						if (device_info_page != null) {
+							mui.fire(device_info_page, 'refresh_page', {});
+						}
+						poer_public.openWindow("device_info.html", "device_info_" + nodeId);
+					});
+
+					function change_holiday_mode(start_time, end_time) {
+						var work_mode = 3;
+						var show_workmode = poer_language.label_holiday(language);
+						var day_time = new Date().getTime() / 1000;
+						//var holiday_enable = true;
+						var holiday_is_open = false;
+						if ((start_time - day_time <= 0) && (end_time - day_time > 0)) {
+							holiday_is_open = true;
+						}
+						setBackTask(false);
+						var btnArray = [poer_language.label_no(language), poer_language.label_yes(language)];
+						mui.confirm(poer_language.label_change_workmode_to(language) + "'" + show_workmode + "'?",
+							poer_language.label_confirm(language), btnArray,
+							function(e) {
+								if (e.index == 1) { //确认修改
+									//								poer_public.progress_start();
+									node_info.WorkMode = work_mode;
+									node_info.HolidayEnable = true;
+									node_info.HolidayStart = start_time;
+									node_info.HolidayEnd = end_time;
+									node_info.HolidayIsOpen = holiday_is_open;
+									node_info.OverrideIsOpen = false;
+									node_info.OverrideTemperature = 0;
+									node_info.OverrideTime = 0;
+									//node_list[i] = node_info;   //更新缓存，不然等服务器返回太慢了
+									//console.log(JSON.stringify(node_info));
+									change_mode(node_info);
+								} else {
+									setBackTask(true);
+									//refreshPage();
+								}
+							});
+					}
+					humidity_div.addEventListener('tap', function() {
+						if (checkIsOffMode())
+							poer_public.toast(poer_language.label_humidity(language));
+					});
+					power_div.addEventListener('tap', function() {
+						if (checkIsOffMode())
+							if (node_info['NodeType'] == 1) {
+								if (plus.os.name == "Android")
+									plus.screen.lockOrientation("landscape-primary");
+								else
+									plus.screen.lockOrientation("landscape-secondary");
+								poer_public.openWindow("power_curve.html", "power_curve");
+//								poer_public.toast(poer_language.label_generator(language));
+							}
+					});
+					open_div.addEventListener('tap', function() {
+						if (checkIsOffMode())
+							if (node_info['NodeType'] == 1) {
+								poer_public.toast(poer_language.label_valve_openstatus(language));
+							}
+					});
+					window.addEventListener('set_holiday', function(event) {
+						//获得事件参数
+						var result = event.detail;
+						change_holiday_mode(result.start_time, result.end_time);
+					});
+					window.addEventListener('deleteNode', function(event) {
+						//获得事件参数
+						var main_page = plus.webview.getWebviewById('main');
+						mui.fire(main_page, 'refreshPage', {});
+						mui.back();
+					});
+					window.addEventListener('refresh_page', function(event) {
+						//重新获取schedule info
+						console.log("node detail refresh page");
+						getScheduleInfo();
+					});
+					window.addEventListener("reloadPage", function(event) {
+						refreshPage();
+					});
+					// 能量曲线
+					doc.getElementById("energy_curves").addEventListener('tap', function(e) {
+						return;
+						if (plus.os.name == "Android")
+							plus.screen.lockOrientation("landscape-primary");
+						else
+							plus.screen.lockOrientation("landscape-secondary");
+						poer_public.openWindow("energy_curves.html", "energy_curves");
+					}, true);
+					var back = $.back;
+					$.back = function(event) {
+						poer_public.openWindow("main.html", 'main');
+						//setBackTask(true);
+						//back();
+					};
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link href="../css/energy_curves.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="pageTitle"></h1>
+			<!--<a id="menu" class="mui-icon mui-icon-bars mui-pull-right mui-plus-visible fox-white"></a>-->
+		</header>
+		<nav class="mui-bar mui-bar-tab item-height" style="top: 45px;">
+			<a id="item_0" name="energy_saving_curve" class="mui-tab-item item-height mui-active" href="energy_saving_curve.html">
+				<span id="last_day" class="mui-tab-label"></span>
+			</a>
+			<a id="item_1" class="mui-tab-item item-height" name="energy_saving_curve_week" href="energy_saving_curve_week.html">
+				<span id="last_week" class="mui-tab-label"></span>
+			</a>
+		</nav>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/storages.js"></script>
+		<script>
+			var language;
+			var subPages = {
+				'energy_saving_curve': 'energy_saving_curve.html',
+				'energy_saving_curve_week': 'energy_saving_curve_week.html'
+			};
+			var aniShow = {};
+			var subpage_style = {
+				top: '76px',
+				bottom: '0px'
+			};
+			var aniShow = {};
+			(function($, doc) {
+				$.plusReady(function() {
+					if (plus.os.name == "Android")
+						plus.screen.lockOrientation("landscape-primary");
+					else
+						plus.screen.lockOrientation("landscape-secondary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					doc.getElementById("last_day").innerHTML = poer_language.label_last_day(language);
+					doc.getElementById("last_week").innerHTML = poer_language.label_last_week(language);
+					doc.getElementById("pageTitle").innerHTML = poer_language.label_temperature_curve(language);
+					var self = plus.webview.currentWebview();
+					//当前激活选项
+					var activeTab;
+					var i = 0;
+					for (var pageId in subPages) {
+						var temp = {};
+						if (i == 0) {
+							activeTab = pageId;
+							var sub = plus.webview.create(subPages[pageId], pageId, subpage_style);
+							self.append(sub);
+							doc.getElementById("item_" + i).className = "mui-tab-item item-height mui-active";
+							temp[pageId] = true;
+							mui.extend(aniShow, temp);
+						} else {
+							temp[pageId] = false;
+							mui.extend(aniShow, temp);
+						}
+						i++;
+					}
+					$('.mui-bar-tab').on('tap', 'a', function(e) {
+						var targetTab = this.getAttribute('name');
+						if (targetTab == activeTab) {
+							return;
+						}
+						if (!aniShow[targetTab]) {
+							self.append(plus.webview.create(subPages[targetTab], targetTab, subpage_style));
+							aniShow[targetTab] = true;
+						} else {
+							mui.fire(plus.webview.getWebviewById(targetTab), "reloadPage", {});
+						}
+						plus.webview.show(targetTab);
+						//隐藏当前;
+						plus.webview.hide(activeTab);
+						//更改当前活跃的选项卡
+						activeTab = targetTab;
+					});
+				});
+				var back = $.back;
+				$.back = function(event) {
+					plus.screen.lockOrientation("portrait-primary");
+					plus.webview.close(plus.webview.currentWebview());
+				}
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,55 @@
+.loading-bar {
+	width: 80%;
+	margin: 0px auto;
+	height: 10px;
+	padding-top:30px;
+	border-radius: 5px;
+	//background-color: #282f32;
+	//padding: 4px 5px;
+	//box-shadow: inset 3px 0px 10px rgba(0,0,0,0.1);
+}
+
+.amount {
+	/* we haven't included the colour yet, we'll get to that later. */
+	height: 20px;
+	border-radius: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	margin-top: -9px;
+}
+
+.green {
+	background-color: #8ac320;
+	//box-shadow: inset 0px 4px 40px rgba(255,255,255,0.2), 0 10px 10px -5px #79aa1e , 0 7px 0 #628c14;
+}
+
+.blue {
+	background-color: #20b9c3;
+	box-shadow: inset 0px 4px 40px rgba(255,255,255,0.2), 0 10px 10px -5px #1e8aaa, 0 7px 0 #13768c;
+}
+
+.red {
+	background-color: #dc6565;
+	box-shadow: inset 0px 4px 40px rgba(255,255,255,0.2), 0 10px 10px -5px #d23333, 0 7px 0 #8c1212;
+}
+
+/* ANIMATIONS */
+@keyframes moveBars { 100% { margin-left: -180px; } }
+@-webkit-keyframes moveBars { 100% { margin-left: -180px; } }
+@-moz-keyframes moveBars { 100% { margin-left: -180px; } }
+@-ms-keyframes moveBars { 100% { margin-left: -180px; } }
+@-o-keyframes moveBars { 100% { margin-left: -180px; } }
+
+.mui-popover {
+	height: 100px;
+	top: 200px;
+	width: 200px;
+	//background-color: rgba(0,0,0,0);
+}
+
+.mui-popover-other 
+{
+	height: 200px;
+	top: 100px;
+	width: 260px;
+}

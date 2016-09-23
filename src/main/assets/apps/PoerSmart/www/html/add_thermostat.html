@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style_progress.css" />
+		<link href="../css/add_thermostat.css" rel="stylesheet" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_add_thermostat"></h1>
+		</header>
+		<div class="fox_content">
+			<div style="margin:20px 20px 0px 20px;" id="label_thermostat_tip">
+			</div>
+			<div>
+				<center>
+					<img src="../img/lan_addnode1.png" style="height:160px;width:200px;" />
+				</center>
+			</div>
+			<div style="width:85%;margin:0 auto;">
+				<button id="scan" type="button" class="fox_btn_green"><font color="#ffffff" size="4" id="scan_text"></font></button>
+			</div>
+			<div style="width:85%;margin:0 auto;">
+				<div class="fox-input-mac" style="margin: 10px 0px 10px 0px;">
+					<input id='mac' type="text" placeholder="" style="padding-left:20px;background-color:transparent;">
+				</div>
+			</div>
+			<div style="width:85%;margin:0 auto;">
+				<button id="add" type="button" class="fox_btn_blue"><font color="#ffffff" size="4" id="add_text"></font></button>
+			</div>
+		</div>
+		<div id="progressPopover" class="mui-popover">
+			<div class="loading-bar">
+				<div class="amount green" style="width: 1%;" id="poer_progress_div">
+				</div>
+				<div>
+					<center id="label_check_device"></center>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+
+			function show_label() {
+				document.getElementById("label_add_thermostat").innerHTML = poer_language.label_add_thermostat(language);
+				document.getElementById("label_thermostat_tip").innerHTML = poer_language.label_thermostat_tip(language);
+				document.getElementById("scan_text").innerHTML = poer_language.label_scan(language);
+				document.getElementById("add_text").innerHTML = poer_language.label_add(language);
+				//				document.getElementById("label_check_device").innerHTML = poer_language.label_check_device(language);
+				document.getElementById("mac").placeholder = poer_language.label_type_id_manually(language);
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var waitingToast;
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var user_info = poer_function.getLocalStorage("user_info");
+					var userId = user_info.Id;
+					var cur_locate_id = poer_function.getLocalStorage("cur_locate_id");
+					console.log("cur_locate_id:" + cur_locate_id);
+					plus.logger.consoleLog("cur_locate_id:" + cur_locate_id);
+					var macBox = doc.getElementById("mac");
+					var mac_value;
+					//macBox.value = "FCE89200005a";
+					//通过localstorage去查询
+					function check_device() {
+						$.fire(plus.webview.getWebviewById("main"), "reloadNodeList", {});
+						console.log("Checking Device " + check_count + " Times");
+						plus.logger.consoleLog("Checking Device " + check_count + " Times");
+						if (check_count > 3) {
+							//							waitingToast.close(); //							poer_public.progress_stop();
+							//							poer_public.toast(poer_language.label_addproduct_failed(language));
+							//							check_count = 0;
+							check_count = 0;
+							waitingToast.close(); //							poer_public.progress_stop();
+							poer_public.alert(poer_language.msg_add_device_finished(language), function() {
+								macBox.value = "FCE892";
+								//									poer_public.openWindow("main.html", "main");
+								plus.webview.close("add_device");
+								plus.webview.currentWebview().close();
+							});
+						} else {
+							check_count++;
+							var node_list = poer_function.getLocalStorage("node_list");
+							var child_mac = mac_value.toLowerCase();
+							for (var i in node_list) {
+								console.log(child_mac + "->" + node_list[i]['NodeSN']);
+								plus.logger.consoleLog(child_mac + "->" + node_list[i]['NodeSN']);
+								if (child_mac == node_list[i]['NodeSN']) {
+									waitingToast.close(); //							poer_public.progress_stop();
+									poer_public.toast(poer_language.label_addproduct_success(language));
+									macBox.value = "FCE892";
+									//									poer_public.openWindow("main.html", "main");
+									plus.webview.close("add_device");
+									plus.webview.currentWebview().close();
+									return;
+								}
+							}
+							setTimeout(check_device, 10000);
+						}
+					}
+					var check_count = 0;
+
+					function ap_status_success(data) {
+						console.log(JSON.stringify(data));
+						var Flag = data.Flag;
+						if (Flag) {
+							waitingToast.setTitle(poer_language.label_check_device(language));
+							//							document.getElementById("label_check_device").innerHTML = poer_language.label_check_device(language);
+							setTimeout(check_device, 10000);
+							//setTimeout(check_device, 3000);
+						} else {
+							waitingToast.close(); //							poer_public.progress_stop();
+							poer_public.alert(poer_language.label_gateway_notreceive(language));
+						}
+					}
+
+					function ap_status_fail(xhr, textStatus, errorThrown) {
+						poer_public.alert(poer_language.label_check_gateway_status_failed(language));
+						waitingToast.close(); //							poer_public.progress_stop();
+					}
+
+					function check_ap() {
+						var url = poer_url.node_add_status(userId, cur_locate_id, mac_value);
+						var data = {};
+						poer_function.node_add_status(url, data, ap_status_success, ap_status_fail);
+					}
+					var check_count = 0;
+
+					function add_success(data) {
+						console.log(JSON.stringify(data));
+						var Flag = data.Flag;
+						if (Flag) {
+							waitingToast.setTitle(poer_language.label_check_gateway_status(language));
+							//							document.getElementById("label_check_device").innerHTML = poer_language.label_check_gateway_status(language);
+							setTimeout(check_ap, 3000);
+							//setTimeout(check_device, 3000);
+						} else {
+							waitingToast.close(); //							poer_public.progress_stop();
+							poer_public.toast(poer_language.label_addproduct_failed(language));
+						}
+					}
+
+					function add_fail(xhr, textStatus, errorThrown) {
+						waitingToast.close(); //							poer_public.progress_stop();
+						poer_public.toast(poer_language.label_addproduct_failed(language));
+					}
+
+					function active_gateway_success(data) {
+						console.log(JSON.stringify(data));
+						plus.logger.consoleLog("check gateway success: " + JSON.stringify(data));
+						console.log("fox");
+						if (data.IsOnline) {
+							var url = poer_url.add_node(userId, cur_locate_id, mac_value);
+							var data = {};
+							poer_function.add_node(url, data, add_success, add_fail);
+						} else {
+							waitingToast.close(); //							poer_public.progress_stop();
+							poer_public.alert(poer_language.label_no_gateway_online(language));
+						}
+					}
+
+					function active_gateway_fail(xhr, textStatus, errorThrown) {
+						console.log("mouse");
+						waitingToast.close(); //							poer_public.progress_stop();
+						poer_public.toast(poer_language.label_addproduct_failed(language));
+					}
+					doc.getElementById("add").addEventListener('tap', function(event) {
+						if (settings_login_info.email == "demo@poersmart.com") {
+							poer_public.alert(poer_language.msg_demo_can_not_add(language));
+							return;
+						}
+						mac_value = macBox.value.trim().toUpperCase();
+						if (mac_value.length != 6 && mac_value.length != 12) {
+							poer_public.alert(poer_language.label_mac_short(language));
+							return;
+						}
+						if (!isHex(mac_value)) {
+							poer_public.alert(poer_language.msg_mac_must_to_be_hex(language));
+							return;
+						}
+						if (mac_value.length == 12) {
+							var pre_mac = mac_value.substring(0, 6).toUpperCase();
+							if (pre_mac != "FCE892") {
+								poer_public.alert(poer_language.label_mac_error(language));
+								return;
+							}
+						} else {
+							mac_value = "FCE892" + mac_value;
+						}
+						waitingToast = poer_public.showWaiting(poer_language.label_check_gateway_status(language));
+						//						document.getElementById("label_check_device").innerHTML = poer_language.label_check_gateway_status(language);
+						//						poer_public.progress_start();
+						//先激活网关，如果没有网关在线则报错
+						var url = poer_url.set_active_gateway(userId, cur_locate_id);
+						plus.logger.consoleLog("reqUrl:" + url);
+						var data = {};
+						poer_function.set_active_gateway(url, data, active_gateway_success, active_gateway_fail);
+					});
+					doc.getElementById("scan").addEventListener('tap', function(event) {
+						poer_function.setLocalStorage("scan_from", "add_thermostat");
+						poer_public.openWindow("barcode_scan.html", "barcode_scan");
+					});
+					window.addEventListener('findMac', function(event) {
+						//获得事件参数
+						var result = event.detail.mac;
+						macBox.value = result;
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

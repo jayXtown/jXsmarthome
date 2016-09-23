@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="menu.css" />
+	</head>
+	<body>
+		<div id="myChart"></div>
+		<div id="menuuu" style="display: none;">
+			<ul>
+				<!--右键弹出菜单-->
+				<li id="menu_edit" onMouseOver="this.style.background = '#999999';" onMouseOut="this.style.background = '#CCCCCC';">
+					<button id="btnEdit" class="mui-btn"></button>
+				</li>
+				<li id="menu_delete" onMouseOver="this.style.background = '#999999';" onMouseOut="this.style.background = '#CCCCCC';">
+					<button id="btnDel" class="mui-btn"></button>
+				</li>
+				<li id="menu_cancel" onMouseOver="this.style.background = '#999999';" onMouseOut="this.style.background = '#CCCCCC';">
+					<button id="btnCancel" class="mui-btn"></button>
+				</li>
+			</ul>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/logger.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/function.js"></script>
+		<script src="../../js/url.js"></script>
+		<script src="../../js/public.js"></script>
+		<script src="../../js/language.js"></script>
+		<script src="../../js/echarts.min.js"></script>
+		<script src="../../js/schedule_chart_data.js"></script>
+		<!--<script src="../../js/schedule_data.js"></script>-->
+		<script>
+			(function($, doc) {
+				$.plusReady(function() {
+					dayIndex = 5;
+					refreshPage();
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

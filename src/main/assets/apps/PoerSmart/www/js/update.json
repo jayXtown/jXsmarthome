@@ -1,0 +1,15 @@
+{
+    "appid":"PoerSmart",
+    "iOS":{
+        "version":"1.9.0",
+        "title":"App update",
+        "note":"\n",
+        "url":"http://open.poersmart.com:8012/update_file/PoerSmart.ipa"
+    },
+    "Android":{
+        "version":"1.9.0",
+        "title":"App update",
+        "note":"\n",
+        "url":"http://open.poersmart.com:8012/update_file/PoerSmart.apk"
+    }
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="../css/zone_setup.css">
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_zone_setup"></h1>
+		</header>
+		<nav class="fox-bar mui-bar-tab">
+			<a id="btn_add" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-add"></div>
+					<div class="fox-tab-label" id="label_add"></div>
+				</div>
+			</a>
+			<a id="btn_edit" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-edit"></div>
+					<div class="fox-tab-label" id="label_edit"></div>
+				</div>
+			</a>
+			<a id="btn_delete" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-delete"></div>
+					<div class="fox-tab-label" id="label_delete"></div>
+				</div>
+			</a>
+		</nav>
+		<div class="fox_content">
+			<ul class="mui-table-view mui-table-view-chevron" id="ul">
+			</ul>
+		</div>
+
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/logger.js"></script>
+	<script src="../js/function.js"></script>
+	<script src="../js/url.js"></script>
+	<script src="../js/public.js"></script>
+	<script src="../js/language.js"></script>
+	<script>
+		var language;
+
+		function show_label() {
+			document.getElementById("label_zone_setup").innerHTML = poer_language.label_zone_setup(language);
+			document.getElementById("label_add").innerHTML = poer_language.label_add(language);
+			document.getElementById("label_edit").innerHTML = poer_language.label_edit(language);
+			document.getElementById("label_delete").innerHTML = poer_language.label_delete(language);
+		}
+		(function($, doc) {
+			$.init({
+				statusBarBackground: '#f7f7f7'
+			});
+			$.plusReady(function() {
+				plus.screen.lockOrientation("portrait-primary");
+				var settings_login_info = poer_function.getLocalStorage("login_info");
+				language = settings_login_info.language;
+				var settings_user_info = poer_function.getLocalStorage("user_info");
+				var userId = settings_user_info.Id;
+				show_label();
+				var locate_list;
+				var gateway_list;
+				var ul = doc.getElementById("ul");
+				var locate_info;
+				var li;
+				var zone_count;
+				var gateway_count;
+				var choosed_locate; //选中的那个locate
+				function get_gateway_success(data) {
+					poer_function.setLocalStorage("gateway_list_all", data);
+					refresh_list();
+				}
+
+				function get_gateway_fail(xhr, textStatus, errorThrown) {
+					console.log("gateway:" + xhr.status + "->>>>" + xhr.readyState + "->>>>" + textStatus);
+				}
+
+				function getGatewayList() {
+					var url = poer_url.gateway_list_all(userId);
+					poer_function.get_gateway_list_all(url, {}, get_gateway_success, get_gateway_fail);
+				}
+				getGatewayList();
+
+				function refresh_list() {
+					var length = ul.childNodes.length;
+					for (var i = length - 1; i >= 0; i--) {
+						var childNode = ul.childNodes[i];
+						ul.removeChild(childNode);
+					}
+					locate_list = poer_function.getLocalStorage("locate_list");
+					gateway_list = poer_function.getLocalStorage("gateway_list_all");
+					console.log(JSON.stringify(gateway_list));
+					for (var i = 0, zone_count = locate_list.length; i < zone_count; i++) {
+						locate_info = locate_list[i];
+						li = document.createElement('li');
+						li.className = 'mui-table-view-cell mui-media mui-collapse';
+						var li_content = "";
+						var locate_id = locate_info['ID'];
+						li_content = "<a class='mui-navigate-right fox-zone' id='locate_" + locate_id + "'>" + "<font color='#006777'>" + poer_language.label_zone(language) + " " + (i + 1) + " : " + locate_info['Name'] + "</font>" + "</a>" + "<ul class='mui-table-view mui-table-view-chevron'>";
+						var gateway_info;
+						var sn, gatewayName;
+						var show_gateway;
+						if (gateway_list != null) {
+							for (var j = 0, gateway_count = gateway_list.length; j < gateway_count; j++) {
+								gateway_info = gateway_list[j];
+								if (gateway_info['LocateId'] != locate_id) {
+									continue;
+								}
+								sn = gateway_info['GatewaySN'];
+								gatewayName = gateway_info["GatewayName"] == "" ? sn : gateway_info["GatewayName"];
+								show_gateway = poer_language.label_gateway(language) + " " + (j + 1) + " : "
+								if (gateway_info['IsOnline']) {
+									show_gateway += "<font color='#20B2AA'>" + gatewayName + "</font>";
+								} else {
+									show_gateway = "<font color='#abaeb0'>" + show_gateway + gatewayName + "</font>";
+								}
+								li_content += "<li class='mui-table-view-cell'>" + "<a class='mui-navigate-right' id='gateway_" + gateway_info['Id'] + "'>" + show_gateway + "</a>" + "</li>";
+							}
+						}
+						li_content += "</ul>";
+						li.innerHTML = li_content;
+						ul.appendChild(li);
+					}
+				}
+				//setTimeout(refresh_list, 1000);
+				mui("#ul").on('tap', 'a', function(e) {
+					var id = this.id;
+					var child_array = id.split("_");
+					var num = child_array[1];
+					var type = child_array[0];
+					if (type == "locate") {
+						for (var i in locate_list) {
+							if (locate_list[i]['ID'] == num) {
+								choosed_locate = locate_list[i];
+							}
+						}
+					} else if (type == 'gateway') {
+						poer_function.setLocalStorage("gateway_id", num);
+						poer_public.openWindow("gateway_setup.html", "gateway_setup");
+					}
+				});
+				doc.getElementById('btn_add').addEventListener('tap', function() {
+					var data = {
+						locate_id: '',
+						locate_name: '',
+						id_default: false
+					};
+					poer_function.setLocalStorage("locate_set", data);
+					poer_public.openWindow("locate_set.html", "locate_set");
+				});
+				doc.getElementById('btn_edit').addEventListener('tap', function() {
+					if (choosed_locate == null) {
+						poer_public.alert(poer_language.label_no_choose_locate(language));
+						return;
+					}
+					var data = {
+						locate_id: choosed_locate['ID'],
+						locate_name: choosed_locate['Name'],
+						is_default: choosed_locate['IsDefault']
+					};
+					poer_function.setLocalStorage("locate_set", data);
+					poer_public.openWindow("locate_set.html", "locate_set");
+				});
+
+				function delete_success(data) {
+					console.log(JSON.stringify(data));
+					var Flag = data.Flag;
+					if (Flag) {
+						//poer_public.alert(poer_language.label_delete_success(language));
+						var count = 0;
+						var locate_id = choosed_locate['ID'];
+						console.log(locate_id);
+						for (var i in locate_list) {
+							if (locate_list[i]['ID'] == locate_id) {
+								console.log("fox");
+								locate_list.splice(count, 1);
+								console.log(JSON.stringify(locate_list));
+								break;
+							}
+							count++;
+						}
+						poer_function.setLocalStorage('locate_list', locate_list);
+						var gatewayListAll = poer_function.getLocalStorage("gateway_list_all");
+						var tempGatewayListAll = [];
+						for (var i in gatewayListAll) {
+							var gatewayInfo = gatewayListAll[i];
+							if (gatewayInfo["locateId"] != locate_id) {
+								tempGatewayListAll.push(gatewayInfo);
+							}
+						}
+						poer_function.setLocalStorage("gateway_list_all", tempGatewayListAll);
+						refresh_list();
+					} else {
+						poer_public.alert(poer_language.label_delete_failed(language));
+					}
+				}
+
+				function delete_fail(xhr, textStatus, errorThrown) {
+					poer_public.alert(poer_language.label_delete_failed(language));
+					console.log(xhr.status + "->>>>" + xhr.readyState + "->>>>" + textStatus);
+				}
+
+				function delete_locate(locate_id) {
+					var url = poer_url.delete_locate(userId, locate_id);
+					console.log(url);
+					poer_function.delete_locate(url, {}, delete_success, delete_fail);
+				}
+				doc.getElementById('btn_delete').addEventListener('tap', function() {
+					if (choosed_locate == null) {
+						poer_public.alert(poer_language.label_no_choose_locate(language));
+						return;
+					}
+					if (choosed_locate['IsDefault']) {
+						poer_public.alert(poer_language.label_not_delete_default_locate(language));
+						return;
+					}
+					var locate_id = choosed_locate['ID'];
+					for (var i in gateway_list) {
+						if (gateway_list[i]['LocateId'] == locate_id) {
+							poer_public.alert(poer_language.label_not_delete_locate(language));
+							return;
+						}
+					}
+					var btnArray = [poer_language.label_no(language), poer_language.label_yes(language)];
+					mui.confirm(poer_language.label_delete(language) + "?",
+						poer_language.label_confirm(language), btnArray,
+						function(e) {
+							if (e.index == 1) { //确认修改
+								delete_locate(locate_id);
+							}
+						});
+				});
+				window.addEventListener('refreshPage', function(event) {
+					//获得事件参数
+					choosed_locate = null;
+					getGatewayList();
+					//					refresh_list();
+				});
+			});
+		}(mui, document));
+	</script>
+
+</html>

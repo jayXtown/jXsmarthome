@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/style_progress.css" />
+		<link rel="stylesheet" href="../css/ui-box.css">
+		<link rel="stylesheet" href="../css/gateway_main.css">
+		<link rel="stylesheet" href="../css/ui-color.css">
+		<link rel="stylesheet" href="../css/new_gateway.css">
+		<link rel="stylesheet" href="../css/iconfont.css" />
+		<link rel="stylesheet" href="../css/auto_configuration.css" />
+		<link rel="stylesheet" type="text/css" href="../css/svg_style.css" />
+	</head>
+
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a id="btnBack" class="mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_add_gateway"></h1>
+		</header>
+		<div id="config_input_box" class="fox_content">
+			<h2 id="title_auto_config"></h2>
+			<div class="config_box"> 
+				<form class="mui-input-group">
+					<div class="mui-input-row" style="height: 5em;">
+						<div id="label_wifi_signal" style="float: left;width: 30%;height: 100%;line-height: 5em;"></div>
+						<input id="txtSSID" type="text" class="mui-input" value="" style="float: right;width: 70%;height: 80%;margin-top: 2%;" readonly="readonly" />
+					</div>
+					<div class="mui-input-row" style="height: 5em;">
+						<div id="label_password" style="float: left;width: 30%;height: 100%;line-height: 5em;"></div>
+						<input id="txtPassword" type="password" class="mui-input-clear" style="float: right; width: 70%;height: 80%;margin-top: 2%;padding-left: 0;" value="" />
+					</div>
+					<div class="mui-input-row" style="height: 5em;">
+						<div id="label_gateway_mac" style="float: left;width: 30%;height: 100%;line-height: 5em;"></div>
+						<span id="btnScan" class="icon iconfont" style="float:right;font-size: 5em;background-color: white;margin-top: .33em;width:20%;height: 200%;">&#xe61b;</span>
+						<input id="txtMac" type="text" class="mui-input-clear" style="float: right; width: 50%;height: 80%;margin-top: 2%;padding-left: 0;" maxlength="12" value="" />
+					</div>
+					<div class="mui-button-row" style="height: 5em;">
+						<button id="btnStartConfig" type="button" class="mui-btn mui-btn-green" style="width: 75%;height: 80%;margin-top: 1%;"></button>
+					</div>
+				</form>
+				<!--<div style="width: 100%;">
+					<img id="imgSwitch" src="../img/OFF.png" style="margin: 0 auto;display: none;" />
+				</div>-->
+			</div>
+		</div>
+		<div id="progress_box" class="fox_content" style="display: none;">
+			<div id="canvas" class="canvas-center">
+				<div class="circle circle-margin" id="progress">
+					<!--<img src="../css/loadding.svg" style="width: 100%;"/>-->
+					<svg viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<g id="circle" class="g-circles g-circles--v1">
+							<circle id="12" transform="translate(35, 16.698730) rotate(-30) translate(-35, -16.698730) " cx="35" cy="16.6987298" r="10"></circle>
+							<circle id="11" transform="translate(16.698730, 35) rotate(-60) translate(-16.698730, -35) " cx="16.6987298" cy="35" r="10"></circle>
+							<circle id="10" transform="translate(10, 60) rotate(-90) translate(-10, -60) " cx="10" cy="60" r="10"></circle>
+							<circle id="9" transform="translate(16.698730, 85) rotate(-120) translate(-16.698730, -85) " cx="16.6987298" cy="85" r="10"></circle>
+							<circle id="8" transform="translate(35, 103.301270) rotate(-150) translate(-35, -103.301270) " cx="35" cy="103.30127" r="10"></circle>
+							<circle id="7" cx="60" cy="110" r="10"></circle>
+							<circle id="6" transform="translate(85, 103.301270) rotate(-30) translate(-85, -103.301270) " cx="85" cy="103.30127" r="10"></circle>
+							<circle id="5" transform="translate(103.301270, 85) rotate(-60) translate(-103.301270, -85) " cx="103.30127" cy="85" r="10"></circle>
+							<circle id="4" transform="translate(110, 60) rotate(-90) translate(-110, -60) " cx="110" cy="60" r="10"></circle>
+							<circle id="3" transform="translate(103.301270, 35) rotate(-120) translate(-103.301270, -35) " cx="103.30127" cy="35" r="10"></circle>
+							<circle id="2" transform="translate(85, 16.698730) rotate(-150) translate(-85, -16.698730) " cx="85" cy="16.6987298" r="10"></circle>
+							<circle id="1" cx="60" cy="10" r="10"></circle>
+						</g>
+						<use xlink:href="#circle" class="use"/>
+					</svg>
+				</div>
+				<div id="message" style="font-size: 2em"><span id="config_title"></span><br/><span id="config_message"></span></div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/wifi.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/time_zone.js"></script>
+		<script src="../js/event_listeners.js"></script>
+		<script src="../js/circles.js"></script>
+		<script>
+			var language;
+
+			function show_labels() {
+				document.getElementById("label_add_gateway").innerHTML = poer_language.label_add_gateway(language);
+				document.getElementById("title_auto_config").innerHTML = poer_language.title_auto_config(language);
+				document.getElementById("label_wifi_signal").innerHTML = poer_language.label_wifi_signal(language);
+				document.getElementById("label_password").innerHTML = poer_language.label_password(language);
+				document.getElementById("label_gateway_mac").innerHTML = poer_language.label_gateway_mac(language);
+				document.getElementById("btnStartConfig").innerHTML = poer_language.label_start_config(language);
+				document.getElementById("config_title").innerHTML = poer_language.label_config_title_start(language);
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					netType = plus.networkinfo.getCurrentType();
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_labels();
+					//					doc.addEventListener("netchange", netChangeListenner);
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id;
+					var locateId = poer_function.getLocalStorage("cur_locate_id");
+					var txtSSID = doc.getElementById("txtSSID");
+					var txtPassword = doc.getElementById("txtPassword");
+					var txtMac = doc.getElementById("txtMac");
+					var btnScan = doc.getElementById("btnScan");
+					var btnStartConfig = doc.getElementById("btnStartConfig");
+					//					var imgSwitch = doc.getElementById("imgSwitch");
+					var divMacAddress = doc.getElementById("divMacAddress");
+					var configTitle = doc.getElementById("config_title");
+					var configMessage = doc.getElementById("config_message");
+					var switchState = true;
+					var currentSSID, gatewaySSID, autoConfigWaitting, savedWifiInfo;
+					var check_count = 0;
+					var isConfiguring = false;
+					if (isWifiConnected(true)) {
+						// 获取当前连接的wifi的SSID
+						plus.wifi.getCurrentWifiInfo(function(result) {
+							var wifiInfo = result.resData;
+							currentSSID = wifiInfo.SSID;
+							txtSSID.value = currentSSID;
+							bSSID = wifiInfo.BSSID;
+							//获取本地保存的wifi密码
+							savedWifiInfo = poer_function.getLocalStorage("LOCAL_WIFIINFO_" + currentSSID);
+							if (!$.isEmptyObject(savedWifiInfo))
+								txtPassword.value = savedWifiInfo.wifiPassword;
+						});
+					} else {
+						$.back();
+					}
+					btnScan.addEventListener("tap", function() {
+						poer_function.setLocalStorage("scan_from", "add_gateway");
+						poer_public.openWindow("barcode_scan.html", "barcode_scan");
+					});
+					window.addEventListener('findMac', function(event) {
+						console.log("mouse");
+						//获得事件参数
+						var result = event.detail.mac;
+						txtMac.value = result;
+					});
+					//					imgSwitch.addEventListener("keydown", function() {
+					//						this.src = "../img/ON.png";
+					//					});
+					//					imgSwitch.addEventListener("keyup", function() {
+					//						this.src = "../img/OFF.png";
+					//					});
+					//					imgSwitch.addEventListener("tap", function() {
+					//						var reqUrl = poer_url.light_gateway(userId, txtMac.value.trim());
+					//						poer_function.light_gateway(reqUrl, {}, testGatewaySuccess, testGatewayFail);
+					//					});
+					function testGatewaySuccess(result) {
+						//						if (result.GetStatus)
+					}
+
+					function testGatewayFail(xhr, textStatus, errorThrown) {
+						//						poer_public.toast()
+					}
+					// 第一步：输入wifi密码[wifi密码可为空]
+					btnStartConfig.addEventListener("tap", function(e) {
+						if (isWifiConnected(true)) {
+							var macAddress = txtMac.value.trim().toUpperCase();
+							// 第二步：输入网关Mac地址
+							if (macAddress.length != 12) {
+								poer_public.toast(poer_language.label_mac_short(language));
+								return;
+							}
+							var pre_mac = macAddress.substring(0, 6).toUpperCase();
+							if (pre_mac != "FCE892") {
+								poer_public.toast(poer_language.label_mac_error(language));
+								return;
+							}
+							gatewaySSID = "POR_" + macAddress.substring(6).toUpperCase();
+							// 第三步：开始配置
+							//							autoConfigWaitting = poer_public.showWaiting("Start Configuration...");
+							var currentWifiInfo = {
+								SSID: currentSSID,
+								wifiPassword: txtPassword.value
+							};
+							poer_function.setLocalStorage("LOCAL_WIFIINFO_" + currentSSID, currentWifiInfo);
+							openConfigProgress();
+							setTimeout(function() {
+								//								autoConfigWaitting.setTitle("Configuring...\nConnecting Gateway...");
+								configTitle.innerHTML = poer_language.label_config_title(language);
+								configMessage.innerHTML = poer_language.msg_connecting_gateway(language);
+								// a.连接网关
+								plus.wifi.connectToWifi(gatewaySSID, "", connectGateWaySuccess, connectGateWayFailed);
+							}, 1500);
+						}
+					});
+					/**
+					 * 连接网关成功
+					 * @param {Object} result
+					 */
+					function connectGateWaySuccess(result) {
+						if (result.status == 1) {
+							//							autoConfigWaitting.setTitle("Configuring...\nObtaining IP address...");
+							configMessage.innerHTML = poer_language.msg_obtaining_ip_address(language);
+							// b.检查网关连接状态
+							var reqUrl = poer_url.link_ap_status();
+							setTimeout(function() {
+								//								autoConfigWaitting.setTitle("Configuring...\nGateway connection status is being checked...");
+								configMessage.innerHTML = poer_language.msg_gateway_connection_status_checked(language);
+								poer_function.link_ap_status(reqUrl, {}, checkApConnectStatusSuccess, checkApConnectStatusFailed);
+							}, 7000);
+						} else {
+							//							autoConfigWaitting.close();
+							stopConfigProgress();
+							poer_public.alert(poer_language.msg_gateway_connection_timeout(language));
+						}
+					}
+					/**
+					 * 连接网关失败
+					 * @param {Object} result
+					 */
+					function connectGateWayFailed(result) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.msg_gateway_connection_failed(language));
+					}
+					
+					/**
+					 * 检查网关连接状态成功
+					 * @param {Object} result
+					 */
+					function checkApConnectStatusSuccess(result) {
+						var resultSSID = result['Request']["mac"].toUpperCase();
+						if (resultSSID.substring(6) != gatewaySSID.substring(4)) {
+							//							autoConfigWaitting.close();
+							poer_public.alert(poer_language.label_link_wrong_ap(language) + gatewaySSID, stopConfigProgress);
+							return;
+						}
+						var wifiPassword = txtPassword.value;
+						var reqData = {
+							Request: {
+								ssid: currentSSID,
+								password: wifiPassword
+							}
+						}
+						var reqUrl = poer_url.link_gateway();
+						setTimeout(function() {
+							//							autoConfigWaitting.setTitle("Configuring...\nConfiguring Gateway...");
+							configMessage.innerHTML = poer_language.msg_configuring_gateway(language);
+							poer_function.link_gateway(reqUrl, JSON.stringify(reqData), configurationGatewaySuccess, configurationGatewayFailed);
+						}, 2000);
+					}
+					/**
+					 * 检查网关连接状态失败
+					 * @param {Object} result
+					 */
+					function checkApConnectStatusFailed(result) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.label_link_wrong_ap(language) + gatewaySSID);
+					}
+					
+					/**
+					 * 网关配置成功
+					 * @param {Object} result
+					 */
+					function configurationGatewaySuccess(result) {
+						//						autoConfigWaitting.setTitle("Configuring...\nGateway Obtaining IP address...");
+						var reqUrl = poer_url.link_ap_status();
+						configMessage.innerHTML = poer_language.msg_obtaining_ip_address(language);
+						setTimeout(function() {
+							//							autoConfigWaitting.setTitle("Configuring...\nChecking for Gateway networking state...");
+							configMessage.innerHTML = poer_language.msg_checking_for_gateway_networking_state(language);
+							poer_function.link_ap_status(reqUrl, {}, sendWifiSuccess, sendWifiFailed);
+						}, 7000);
+					}
+					/**
+					 * 网关配置失败
+					 * @param {Object} result
+					 */
+					function configurationGatewayFailed(result) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.label_sendwifi_failed(language));
+					}
+					
+					/**
+					 * 网关联网成功
+					 * @param {Object} result
+					 */
+					function sendWifiSuccess(result) {
+						var status = result['Request']["status"];
+						switch (status) {
+							case 1:
+							case 2:
+								stopConfigProgress();
+								poer_public.alert(poer_language.label_linkwifi_error2(language));
+								break;
+							case 3:
+								// 成功
+								//								autoConfigWaitting.setTitle("Configuring...\nConnecting WIFI...");
+								configMessage.innerHTML = poer_language.msg_connecting_wifi(language);
+								var wifiPassword = txtPassword.value;
+								plus.wifi.connectToWifi(currentSSID, wifiPassword, connectWifiSuccess, connectWifiFailed);
+								break;
+							case 4:
+								stopConfigProgress();
+								poer_public.alert(poer_language.label_linkwifi_error4(language));
+								break;
+							case 6:
+								stopConfigProgress();
+								poer_public.alert(poer_language.label_linkwifi_error6(language));
+								break;
+						}
+					}
+					/**
+					 * 网关联网失败
+					 * @param {Object} result
+					 */
+					function sendWifiFailed(result) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.label_sendwifi_failed(language));
+					}
+					/**
+					 * 连接wifi成功
+					 * @param {Object} result
+					 */
+					function connectWifiSuccess(result) {
+						//						autoConfigWaitting.close();
+						if (result.status == 0) {
+							stopConfigProgress();
+							poer_public.alert(poer_language.msg_wifi_connected_failed(language));
+						} else {
+							// 判断是否切换回来wifi，通过获取user info来判断是否网络正常
+							setTimeout(function() {
+								var reqUrl = poer_url.get_user_info(userId);
+								poer_function.get_user_info(reqUrl, {}, getUserInfoSuccess, getUserInfoFailed);
+							}, 1500);
+						}
+					}
+					/**
+					 * 连接wifi失败
+					 * @param {Object} result
+					 */
+					function connectWifiFailed(result) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.msg_wifi_connected_failed(language));
+					}
+					/**
+					 * 获取用户信息成功
+					 * @param {Object} data
+					 */
+					function getUserInfoSuccess(data) {
+						//						autoConfigWaitting.setTitle("Configuring...\nStart verification gateway...");
+						configMessage.innerHTML = poer_language.msg_start_verify_gateway(language);
+						setTimeout(function() {
+							checkGateway();
+						}, 1500);
+					}
+					/**
+					 * 获取用户信息失败
+					 * @param {Object} xhr
+					 * @param {Object} textStatus
+					 * @param {Object} errorThrown
+					 */
+					function getUserInfoFailed(xhr, textStatus, errorThrown) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.label_link_wifi_failed(language));
+					}
+
+					function checkGateway() {
+						var reqUrl = poer_url.check_gateway(userId, locateId, gatewaySSID);
+						poer_function.check_gateway(reqUrl, {}, checkGatewaySuccess, checkGatewayFailed);
+					}
+					/**
+					 * 验证网关成功
+					 * @param {Object} data
+					 */
+					function checkGatewaySuccess(data) {
+						if (data.Flag) {
+							//							autoConfigWaitting.setTitle("Configuring...\nGet Information Gateway...");
+							configMessage.innerHTML = poer_language.msg_get_information_gateway(language);
+							setTimeout(function() {
+								//设置网关时区
+								var reqUrl = poer_url.gateway_info(userId, txtMac.value.trim().toUpperCase());
+								poer_function.get_gateway_info(reqUrl, {}, getGatewayInfoSuccess, getGatewayInfoFailed);
+							}, 1500);
+						} else {
+							console.log(check_count);
+							check_count++;
+							if (check_count > 30) {
+								//								autoConfigWaitting.close();
+								stopConfigProgress();
+								poer_public.alert(poer_language.label_bindgateway_failed(language));
+								check_count = 0;
+							} else {
+								setTimeout(checkGateway, 3000);
+							}
+						}
+					}
+					/**
+					 * 验证网关失败
+					 * @param {Object} xhr
+					 * @param {Object} textStatus
+					 * @param {Object} errorThrown
+					 */
+					function checkGatewayFailed(xhr, textStatus, errorThrown) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.label_bindgateway_failed(language));
+					}
+					/**
+					 * 获取网关信息成功
+					 * @param {Object} data
+					 */
+					function getGatewayInfoSuccess(data) {
+						var d = new Date();
+						var offset = d.getTimezoneOffset();
+						offset *= -1;
+						console.log(offset);
+						var time_zones = poer_timezone.time_zone();
+						var show_time;
+						//转换成12:00格式
+						show_time = parseInt(offset / 60) + ":";
+						if (offset % 60 < 10) {
+							show_time += "0" + offset % 60;
+						} else {
+							show_time += offset % 60;
+						}
+						show_time = offset < 0 ? "-" + show_time : "+" + show_time;
+						var zone_city = '';
+						for (var i in time_zones) {
+							if (time_zones[i] == show_time) {
+								zone_city = i;
+								break;
+							}
+						}
+						var gateway_id = data.Id;
+						var reqUrl = poer_url.update_gateway(userId, gateway_id);
+						var data = {
+							"DstEnable": data['DstEnable'],
+							"DstEnd": data['DstEnd'],
+							"DstOffset": data['DstOffset'],
+							"DstStart": data['DstStart'],
+							"ZoneOffset": offset,
+							"ZoneCity": zone_city
+						};
+						//						autoConfigWaitting.setTitle("Configuring...\nBeing successful gateway information");
+						configMessage.innerHTML = poer_language.msg_being_successful_gateway_info(language);
+						setTimeout(function() {
+							//							autoConfigWaitting.setTitle("Configuring...\nStart Bind Gateway...");
+							configMessage.innerHTML = poer_language.msg_start_bind_gateway(language);
+							poer_function.update_gateway(reqUrl, JSON.stringify(data), updateGatewaySuccess, updateGatewayFailed);
+						}, 1500);
+					}
+					/**
+					 * 获取网关信息失败
+					 * @param {Object} xhr
+					 * @param {Object} textStatus
+					 * @param {Object} errorThrown
+					 */
+					function getGatewayInfoFailed(xhr, textStatus, errorThrown) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.label_bindgateway_success(language));
+					}
+					/**
+					 * 更新网关成功
+					 * @param {Object} data
+					 */
+					function updateGatewaySuccess(data) {
+						//						autoConfigWaitting.close();
+						setTimeout(function() {
+							plus.nativeUI.alert(poer_language.msg_configuration_success(language), function() {
+								//							$.back();
+								stopConfigProgress();
+								//								imgSwitch.style.display = "block";
+							}, "Success");
+						}, 2500);
+					}
+					/**
+					 * 更新网关失败
+					 * @param {Object} xhr
+					 * @param {Object} textStatus
+					 * @param {Object} errorThrown
+					 */
+					function updateGatewayFailed(xhr, textStatus, errorThrown) {
+						//						autoConfigWaitting.close();
+						stopConfigProgress();
+						poer_public.alert(poer_language.label_bindgateway_failed(language));
+					}
+
+					function stopConfigProgress() {
+						closeConfigProgress();
+					}
+
+					function openConfigProgress() {
+						isConfiguring = true;
+						doc.getElementById("config_input_box").style.display = "none";
+						doc.getElementById("progress_box").style.removeProperty("display");
+					}
+
+					function closeConfigProgress() {
+						isConfiguring = false;
+						doc.getElementById("progress_box").style.display = "none";
+						doc.getElementById("config_input_box").style.removeProperty("display");
+					}
+					doc.getElementById("btnBack").addEventListener("tap", function() {
+						if (!isConfiguring) $.back();
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

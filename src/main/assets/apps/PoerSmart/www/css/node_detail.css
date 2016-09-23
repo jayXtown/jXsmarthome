@@ -1,0 +1,427 @@
+.fox_content{
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+	padding-top:45px;
+}
+
+.fox_background_color{
+	background-color: #EE9A00;
+}
+.fox-bar{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 70px;
+    /*padding-right: 10px;*/
+    /*padding-left: 10px;*/
+
+    border-bottom: 0;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+            box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+.fox-tab-item
+{
+    display: table-cell;
+    /*float: left;*/
+    overflow: hidden;
+
+    width: 49.8%;
+    height: 70px;
+    
+	background: url(../img/lan_icon_bar_background.png) no-repeat;
+    background-size: 100% 100%;
+
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #006777;
+}
+.fox-workmode-choose
+{
+	background: url(../img/lan_icon_choosed.png) no-repeat;
+    background-size: 100% 100%;
+    color: white;
+}
+.fox-icon{
+    font-family: Muiicons;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    height:25px;
+
+    display: inline-block;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}
+.fox-tab-label{
+	font-size: 15px;
+	/*font-color: #F00;*/
+    display: block;
+    overflow: hidden;
+    /*color: white;*/
+
+    text-overflow: ellipsis;
+}
+.fox-tab-label-choosed{
+	color: #006777;
+}
+.fox-top1{
+	margin: 5px 10px 0px 10px;
+	height: 30px;
+}
+.fox-top1-left{
+	float: left;
+	/*background-color: #000000;*/
+	font-size: 16px;
+	width: 100px;
+	height: 100%;
+}
+.fox-top1-right{
+	float:right;
+}
+.fox-top2{
+	margin: 5px 5px 0px 5px;
+	height: 130px;
+}
+.fox-top2-left{
+	float:left;
+	width: 49%;
+	/*background-color: #20B9C3;*/
+	height: 100%;
+	background:url(../img/lan_icon_top2.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	padding-left: 20px;
+}
+.fox-top2-left-top{
+	width: 100%;
+	height: 40%;
+	font-size: 18px;
+	padding-top: 28px;
+}
+.fox-top2-left-bottom{
+	width: 100%;
+	height: 60%;
+	font-weight: 700;
+	font-size: 30px;
+}
+.fox-top2-right{
+	float:right;
+	width:49%;
+	height:100%;
+	background:url(../img/lan_icon_top2.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	padding-left: 20px;
+}
+.fox-top2-right-top{
+	width: 100%;
+	height: 40%;
+	font-size: 18px;
+	padding-top: 28px;
+}
+.fox-top2-right-bottom{
+	width: 100%;
+	height: 60%;
+	font-size: 45px;
+	font-weight: 700;
+	color: #006777;
+}
+.fox-top3{
+	margin:5px 5px 0px 5px;
+	height: 70px;
+}
+.fox-top3-left{
+	float:left;
+	width: 33%;
+	height: 100%;
+	background:url(../img/lan_icon_top3.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	padding-left: 20px;
+}
+.fox-top3-middle{
+	float:left;
+	width: 33%;
+	height: 100%;
+	background:url(../img/lan_icon_top3.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+}
+.fox-top3-right{
+	float:right;
+	width:34%;
+	height: 100%;
+	background:url(../img/lan_icon_top3.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+}
+.fox_div_temp{
+	float:left;
+	padding-top:17px;
+}
+.fox_div_temp2{
+	float:left;
+	/*background-color: red;*/
+	/*padding-top:17px;*/
+}
+.fox_div_tempunit{
+	float:left;
+	padding:17px  0px 0px 5px;
+	font-size: 30px;
+}
+.fox_div_tempunit2{
+	float:left;
+	padding:22px  0px 0px 5px;
+	font-size: 30px;
+}
+.fox_width1{
+	float: left;
+	/*width: 80px;*/
+}
+.fox_width2{
+	float: left;
+	margin-right:7px;
+}
+.fox_width3{
+	float: left;
+	width: 130px;
+}
+.fox-top3-left-top{
+	width: 100%;
+	height: 50%;
+	font-size: 18px;
+	padding-top: 10px;
+}
+.fox-top3-left-bottom{
+	width: 100%;
+	height: 50%;
+	font-size: 20px;
+	font-weight: 700;
+}
+.fox-top4{
+	margin: 30px 20px 0px 20px;
+	font-size: 25px;
+}
+.mui-btn-black{
+	color: #fff;
+    border: 1px solid #000000;
+    background-color: #000000;
+}
+.fox-top5{
+	margin: 30px 20px 0px 20px;
+	font-size: 20px;
+}
+
+.fox-top6{
+	margin: 5px 5px 0px 5px;
+	/*font-size: 20px;*/
+}
+.fox-top6-one{
+	/*float:right;*/
+	/*width:49%;*/
+	width:100%;
+	height: 100px;
+	background:url(../img/lan_icon_top2.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	padding-left:20px;
+}
+.fox-top6-one-top{
+	width: 100%;
+	height: 40%;
+	font-size: 15px;
+	padding-top: 15px;
+	font-size: 20px;
+	text-align: center;
+}
+.fox-top6-one-bottom{
+	width: 100%;
+	height: 60%;
+	font-size: 45px;
+	/*padding-top: -20px;*/
+	text-align: center;
+	color: #006777;
+}
+.fox-top6-three{
+	padding-top: 10px;
+}
+.fox_btn_cancel{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_cancel.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_submit{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_submit.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_press{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_press.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_btn_blue{
+	height: 40px;
+	width: 100%;
+	background: url(../img/lan_icon_btnblue.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_header{
+	background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+}
+.fox_main_div{
+	/*height: 500px;*/
+	width: 100%;
+	/*background: url(../img/lan_icon_background.png) no-repeat;*/
+	/*background-size: 100% 100%;*/
+	color: #5b636a;
+	-webkit-overflow-scrolling: touch;
+	padding-bottom: 100px;
+}
+.fox_div_schedule{
+	height: 30px;
+	width: 120px;
+	background: url(../img/lan_icon_schedule_back.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox_schedule_icon{
+	height: 20px;
+	width: 25px;
+	margin:0px 10px 0px 10px;
+	background: url(../img/lan_icon_schedule_icon.png) no-repeat;
+	background-size: 25px 20px;
+}
+.fox-white{
+	color: #ffffff;
+}
+.fox-switch-on{
+	height: 30px;
+	width: 70px;
+	background: url(../img/lan_icon_on.png) no-repeat;
+	background-size: 100% 100%;
+}
+.fox-switch-off{
+	height: 30px;
+	width: 70px;
+	background: url(../img/lan_icon_off.png) no-repeat;
+	background-size: 100% 100%;
+}
+.mui-icon-home
+{
+    content: url(../img/lan_icon_athome_blue.png);
+}
+.mui-icon-home-choosed
+{
+    content: url(../img/lan_icon_athome_white.png);
+}
+.mui-icon-away
+{
+    content: url(../img/lan_icon_away_blue.png);
+}
+.mui-icon-away-choosed
+{
+    content: url(../img/lan_icon_away_white.png);
+}
+.mui-icon-holiday
+{
+    content: url(../img/lan_icon_holiday_blue.png);
+}
+.mui-icon-holiday-choosed
+{
+    content: url(../img/lan_icon_holiday_white.png);
+}
+.mui-icon-off
+{
+    content: url(../img/lan_icon_off_blue.png);
+}
+.mui-icon-off-choosed
+{
+    content: url(../img/lan_icon_off_white.png);
+}
+.target_temp_div{
+	background-color:transparent;
+	font-size: 40px;
+    line-height: 40px;
+    text-align: left;
+
+    /*width: 90px;*/
+    height: 60px;
+    -webkit-user-select: text;
+    padding: 0px;/* 0px 0px -2px;*/
+    margin: 10px 0px 0px 0px;
+
+    /*border: 1px solid rgba(0, 0, 0, .2);*/
+    border-radius: 3px;
+    outline: none;
+    /*background-color: red;*/
+
+    -webkit-appearance: none;
+}
+.target_time_div{
+	text-align: center;
+	background-color:transparent;
+	font-size: 45px;
+    line-height: 45px;
+    text-align: left;
+    /*background-color: red;*/
+
+    width: 120px;
+    height: 60px;
+    -webkit-user-select: text;
+    padding:0px;/* 0px 0px -2px;*/
+    margin:0px auto; /*0px 0px -4px;*/
+
+    /*border: 1px solid rgba(0, 0, 0, .2);*/
+    border-radius: 3px;
+    outline: none;
+    /*background-color: #fff;*/
+
+    -webkit-appearance: none;
+}
+.fox-per{
+	font-size:20px;
+	font-weight:700;
+	margin: 20px 0px 0px 10px;
+}
+
+.ani_power {
+	width:30px;
+	display: block;
+	margin: 20px auto;
+	/*margin-top:18px;*/
+	border-radius: 15px;
+	animation: ani_windmill 2s linear infinite;
+	-moz-animation: ani_windmill 2s linear infinite;
+	-ms-animation: ani_windmill 2s linear infinite;
+	-webkit-animation: ani_windmill 2s linear infinite;
+}
+/*发电动态图*/
+@keyframes ani_windmill{
+	from{transform:rotate(0deg);} 
+	to {transform: rotate(360deg);}
+}
+@-moz-keyframes ani_windmill{
+	from {-moz-transform:rotate(0deg);} 
+	to {-moz-transform: rotate(360deg);}
+}
+
+@-ms-keyframes ani_windmill{
+	from {-ms-transform:rotate(0deg);}
+	to {-ms-transform: rotate(360deg);}
+}
+
+@-webkit-keyframes ani_windmill{
+	from {-webkit-transform:rotate(0deg);} 
+	to {-webkit-transform: rotate(360deg);}
+}

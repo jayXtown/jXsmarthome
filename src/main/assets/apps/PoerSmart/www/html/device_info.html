@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" href="../css/device_info.css">
+    <link href="../css/mui.picker.css" rel="stylesheet"/>
+    <link href="../css/mui.poppicker.css" rel="stylesheet"/>
+    <style>
+        input[type="text"] {
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+
+<body class="fox-backgound-white">
+<header class="mui-bar mui-bar-nav fox_header">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+    <h1 class="mui-title fox-white" id="label_deviceinfo"></h1>
+</header>
+<nav class="fox-bar mui-bar-tab" id="nav_foot">
+    <a id="delete_btn" class="fox-tab-item" style="display: none;">
+        <div>
+            <div class="fox-icon fox-icon-delete"></div>
+            <div class="fox-tab-label" id="label_delete"></div>
+        </div>
+    </a>
+    <a id="save_btn" class="fox-tab-item">
+        <div>
+            <div class="fox-icon fox-icon-save"></div>
+            <div class="fox-tab-label" id="label_save"></div>
+        </div>
+    </a>
+</nav>
+<div class="fox_content">
+    <div class="mui-content-padded">
+        <h4 id="label_name" class="mui-content-padded" style="font-weight: 300;"></h4>
+        <input id='info_name' type="text" class="mui-input mui-input-clear fox-blue" placeholder="">
+        <h4 id="label_sn" class="mui-content-padded" style="font-weight: 300;"></h4>
+        <input id='info_sn' type="text" class="mui-input" readonly="readonly" placeholder="">
+        <h4 id="label_software" class="mui-content-padded" style="font-weight: 300;"></h4>
+        <input id='software' type="text" class="mui-input" readonly="readonly" placeholder="">
+        <h4 id="label_hardware" class="mui-content-padded" style="font-weight: 300;"></h4>
+        <input id='hardware' type="text" class="mui-input" readonly="readonly" placeholder="">
+        <div id="battery_row" style="display: none;">
+            <h4 id="label_battery" class="mui-content-padded" style="font-weight: 300;"></h4>
+            <input id='info_battery' type="text" class="mui-input" readonly="readonly" placeholder="">
+        </div>
+        <h4 id="label_gateway" class="mui-content-padded" style="font-weight: 300;"></h4>
+        <input id='info_gateway' type="text" class="mui-input" readonly="readonly" placeholder="">
+        <h4 id="label_away_temp_simple" class="mui-content-padded" style="font-weight: 300;"></h4>
+        <input id='info_awaytemp' type="text" class="mui-input fox-blue" readonly="readonly" placeholder="">
+        <h4 id="label_off_temp_simple" class="mui-content-padded" style="font-weight: 300;"></h4>
+        <input id='info_offtemp' type="text" class="mui-input fox-blue" readonly="readonly" placeholder="">
+        <h4 id="label_temp_unit2" class="mui-content-padded" style="font-weight: 300;"></h4>
+        <input id='info_tempunit' type="text" class="mui-input fox-blue" readonly="readonly" placeholder="">
+        <div id="energy_info_row">
+            <h4 id="label_energy" class="mui-content-padded" style="font-weight: 300;"></h4>
+            <input id='info_energy' type="text" class="mui-input fox-blue" readonly="readonly" placeholder="">
+        </div>
+    </div>
+    <!--<form class="mui-input-group">-->
+        <!--<div class="mui-input-row">-->
+            <!--<label id="label_name"></label>-->
+            <!--<input id='info_name' type="text" class="mui-input fox-blue" placeholder="" readonly="readonly"/>-->
+        <!--</div>-->
+        <!--<div class="mui-input-row">-->
+            <!--<label id="label_sn"></label>-->
+            <!--<input id='info_sn' type="text" class="mui-input" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+        <!--<div class="mui-input-row">-->
+            <!--<label id="label_software"></label>-->
+            <!--<input id='software' type="text" class="mui-input" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+        <!--<div class="mui-input-row">-->
+            <!--<label id="label_hardware"></label>-->
+            <!--<input id='hardware' type="text" class="mui-input" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+        <!--<div class="mui-input-row" id="battery_row" style="display: none;">-->
+            <!--<label id="label_battery"></label>-->
+            <!--<input id='info_battery' type="text" class="mui-input" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+        <!--<div class="mui-input-row">-->
+            <!--<label id="label_gateway"></label>-->
+            <!--<input id='info_gateway' type="text" class="mui-input" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+        <!--<div class="mui-input-row">-->
+            <!--<label id="label_away_temp_simple"></label>-->
+            <!--<input id='info_awaytemp' type="text" class="mui-input fox-blue" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+        <!--<div class="mui-input-row">-->
+            <!--<label id="label_off_temp_simple"></label>-->
+            <!--<input id='info_offtemp' type="text" class="mui-input fox-blue" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+        <!--<div class="mui-input-row" style="display: none;">-->
+            <!--<label id="label_temp_unit2"></label>-->
+            <!--<input id='info_tempunit' type="text" class="mui-input fox-blue" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+        <!--<div class="mui-input-row" id="energy_info_row">-->
+            <!--<label id="label_energy"></label>-->
+            <!--<input id='info_energy' type="text" class="mui-input fox-blue" readonly="readonly" placeholder="">-->
+        <!--</div>-->
+    <!--</form>-->
+    <div id="energy_detail_div" style="display: none;">
+        <div style="margin-top: 10px;">
+            <div style="float: left;width: 45%;text-align: right;padding-right: 10px;" id="energy_total"></div>
+            <div style="float:left;width:55%;" id="energy_total_value"></div>
+        </div>
+        <div style="clear: both;"></div>
+        <div style="margin-top:10px;">
+            <div style="float:left;width:45%;text-align: right;padding-right:10px;" id="energy_one"></div>
+            <div style="float:left;width:55%;" id="energy_one_value"></div>
+        </div>
+        <div style="clear: both;"></div>
+        <div style="margin-top:10px;">
+            <div style="float:left;width:45%;text-align: right;padding-right:10px;" id="energy_two"></div>
+            <div style="float:left;width:55%;" id="energy_two_value"></div>
+        </div>
+        <div style="clear: both;"></div>
+        <div style="margin-top:10px;">
+            <div style="float:left;width:45%;text-align: right;padding-right:10px;" id="energy_three"></div>
+            <div style="float:left;width:55%;" id="energy_three_value"></div>
+        </div>
+        <div style="clear: both;"></div>
+        <div style="margin-top:10px;">
+            <div style="float:left;width:45%;text-align: right;padding-right:10px;" id="energy_four"></div>
+            <div style="float:left;width:55%;" id="energy_four_value"></div>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <div style="height:50px;display:none;padding-top:40px;" id="set_updating_div">
+        <center id="label_updating"></center>
+    </div>
+</div>
+<script src="../js/mui.min.js"></script>
+<script src="../js/logger.js"></script>
+<script src="../js/function.js"></script>
+<script src="../js/url.js"></script>
+<script src="../js/public.js"></script>
+<script src="../js/mui.picker.js"></script>
+<script src="../js/mui.poppicker.js"></script>
+<script src="../js/language.js"></script>
+<script>
+    var language;
+
+    function show_label() {
+        //document.getElementById("label_deviceinfo").innerHTML = poer_language.label_deviceinfo(language);
+        document.getElementById("label_name").innerHTML = poer_language.label_name(language);
+        document.getElementById("label_sn").innerHTML = poer_language.label_sn(language);
+        document.getElementById("label_software").innerHTML = poer_language.label_software(language);
+        document.getElementById("label_hardware").innerHTML = poer_language.label_hardware(language);
+        document.getElementById("label_battery").innerHTML = poer_language.label_battery(language);
+        document.getElementById("label_gateway").innerHTML = poer_language.label_gateway(language);
+        document.getElementById("label_away_temp_simple").innerHTML = poer_language.label_away_temp_simple(language);
+        document.getElementById("label_off_temp_simple").innerHTML = poer_language.label_off_temp_simple(language);
+        document.getElementById("label_temp_unit2").innerHTML = poer_language.label_temp_unit(language);
+        document.getElementById("label_energy").innerHTML = poer_language.label_energy_consume(language);
+        document.getElementById("label_updating").innerHTML = poer_language.label_updating(language) + "<img src='../img/lan_icon_waitting.gif' style='width:15px;height:15px;'/>";
+        document.getElementById("label_save").innerHTML = poer_language.label_save(language);
+        document.getElementById("label_delete").innerHTML = poer_language.label_delete(language);
+    }
+    (function ($, doc) {
+        $.init({
+            statusBarBackground: '#f7f7f7'
+        });
+        $.plusReady(function () {
+            plus.screen.lockOrientation("portrait-primary");
+            var settings_login_info = poer_function.getLocalStorage("login_info");
+            language = settings_login_info.language;
+            show_label();
+            function setStyle() {
+                switch (language) {
+                    case "English":
+                        $("label").each(function () {
+                            this.style.float = "left";
+                            this.style.width = "50%";
+                        });
+                        $("input").each(function () {
+                            this.style.float = "right";
+                            this.style.width = "50%";
+                        })
+                        break;
+                    case "Romanian":
+                        $("label").each(function () {
+                            this.style.float = "left";
+                            this.style.width = "60%";
+                        });
+                        $("input").each(function () {
+                            this.style.float = "right";
+                            this.style.width = "40%";
+                        })
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+//            setStyle();
+            var settings_user_info = poer_function.getLocalStorage("user_info");
+            var userId = settings_user_info.Id;
+            var userTempUnit = settings_user_info.DisplayMode;
+            var node_list = poer_function.getLocalStorage("node_list");
+            var gateway_list = poer_function.getLocalStorage("gateway_list");
+            var nodeId = poer_function.getLocalStorage("node_detail_id");
+            var node_info; //当前node信息
+            var gateway_info;
+            var set_updating_div = doc.getElementById("set_updating_div");
+            var select_away = doc.getElementById("info_awaytemp");
+            var select_off = doc.getElementById("info_offtemp");
+            var select_tempunit = doc.getElementById("info_tempunit");
+            var save_btn = doc.getElementById("save_btn");
+            var delete_btn = doc.getElementById("delete_btn");
+            var energy_detail_div = doc.getElementById("energy_detail_div");
+            var select_away_value;
+            var select_off_value;
+            var tempunit_value;
+            var can_write = true;
+            var no_write_type = 0; //不能操作的原因  0:设备正在写, 1:网关离线, 2:设备离线
+            var energy_value_array = new Array();
+            var tempPicker = new $.PopPicker({
+                buttons: [poer_language.label_cancel(language),
+                    poer_language.label_ok(language)
+                ]
+            });
+            var tempPicker2 = new $.PopPicker({
+                buttons: [poer_language.label_cancel(language),
+                    poer_language.label_ok(language)
+                ]
+            });
+            var temp_data = new Array();
+            if (userTempUnit == 0) { //摄氏度
+                for (var i = 50; i <= 320; i += 5) {
+                    temp_data.push({
+                        value: i,
+                        text: i / 10 + "°C"
+                    });
+                }
+            } else { //华氏度
+                for (var i = 400; i <= 900; i += 10) {
+                    temp_data.push({
+                        value: i,
+                        text: i / 10 + "°F"
+                    });
+                }
+            }
+            tempPicker.setData(temp_data);
+            tempPicker2.setData(temp_data);
+            select_away.addEventListener('tap', function (event) {
+                if (parseInt(node_info["WorkMode"]) == 2) {
+                    return;
+                }
+                tempPicker.show(function (items) {
+                    select_away_value = items[0].value;
+                    select_away.value = items[0].text;
+                });
+            }, false);
+            select_off.addEventListener('tap', function (event) {
+                if (parseInt(node_info["WorkMode"]) == 2) {
+                    return;
+                }
+                tempPicker2.show(function (items) {
+                    select_off_value = items[0].value;
+                    select_off.value = items[0].text;
+                });
+            }, false);
+            var tempunitPicker = new $.PopPicker({
+                buttons: [poer_language.label_cancel(language),
+                    poer_language.label_ok(language)
+                ]
+            });
+            tempunitPicker.setData([{
+                value: 0,
+                text: " °C"
+            }, {
+                value: 1,
+                text: " °F"
+            }]);
+            select_tempunit.addEventListener('tap', function (event) {
+                if (parseInt(node_info["WorkMode"]) == 2) {
+                    return;
+                }
+                tempunitPicker.show(function (items) {
+                    tempunit_value = items[0].value;
+                    select_tempunit.value = items[0].text;
+                    //tempunit_show.innerHTML = items[0].text;
+                    //userResult.innerText = JSON.stringify(items[0]);
+                    //返回 false 可以阻止选择框的关闭
+                    //return false;
+                });
+            }, false);
+            for (var i in node_list) {
+                if (node_list[i]['Id'] == nodeId) {
+                    node_info = node_list[i];
+                    break;
+                }
+            }
+            if (node_info == null) {
+                poer_public.alert(poer_language.label_node_noexist(language));
+                return;
+            }
+            //显示标题
+            doc.getElementById("label_deviceinfo").innerHTML = node_info['NodeType'] == 0 ?
+                    poer_language.label_thermostat(language) : poer_language.label_radiator(language);
+            var gateway_id = node_info['GatewayId'];
+            for (var i in gateway_list) {
+                if (gateway_list[i]['Id'] == gateway_id) {
+                    gateway_info = gateway_list[i];
+                    break;
+                }
+            }
+            if (gateway_info == null) {
+                poer_public.alert(poer_language.label_gateway_noexist(language));
+                return;
+            }
+
+            function refresh_page() {
+                if (parseInt(node_info["WorkMode"]) == 2) {
+                    doc.getElementById("info_name").setAttribute("readonly", "readonly");
+                    doc.getElementById("info_awaytemp").setAttribute("readonly", "readonly");
+                    doc.getElementById("info_offtemp").setAttribute("readonly", "readonly");
+                    doc.getElementById("info_tempunit").setAttribute("readonly", "readonly");
+                    doc.getElementById("nav_foot").style.display = "none";
+                } else {
+                    doc.getElementById("info_name").removeAttribute("readonly");
+                    doc.getElementById("info_awaytemp").removeAttribute("readonly");
+                    doc.getElementById("info_offtemp").removeAttribute("readonly");
+                    doc.getElementById("info_tempunit").removeAttribute("readonly");
+                    doc.getElementById("nav_foot").style.removeProperty("display");
+                }
+                var nodeName = node_info['NodeName'];
+                if (nodeName == null || nodeName == "") {
+                    nodeName = node_info['NodeSN'];
+                }
+                var awayTemp = node_info['EcoTemperature'];
+                var offTemp = node_info['OffTemperature'];
+                //特殊处理
+                if (awayTemp % 5 != 0) {
+                    awayTemp -= awayTemp % 5;
+                }
+                if (offTemp % 5 != 0) {
+                    offTemp -= offTemp % 5;
+                }
+                select_away_value = awayTemp;
+                select_off_value = offTemp;
+                tempunit_value = node_info['DisplayMode'];
+                tempPicker.pickers[0].setSelectedValue(select_away_value);
+                tempPicker2.pickers[0].setSelectedValue(select_off_value);
+                tempunitPicker.pickers[0].setSelectedValue(tempunit_value);
+                doc.getElementById("info_name").value = nodeName;
+                doc.getElementById("info_sn").value = node_info['NodeSN'];
+                doc.getElementById("software").value = node_info['SoftVersion'];
+                doc.getElementById("hardware").value = node_info['HardVersion'];
+                doc.getElementById("info_battery").value = node_info['BatteryPercent'] + "%";
+                doc.getElementById("info_gateway").value = gateway_info['GatewaySN'];
+                doc.getElementById("info_awaytemp").value = awayTemp / 10 + (userTempUnit == 0 ? "°C" : "°F");
+                doc.getElementById("info_offtemp").value = offTemp / 10 + (userTempUnit == 0 ? "°C" : "°F");
+                doc.getElementById("info_tempunit").value = tempunit_value == 0 ? "°C" : "°F";
+                var energy_info = poer_function.getLocalStorage("energy_" + nodeId);
+                var energy_language = poer_language.label_energy_type(language);
+                doc.getElementById("energy_total").innerHTML = energy_language[0];
+                var energy_total = 0;
+                var num = energy_info['RfEnergy'] - 0;
+                doc.getElementById("energy_one").innerHTML = energy_language[1];
+                doc.getElementById("energy_one_value").innerHTML = num + " mAS";
+                energy_total += num;
+                energy_value_array.push(num);
+                num = energy_info['MotorEnergy'] - 0;
+                doc.getElementById("energy_two").innerHTML = energy_language[2];
+                doc.getElementById("energy_two_value").innerHTML = num + " mAS";
+                energy_total += num;
+                energy_value_array.push(num);
+                num = energy_info['StandByEnergy'] - 0;
+                doc.getElementById("energy_three").innerHTML = energy_language[3];
+                doc.getElementById("energy_three_value").innerHTML = num + " mAS";
+                energy_total += num;
+                energy_value_array.push(num);
+                num = energy_info['OtherEnergy'] - 0;
+                doc.getElementById("energy_four").innerHTML = energy_language[4];
+                doc.getElementById("energy_four_value").innerHTML = num + " mAS";
+                energy_total += num;
+                energy_value_array.push(num);
+                var totalEnergy = energy_info["TotalEnergy"];
+                var allUsedEnergy = energy_info["AllUsedEnergy"];
+                var percent = (allUsedEnergy / totalEnergy * 100).toFixed(3);
+                doc.getElementById('info_energy').value = percent + "%";
+                doc.getElementById("energy_total_value").innerHTML = energy_total + "mAS";
+                delete_btn.style.display = "";
+            }
+
+            refresh_page();
+            if (node_info['NodeType'] == 0) {
+                doc.getElementById("energy_info_row").style.display = "none";
+                doc.getElementById("battery_row").style.removeProperty("display");
+            }
+
+            function show_can_write() {
+                var write_status_info = poer_function.getLocalStorage("write_status_info");
+                var device_status_info;
+                for (var i in write_status_info) {
+                    if (write_status_info[i]['Id'] == nodeId) {
+                        device_status_info = write_status_info[i];
+                        if (device_status_info['Status'] == 1) {
+                            can_write = true;
+                        } else {
+                            can_write = false;
+                            no_write_type = 0; //正在更新中
+                        }
+                        break;
+                    }
+                }
+                node_list = poer_function.getLocalStorage("node_list");
+                for (var i in node_list) {
+                    if (node_list[i]['Id'] == nodeId) {
+                        node_info = node_list[i];
+                        break;
+                    }
+                }
+                gateway_list = poer_function.getLocalStorage("gateway_list");
+                var gateway_id = node_info['GatewayId'];
+                for (var i in gateway_list) {
+                    if (gateway_list[i]['Id'] == gateway_id) {
+                        gateway_info = gateway_list[i];
+                        break;
+                    }
+                }
+                //判断网关是否离线以及设备是否离线
+                if (!node_info['RfLinkGateway']) { //设备离线
+                    can_write = false;
+                    no_write_type = 2;
+                }
+                if (!gateway_info['IsOnline']) { //网关离线
+                    can_write = false;
+                    no_write_type = 1;
+                }
+            }
+
+            function show_no_write(type) {
+                var text;
+                switch (type) {
+                    case 0:
+                        text = poer_language.label_set_updating(language);
+                        break;
+                    case 1:
+                        text = poer_language.label_gateway_offline(language);
+                        break;
+                    case 2:
+                        text = poer_language.label_offline(language);
+                        break;
+                }
+                poer_public.alert(text);
+            }
+
+            var update_times = 0;
+
+            function setBackTask(status) {
+                if (!status) {
+                    update_times = 0;
+                }
+                var write_status_info = poer_function.getLocalStorage("write_status_info");
+                for (var i in write_status_info) {
+                    if (write_status_info[i]['Id'] == nodeId) {
+                        write_status_info[i]['Type'] = 'set_node';
+                        write_status_info[i]['Status'] = status ? 1 : 0;
+                        poer_function.setLocalStorage('write_status_info', write_status_info);
+                        break;
+                    }
+                }
+                set_updating_div.style.display = status ? "none" : "";
+                poer_function.setLocalStorage('update_back_refresh', status);
+                if (status) {
+                    refresh_page();
+                }
+            }
+
+            function writestatus_success(data) {
+                var Flag = data.TranStatus;
+                if (Flag) {
+                    poer_public.toast(poer_language.label_update_success(language));
+                    setBackTask(true);
+                    for (var i in node_list) {
+                        if (node_list[i]['Id'] == nodeId) {
+                            node_list[i] = node_info;
+                            poer_function.setLocalStorage("node_list", node_list);
+                            $.fire(plus.webview.getWebviewById("node_detail_" + nodeId), "reloadPage", {});
+                            break;
+                        }
+                    }
+                    refresh_page();
+                } else {
+                    if (update_times > 60) {
+                        poer_public.toast(poer_language.label_update_failed(language));
+                        setBackTask(true);
+                        return;
+                    }
+                    setTimeout(get_write_status, 3000);
+                }
+            }
+
+            function writestatus_fail(xhr, textStatus, errorThrown) {
+                if (update_times > 60) {
+                    poer_public.alert(poer_language.label_update_failed(language));
+                    setBackTask(true);
+                    return;
+                }
+                setTimeout(get_write_status, 3000);
+            }
+
+            function get_write_status() {
+                console.log(update_times);
+                update_times++;
+                var url = poer_url.write_status(userId, nodeId);
+                var data = {};
+                poer_function.write_status(url, data, writestatus_success, writestatus_fail);
+            }
+
+            function update_success(data) {
+                console.log("update_success");
+                var Flag = data.Flag;
+                if (Flag) {
+                    get_write_status();
+                } else {
+                    poer_public.toast(poer_language.label_update_failed(language));
+                    setBackTask(true);
+                }
+            }
+
+            function update_fail(xhr, textStatus, errorThrown) {
+                console.log("update_fail");
+                poer_public.toast(poer_language.label_update_failed(language));
+                if (button_type == "update_tempunit") {
+                    setBackTask(true);
+                }
+            }
+
+            function updateNode() {
+                console.log("updateNode");
+                var url = poer_url.update_node(userId, nodeId);
+                var data = poer_public.node_to_json(node_info, userTempUnit);
+                poer_function.update_node(url, data, update_success, update_fail);
+            }
+
+            var isNameChanged = false;
+            var isTempChanged = false;
+            save_btn.addEventListener('tap', function () {
+                isNameChanged = false;
+                isTempChanged = false;
+                var name = doc.getElementById("info_name").value.trim();
+                if (name == "") {
+                    poer_public.toast(poer_language.label_location_empty(language));
+                    return;
+                }
+                if (name.length < 3) {
+                    poer_public.toast(poer_language.label_location_too_short(language));
+                    return;
+                }
+                if (name.length > 20) {
+                    poer_public.toast(poer_language.label_location_too_long(language));
+                    return;
+                }
+                var away_temp = select_away_value;
+                var off_temp = select_off_value;
+                var temp_unit = tempunit_value;
+                isNameChanged = node_info['NodeName'] != name;
+                isTempChanged = node_info['EcoTemperature'] != away_temp || node_info['OffTemperature'] != off_temp;
+                if (isNameChanged || isTempChanged) {
+                    show_can_write(); //实时判断是否可写
+                    if (!can_write) {
+                        show_no_write(no_write_type);
+                        return;
+                    }
+                    setBackTask(false);
+                    energy_detail_div.style.display = "none";
+                    node_info['NodeName'] = name;
+                    node_info['DisplayMode'] = temp_unit - 0;
+                    node_info['EcoTemperature'] = away_temp;
+                    node_info['OffTemperature'] = off_temp;
+                    if (isNameChanged)
+                        updateNodeName();
+                    else
+                        updateNode();
+                } else {
+                    poer_public.alert(poer_language.msg_has_none_changed(language));
+                }
+            });
+
+            function updateNodeName() {
+                console.log("updateNodeName");
+                var reqUrl = poer_url.post_update_node_name(userId, nodeId);
+                var reqData = {
+                    //							Id: nodeId,
+                    NodeName: node_info['NodeName']
+                }
+                console.log(reqUrl);
+                console.log(JSON.stringify(reqData));
+                poer_function.update_node_name(reqUrl, JSON.stringify(reqData), updateNodeNameSuccess, updateNodeNameFailed);
+            }
+
+            function updateNodeNameSuccess(result) {
+                console.log("updateNodeNameSuccess");
+                console.log(JSON.stringify(result));
+                if (result.Flag) {
+                    $.fire(plus.webview.getWebviewById("node_detail_" + nodeId), "reloadPage", {});
+                    if (isTempChanged) {
+                        updateNode();
+                    } else {
+                        setBackTask(true);
+                        poer_public.toast(poer_language.label_update_success(language), {
+                            verticalAlign: "center"
+                        });
+                        for (var i in node_list) {
+                            if (node_list[i]['Id'] == nodeId) {
+                                node_list[i] = node_info;
+                                poer_function.setLocalStorage("node_list", node_list);
+                                $.fire(plus.webview.getWebviewById("node_detail_" + nodeId), "reloadPage", {});
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    poer_public.toast(poer_language.label_update_failed(language), {
+                        verticalAlign: "center"
+                    });
+                    setBackTask(true);
+                }
+            }
+
+            function updateNodeNameFailed(xhr) {
+                console.log("updateNodeNameFailed");
+                poer_public.toast(poer_language.label_update_failed(language), {
+                    verticalAlign: "center"
+                });
+                setBackTask(true);
+            }
+
+            function delete_success(data) {
+                var Flag = data.Flag;
+                if (Flag) {
+                    poer_public.alert(poer_language.label_delete_success(language));
+                    var node_list = poer_function.getLocalStorage("node_list");
+                    var count = 0;
+                    for (var i in node_list) {
+                        if (node_list[i]['Id'] == nodeId) {
+                            node_list.splice(count, 1);
+                            break;
+                        }
+                        count++;
+                    }
+                    poer_function.setLocalStorage('node_list', node_list);
+                    console.log(JSON.stringify(node_list));
+                    var node_detail_page = plus.webview.getWebviewById('node_detail_' + nodeId);
+                    mui.fire(node_detail_page, 'deleteNode', {});
+                    mui.back();
+                } else {
+                    poer_public.alert(poer_language.label_delete_failed(language));
+                    setBackTask(true);
+                }
+            }
+
+            function delete_fail(xhr, textStatus, errorThrown) {
+                poer_public.alert(poer_language.label_delete_failed(language));
+            }
+
+            function delete_node() {
+                var url = poer_url.delete_node(userId, nodeId);
+                poer_function.delete_node(url, {}, delete_success, delete_fail);
+            }
+
+            delete_btn.addEventListener('tap', function () {
+                if (!can_write && no_write_type != 2) {
+                    show_no_write(no_write_type);
+                    return;
+                }
+                //setBackTask(false);
+                var btnArray = [poer_language.label_no(language), poer_language.label_yes(language)];
+                mui.confirm(poer_language.label_delete(language) + "?",
+                        poer_language.label_confirm(language), btnArray,
+                        function (e) {
+                            if (e.index == 1) { //确认修改
+                                delete_node();
+                            }
+                        });
+            });
+            doc.getElementById("info_energy").addEventListener('tap', function () {
+                if (energy_detail_div.style.display == "none") {
+                    energy_detail_div.style.display = "";
+                } else {
+                    energy_detail_div.style.display = "none";
+                }
+            });
+            window.addEventListener('refresh_page', function (event) {
+                //重新获取schedule info
+                show_can_write();
+                if (can_write) { //正常才能更新
+                    console.log("device info refresh page");
+                    refresh_page();
+                }
+            });
+            var back = $.back;
+            $.back = function (event) {
+                poer_public.openWindow("node_detail.html", "node_detail_" + nodeId);
+            };
+        });
+    }(mui, document));
+</script>
+</body>
+
+</html>

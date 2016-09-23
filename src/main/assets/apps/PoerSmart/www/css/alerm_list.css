@@ -1,0 +1,13 @@
+.fox_content {
+	width: 100%;
+	padding-top: 45px;
+}
+
+.fox_header {
+	background: url(../img/lan_icon_title.png) no-repeat;
+	background-size: 100% 100%;
+}
+
+.fox-white {
+	color: #ffffff;
+}

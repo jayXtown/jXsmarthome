@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/edit_schedule_single.css" rel="stylesheet" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_set"></h1>
+		</header>
+		<div class="fox_content">
+			<div class="mui-content-padded">
+				<h4 id="label_name" class="mui-content-padded" style="font-weight: 300;"></h4>
+				<input id='locate_name' type="text" class="mui-input-clear mui-input" placeholder="">
+
+				<div style="width:85%;margin: 0 auto;">
+					<button id="save" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="save_text"></font></button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+
+			function show_label() {
+				document.getElementById("label_set").innerHTML = poer_language.label_set(language);
+				document.getElementById("label_name").innerHTML = poer_language.label_locate_name(language);
+				document.getElementById("locate_name").placeholder = poer_language.label_locate_name_empty(language);
+				document.getElementById("save_text").innerHTML = poer_language.label_save(language);
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id;
+					show_label();
+					function setStyle() {
+						switch (language) {
+							case "English":
+								$("label").each(function() {
+									this.style.float = "left";
+									this.style.width = "45%";
+								});
+								$("input").each(function() {
+									this.style.float = "right";
+									this.style.width = "50%";
+								})
+								break;
+							case "Romanian":
+								$("label").each(function() {
+									this.style.float = "left";
+									this.style.width = "45%";
+								});
+								$("input").each(function() {
+									this.style.float = "right";
+									this.style.width = "50%";
+								})
+								break;
+							default:
+								break;
+						}
+					}
+//					setStyle();
+					var data = poer_function.getLocalStorage("locate_set");
+					var locate_list = poer_function.getLocalStorage("locate_list");
+					var locate_id = doc.getElementById("locate_id");
+					var locate_name = doc.getElementById("locate_name");
+					var locate_id_value = data.locate_id;
+					var locate_name_value = data.locate_name;
+					var is_default_value = data.is_default;
+					locate_name.value = locate_name_value;
+
+					function add_success(data) {
+						console.log(JSON.stringify(data));
+						if (data.Flag) {
+							locate_list.push({
+								ID: data.LocateId,
+								Name: data.LocateName,
+								IsDefault: false
+							});
+							poer_function.setLocalStorage('locate_list', locate_list);
+							mui.fire(zone_setup_page, 'refreshPage', {});
+							mui.back();
+						} else {
+							poer_public.alert(poer_language.label_add_failed(language));
+						}
+					}
+
+					function add_fail(xhr, textStatus, errorThrown) {
+						poer_public.alert(poer_language.label_add_failed(language));
+						console.log("add:" + xhr.status + "->>>>" + xhr.readyState + "->>>>" + textStatus);
+					}
+
+					function add_locate() {
+						var url = poer_url.add_locate(userId);
+						var data = {
+							Name: locate_name_value
+						};
+						poer_function.add_locate(url, JSON.stringify(data), add_success, add_fail);
+					}
+
+					function update_success(data) {
+						console.log(JSON.stringify(data));
+						if (data.Flag) {
+							var locate_info;
+							for (var i in locate_list) {
+								if (locate_list[i]['ID'] == locate_id_value) {
+									locate_list[i]['Name'] = locate_name_value;
+									break;
+								}
+							}
+							poer_function.setLocalStorage('locate_list', locate_list);
+							mui.fire(zone_setup_page, 'refreshPage', {});
+							mui.back();
+						} else {
+							poer_public.alert(poer_language.label_update_failed(language));
+						}
+					}
+
+					function update_fail(xhr, textStatus, errorThrown) {
+						poer_public.alert(poer_language.label_update_failed(language));
+					}
+
+					function edit_locate() {
+						var url = poer_url.update_locate(userId, locate_id_value);
+						var data = {
+							LocateId: locate_id_value,
+							LocateName: locate_name_value,
+							IsDefault: is_default_value
+						};
+						poer_function.update_locate(url, JSON.stringify(data), update_success, update_fail);
+					}
+					var zone_setup_page = plus.webview.getWebviewById("zone_setup");
+					doc.getElementById('save').addEventListener('tap', function() {
+						locate_name_value = locate_name.value.trim();
+						if (locate_name_value == "") {
+							poer_public.alert(poer_language.label_locate_name_empty(language));
+							return;
+						}
+						var length = locate_name_value.length;
+						if (length < 2) {
+							poer_public.alert(poer_language.label_locate_name_too_short(language));
+							return;
+						}
+						if (length > 20) {
+							poer_public.alert(poer_language.label_locate_name_too_long(language));
+							return;
+						}
+						if (locate_id_value == "") {
+							add_locate();
+						} else {
+							edit_locate();
+						}
+					}, false);
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

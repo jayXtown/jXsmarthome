@@ -1,0 +1,27 @@
+.fox_header{
+	background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+}
+.fox-white{
+	color: #ffffff;
+}
+.fox_content{
+	width: 100%;
+	padding-top:45px;
+}
+ul {
+	list-style-type: upper-roman;
+}
+li {
+	margin: .5em;
+}
+button {
+	margin: 1.5em auto;
+    display: block;
+    width: 8em;
+    height: 8em;
+    padding: 0;
+    border-radius: 4em;
+    background-color: #007585;
+    font-size: 1.1em;
+    color: white;
+}

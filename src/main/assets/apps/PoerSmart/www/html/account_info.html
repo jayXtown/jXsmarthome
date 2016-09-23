@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/account_info.css" rel="stylesheet" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_account_info"></h1>
+		</header>
+		<div class="fox_content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label id="label_name"></label>
+					<input id='name' type="text" class="mui-input-clear mui-input fox-blue" placeholder="">
+				</div>
+				<div class="mui-input-row">
+					<label id="label_email"></label>
+					<input id='email' type="text" class="mui-input" readonly="true">
+				</div>
+				<div class="mui-input-row">
+					<label id="label_country"></label>
+					<input id='country' type="text" class="mui-input fox-blue" readonly="true">
+				</div>
+				<div class="mui-input-row">
+					<label id='label_postcode'></label>
+					<input id='postcode' type="text" class="mui-input fox-blue" placeholder="">
+				</div>
+			</form>
+			<div style="margin-top:40px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="save" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="save_text"></font></button>
+				</div>
+			</div>
+			<div style="margin-top:15px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="change_password" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="change_password_text"></font></button>
+				</div>
+			</div>
+			<div style="margin-top:15px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="logout" type="button" class="fox_btn_logout"><font color="#ffffff" size="4" id="logout_text"></font></button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/storages.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/language.js"></script>
+		<script src="../js/time_zone.js"></script>
+		<script>
+			var language;
+
+			function show_label() {
+				document.getElementById("label_account_info").innerHTML = poer_language.label_account_info(language);
+				document.getElementById("name").placeholder = poer_language.label_name_empty(language);
+				document.getElementById("label_name").innerHTML = poer_language.label_name(language);
+				document.getElementById("label_email").innerHTML = poer_language.label_email(language);
+				document.getElementById("label_country").innerHTML = poer_language.label_country(language);
+				document.getElementById("label_postcode").innerHTML = poer_language.label_postcode(language);
+				document.getElementById("postcode").placeholder = poer_language.label_postcode_empty(language);
+				document.getElementById("save_text").innerHTML = poer_language.label_save(language);
+				document.getElementById("change_password_text").innerHTML = poer_language.label_change_password(language);
+				document.getElementById("logout_text").innerHTML = poer_language.label_logout(language);
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					plus.logger.consoleLog("setting_login_info:" + JSON.stringify(settings_login_info));
+					console.log("setting_login_info:" + JSON.stringify(settings_login_info));
+					language = settings_login_info.language;
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var nameBox = doc.getElementById("name");
+					var emailBox = doc.getElementById("email");
+					var countryBox = doc.getElementById("country");
+					var postcodeBox = doc.getElementById("postcode");
+					var postcode_value;
+					var name_value;
+					var country_value;
+					var userId = settings_user_info.Id;
+					nameBox.value = settings_user_info.Name;
+					emailBox.value = settings_user_info.Email;
+					countryBox.value = settings_user_info.Country;
+					postcodeBox.value = settings_user_info.Postcode;
+					show_label();
+					function setStyle() {
+						switch (language) {
+							case "English":
+								$("label").each(function() {
+									this.style.float = "left";
+									this.style.width = "45%";
+								});
+								$("input").each(function() {
+									this.style.float = "right";
+									this.style.width = "50%";
+								})
+								break;
+							case "Romanian":
+								$("label").each(function() {
+									this.style.float = "left";
+									this.style.width = "35%";
+								});
+								$("input").each(function() {
+									this.style.float = "right";
+									this.style.width = "60%";
+								})
+								break;
+							default:
+								break;
+						}
+					}
+					setStyle();
+					var country_array = poer_timezone.country();
+					var countryPicker = new $.PopPicker({
+						buttons: [poer_language.label_cancel(language),
+							poer_language.label_ok(language)
+						]
+					});
+					var country_data = new Array();
+					var country_name;
+					for (var i in country_array) {
+						country_name = country_array[i];
+						country_data.push({
+							value: country_name,
+							text: country_name
+						});
+					}
+					countryPicker.setData(country_data);
+					countryPicker.pickers[0].setSelectedValue(settings_user_info.Country);
+					countryBox.addEventListener('tap', function(event) {
+						countryPicker.show(function(items) {
+							countryBox.value = items[0].value;
+							//userResult.innerText = JSON.stringify(items[0]);
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+
+					function update_success(data) {
+						settings_user_info.Name = name_value;
+						settings_user_info.Country = country_value;
+						settings_user_info.Postcode = postcode_value;
+						poer_function.setLocalStorage("user_info", settings_user_info);
+						poer_public.toast(poer_language.label_update_success(language));
+					}
+
+					function update_fail(xhr, textStatus, errorThrown) {
+						poer_public.toast(poer_language.label_update_failed(language));
+					}
+					doc.getElementById("save").addEventListener('tap', function(event) {
+						name_value = nameBox.value.trim();
+						country_value = countryBox.value;
+						postcode_value = postcodeBox.value.trim();
+						if (name_value.length < 3) {
+							poer_public.toast(poer_language.label_name_too_short(language));
+							return;
+						}
+						if (name_value.length > 15) {
+							poer_public.toast(poer_language.label_name_too_long(language));
+							return;
+						}
+						if (postcode_value.length < 5) {
+							poer_public.toast(poer_language.label_postcode_too_short(language));
+							return;
+						}
+						if (postcode_value.length > 10) {
+							poer_public.toast(poer_language.label_postcode_too_long(language));
+							return;
+						}
+						var url = poer_url.update_user(userId);
+						var data = {
+							Country: country_value,
+							Email: settings_user_info.Email,
+							GatewayId: 0,
+							LocateId: 0,
+							Id: settings_user_info.Id,
+							Latitude: 0,
+							Longitude: 0,
+							Name: name_value,
+							Notes: settings_user_info.Notes,
+							Postcode: postcode_value,
+							DisplayMode: settings_user_info.DisplayMode
+						};
+						poer_function.update_user(url, JSON.stringify(data), update_success, update_fail);
+					});
+					doc.getElementById("change_password").addEventListener('tap', function(event) {
+						poer_public.openWindow("change_password.html", "change_password");
+					});
+					doc.getElementById("logout").addEventListener('tap', function(event) {
+//						poer_storage.is_auto_login.remove();
+//						poer_storage.from_logout.set(true);
+						poer_function.setLocalStorage('update_back_refresh', false);
+//						localStorage.removeItem("write_status_info");
+						//						poer_public.openWindow("../index.html", "login");
+//						plus.runtime.restart();
+						//						poer_public.openWindow("change_password.html", "change_password");
+						var buttonArray = poer_language.array_confirm_buttons(language);
+						mui.confirm(poer_language.msg_confirm_logout(language), poer_language.label_tip(language), buttonArray, function(e) {
+							if (e.index == 1) {
+								localStorage.removeItem("write_status_info");
+//								var allWebview = plus.webview.all();
+//								for (var i in allWebview) {
+//									var pageId = allWebview[i].id;
+//									if (pageId != "PoerSmart")
+//										plus.webview.close(pageId);
+//								}
+//								localStorage.clear();
+								plus.storage.removeItem("IS_LOGIN");
+								plus.runtime.restart();
+							} else {
+//								poer_storage.is_auto_login.set(true);
+//								poer_storage.from_logout.remove();
+								poer_function.setLocalStorage('update_back_refresh', true);
+							}
+						});
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

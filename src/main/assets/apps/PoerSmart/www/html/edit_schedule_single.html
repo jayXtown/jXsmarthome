@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/edit_schedule_single.css" rel="stylesheet" />
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_set"></h1>
+		</header>
+		<div class="fox_content" style="margin:20px 20px 20px 0px;">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label id="label_start_time"></label>
+					<input id='starttime' type="text" class="mui-input fox-blue" readonly="true">
+					<!--
+					<select id="starttime" class="fox-blue">
+					</select>-->
+				</div>
+				<div class="mui-input-row">
+					<label id="label_end_time"></label>
+					<input id='endtime' type="text" class="mui-input fox-blue" readonly="true">
+					<!--
+					<select id="endtime" class="fox-blue">
+					</select>-->
+				</div>
+				<div class="mui-input-row">
+					<label id="label_temperature"></label>
+					<input id='temperature' type="text" class="mui-input fox-blue" readonly="true">
+					<!--
+					<select id="temperature" class="fox-blue">
+					</select>
+					-->
+				</div>
+			</form>
+			<div style="margin-top:40px;height:60px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="save" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="save_text"></font></button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/function.js"></script>
+		<!--<script src="../js/url.js"></script>-->
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+
+			function show_label() {
+				document.getElementById("label_set").innerHTML = poer_language.label_set(language);
+				document.getElementById("label_start_time").innerHTML = poer_language.label_start_time(language);
+				document.getElementById("label_end_time").innerHTML = poer_language.label_end_time(language);
+				document.getElementById("label_temperature").innerHTML = poer_language.label_temperature(language);
+				document.getElementById("save_text").innerHTML = poer_language.label_save(language);
+			}
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					//					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userTempUnit = settings_user_info.DisplayMode;
+					var data = poer_function.getLocalStorage("schedule_single");
+					var refreshPageId = data.refreshPageId;
+					var starttime = doc.getElementById("starttime");
+					var endtime = doc.getElementById("endtime");
+					var temperature = doc.getElementById("temperature");
+					var starttime_value;
+					var endtime_value;
+					var temp_value;
+					var nodeId;
+					var curWebview = plus.currentWebview;
+					var tempPicker = new $.PopPicker({
+						buttons: [poer_language.label_cancel(language),
+							poer_language.label_ok(language)
+						]
+					});
+					var h = [];
+					for (i = 0; i <= 24; i++) {
+						h.push({
+							text : ultZeroize(i, 2),
+							value : i
+						});
+					}
+					
+					var timePickerOption = {
+						type: "time",
+						customData: {
+							h: h,
+							i: [{
+								text: "00",
+								value: 0
+							}, {
+								text: "15",
+								value: 15
+							}, {
+								text: "30",
+								value: 30
+							}, {
+								text: "45",
+								value: 45
+							}]
+						},
+						labels: poer_language.array_datetime_picker_labels(language),
+						buttons: poer_language.array_confirm_buttons(language)
+					};
+					var temp_data = new Array();
+					var time_data = new Array();
+					if (userTempUnit == 0) { //摄氏度
+						for (var i = 50; i <= 320; i += 5) {
+							temp_data.push({
+								value: i / 10,
+								text: (i % 10 == 0 ? i / 10 + ".0" : i / 10) + "°C"
+							});
+						}
+					} else { //华氏度
+						for (var i = 400; i <= 900; i += 10) {
+							temp_data.push({
+								value: i / 10,
+								text: i / 10 + "°F"
+							});
+						}
+					}
+					tempPicker.setData(temp_data);
+					temperature.addEventListener('tap', function(event) {
+						tempPicker.show(function(items) {
+							temp_value = items[0].value;
+							temperature.value = items[0].text;
+						});
+					}, false);
+					starttime.addEventListener('tap', function(event) {
+						timePickerOption.value = "1970-01-01 " + this.value;
+						var timePicker = new $.DtPicker(timePickerOption);
+						timePicker.show(function(result) {
+							console.log(JSON.stringify(result));
+							starttime_value = result.h.value * 3600 + result.i.value * 60;
+							starttime.value = result.text;
+						});
+					}, false);
+					endtime.addEventListener('tap', function(event) {
+						timePickerOption.value = "1970-01-01 " + this.value;
+						var timePicker2 = new $.DtPicker(timePickerOption);
+						timePicker2.show(function(result) {
+							endtime_value = result.h.value * 3600 + result.i.value * 60;
+							endtime.value = result.text;
+						});
+					}, false);
+
+					function transfer_time(time) {
+						var override_time_hour = parseInt(time / 3600);
+						var override_time_min = parseInt(time % 3600 / 60);
+						var show_override_time = (override_time_hour < 10 ? "0" + override_time_hour : override_time_hour) + ":" + (override_time_min < 10 ? "0" + override_time_min : override_time_min);
+						return show_override_time;
+					}
+					starttime_value = data.start_time;
+					starttime.value = transfer_time(starttime_value);
+					endtime_value = data.end_time;
+					endtime.value = transfer_time(endtime_value);
+					temp_value = data.temperature;
+					temperature.value = temp_value + (userTempUnit == 0 ? "°C" : "°F");
+					nodeId = data.node_id;
+					tempPicker.pickers[0].setSelectedValue(temp_value);
+					//					timePicker.pickers[0].setSelectedValue(starttime_value);
+					//					timePicker2.pickers[0].setSelectedValue(endtime_value);
+					var edit_schedule_page = null;
+					doc.getElementById('save').addEventListener('tap', function() {
+						var temp = temp_value;
+						var start_sec = starttime_value;
+						var end_sec = endtime_value;
+						if (start_sec - end_sec >= 0) {
+							poer_public.alert(poer_language.label_start_end_time_error(language));
+							return;
+						}
+						if (userTempUnit == 0) {
+							5 - 32
+							if (temp < 5 || temp > 32) {
+								poer_public.alert(poer_language.label_temperature_error(language) + " 5~32");
+								return;
+							}
+						} else {
+							if (temp < 40 || temp > 90) {
+								poer_public.alert(poer_language.label_temperature_error(language) + " 40~90");
+								return;
+							}
+						}
+						
+						if (end_sec > 86400) {
+							poer_public.alert(poer_language.msg_sel_end_time_error(language));
+							return;
+						}
+						
+						if (!edit_schedule_page) {
+							//			    			edit_schedule_page = plus.webview.getWebviewById('edit_schedule_'+nodeId);
+							console.log("refreshPageId:" + refreshPageId);
+							edit_schedule_page = plus.webview.getWebviewById(refreshPageId);
+							mui.fire(edit_schedule_page, 'setPoint', {
+								starttime: start_sec,
+								endtime: end_sec,
+								temperature: temp
+							});
+							$.back();
+						}
+					}, false);
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

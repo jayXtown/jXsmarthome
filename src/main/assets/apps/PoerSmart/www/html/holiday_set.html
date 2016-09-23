@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link href="../css/poer.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			 
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			.fox-btn
+			{
+			    font-size: 14px;
+			    font-weight: 400;
+			    line-height: 1;
+			
+			    position: relative;
+			
+			    display: inline-block;
+			
+			    margin-bottom: 0;
+			    padding: 6px 12px;
+			
+			    cursor: pointer;
+			    -webkit-transition: all;
+			            transition: all;
+			    -webkit-transition-timing-function: linear;
+			            transition-timing-function: linear;
+			    -webkit-transition-duration: .2s;
+			            transition-duration: .2s;
+			    text-align: center;
+			    vertical-align: top;
+			    white-space: nowrap;
+			
+			    color: #333;
+			    border: 1px solid #ccc;
+			    border-radius: 3px;
+			    border-top-left-radius: 3px;
+			    border-top-right-radius: 3px;
+			    border-bottom-right-radius: 3px;
+			    border-bottom-left-radius: 3px;
+			    background-color: #fff;
+			    background-clip: padding-box;
+			}
+			.fox_btn_login{
+				height: 40px;
+				width: 100%;
+				background: url(../img/lan_icon_loginbtn.png) no-repeat;
+				background-size: 100% 100%;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="label_holiday_set">Holiday Set</h1>
+		</header>
+		<div class="mui-content" style="margin:20px 20px 20px 20px;">
+			<div>
+				<div style="float:left; width:110px;text-align: left;margin-top:5px;" id="label_start_time"></div>
+				<div style="clear: both;"></div>
+				<div style="float:left; width:230px; margin-top: 10px;">
+					<div style="float:left; width: 70px;">
+						<select class="fox-btn mui-btn-block" id="starttime_year" onchange="change_startyear(this.value);">
+						</select>
+					</div>
+					<div style="float:left; width: 10px;text-align: center;margin-top:5px;">/</div>
+					<div style="float:left; width: 70px;">
+						<select class="fox-btn mui-btn-block" id="starttime_month" onchange="change_startmonth(this.value);">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<div style="float:left; width: 10px;text-align: center;margin-top:5px;">/</div>
+					<div style="float:left; width: 70px;">
+						<select class="fox-btn mui-btn-block" id="starttime_day">
+						</select>
+					</div>
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div style="margin-top:20px;">
+				<div style="float:left; width:110px;text-align: left;margin-top:10px;" id="label_end_time"></div>
+				<div style="float:left; width:230px;margin-top:10px;">
+					<div style="float:left; width: 70px;">
+						<select class="fox-btn mui-btn-block" id="endtime_year" onchange="change_endyear(this.value);">
+						</select>
+					</div>
+					<div style="float:left; width: 10px;text-align: center;margin-top:5px;">/</div>
+					<div style="float:left; width: 70px;">
+						<select class="fox-btn mui-btn-block" id="endtime_month" onchange="change_endmonth(this.value);">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+					</div>
+					<div style="float:left; width: 10px;text-align: center;margin-top:5px;">/</div>
+					<div style="float:left; width: 70px;">
+						<select class="fox-btn mui-btn-block" id="endtime_day">
+						</select>
+					</div>
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div style="margin-top:30px;height:60px;">
+				<div style="width:100px;margin: 0 auto;">
+					<button id="save" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="login_text">Save</font></button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+			var startime_year;
+			var endtime_year;
+			var starttime_month;
+			var endtime_month;
+			var starttime_day;
+			var endtime_day;
+			function show_label(){
+				//document.getElementById("label_set").innerHTML = poer_language.label_set(language);
+				document.getElementById("label_start_time").innerHTML = poer_language.label_start_time(language);
+				document.getElementById("label_end_time").innerHTML = poer_language.label_end_time(language);
+				document.getElementById("save").innerHTML = poer_language.label_save(language);
+			}
+			
+			function change_startyear(value){
+				var month = starttime_month.value;
+				if(month==2 && poer_public.is_leap_year(value)){
+					var length = starttime_day.childNodes.length;
+					for(var i=length-1;i>=0;i--){
+						var childNode = starttime_day.childNodes[i]; 
+						starttime_day.removeChild(childNode); 
+					}
+					
+					for(var i=1;i<32;i++){
+						op = document.createElement("option");
+						op.value = i;
+						op.text = i;
+						starttime_day.appendChild(op);
+					}
+					starttime_day.value = 1;
+				}
+			}
+			
+			function change_startmonth(value){
+				var length = starttime_day.childNodes.length;
+				for(var i=length-1;i>=0;i--){
+					var childNode = starttime_day.childNodes[i]; 
+					starttime_day.removeChild(childNode); 
+				}
+					
+				var year = starttime_year.value;
+				var month = value;
+				if(month==1 || month==3 || month==5 || month==7 || month==8 || month==10 ||month==12){
+					for(var i=1;i<32;i++){
+						op = document.createElement("option");
+						op.value = i;
+						op.text = i;
+						starttime_day.appendChild(op);
+					}
+				}
+				else if(month==2){
+					for(var i=1;i<29;i++){
+						op = document.createElement("option");
+						op.value = i;
+						op.text = i;
+						starttime_day.appendChild(op);
+					}
+					if(poer_public.is_leap_year(year)){
+						op = document.createElement("option");
+						op.value = 29;
+						op.text = 29;
+						starttime_day.appendChild(op);
+					}
+				}
+				else{
+					for(var i=1;i<31;i++){
+						op = document.createElement("option");
+						op.value = i;
+						op.text = i;
+						starttime_day.appendChild(op);
+					}
+				}
+			}
+			
+			function change_endyear(value){
+				var month = endtime_month.value;
+				if(month==2 && poer_public.is_leap_year(value)){
+					var length = endtime_day.childNodes.length;
+					for(var i=length-1;i>=0;i--){
+						var childNode = endtime_day.childNodes[i]; 
+						endtime_day.removeChild(childNode); 
+					}
+					
+					for(var i=1;i<32;i++){
+						op = document.createElement("option");
+						op.value = i;
+						op.text = i;
+						endtime_day.appendChild(op);
+					}
+					endtime_day.value = 1;
+				}
+			}
+			
+			function change_endmonth(value){
+				var length = endtime_day.childNodes.length;
+				for(var i=length-1;i>=0;i--){
+					var childNode = endtime_day.childNodes[i]; 
+					endtime_day.removeChild(childNode); 
+				}
+					
+				var year = endtime_year.value;
+				var month = value;
+				if(month==1 || month==3 || month==5 || month==7 || month==8 || month==10 ||month==12){
+					for(var i=1;i<32;i++){
+						op = document.createElement("option");
+						op.value = i;
+						op.text = i;
+						endtime_day.appendChild(op);
+					}
+				}
+				else if(month==2){
+					for(var i=1;i<29;i++){
+						op = document.createElement("option");
+						op.value = i;
+						op.text = i;
+						endtime_day.appendChild(op);
+					}
+					if(poer_public.is_leap_year(year)){
+						op = document.createElement("option");
+						op.value = 29;
+						op.text = 29;
+						endtime_day.appendChild(op);
+					}
+				}
+				else{
+					for(var i=1;i<31;i++){
+						op = document.createElement("option");
+						op.value = i;
+						op.text = i;
+						endtime_day.appendChild(op);
+					}
+				}
+			}
+			
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var holiday_from = poer_function.getLocalStorage("holiday_from");
+					
+					starttime_year = doc.getElementById("starttime_year");
+					starttime_month = doc.getElementById("starttime_month");
+					starttime_day = doc.getElementById("starttime_day");
+					endtime_year = doc.getElementById("endtime_year");
+					endtime_month = doc.getElementById("endtime_month");
+					endtime_day = doc.getElementById("endtime_day");
+					
+					var start_year;
+					var start_month;
+					var start_day;
+					var start_time;
+					var end_year;
+					var end_month;
+					var end_day;
+					var end_time;
+					
+					if(holiday_from=="node_detail"){
+						var node_list = poer_function.getLocalStorage("node_list");
+						var nodeId = poer_function.getLocalStorage("node_detail_id");
+						var node_info;
+						for(var i in node_list){
+							if(node_list[i]['Id']==nodeId){
+								node_info = node_list[i];
+								break;
+							}
+						}
+						//console.log(JSON.stringify(node_info));
+						
+						var holiday_start = node_info['HolidayStart']*1000;
+						var holiday_end = node_info['HolidayEnd']*1000;
+						//holiday_start = 1457496000 *1000;
+						//holiday_end = 1458360000 *1000;
+						if(holiday_start<=0){
+							var date = new Date();
+							var year = date.getFullYear();
+							var month = date.getMonth()+1;
+							var day = date.getDate();
+							
+							start_year = year;
+							end_year = year;
+							start_month = month;
+							end_month = month;
+							start_day = day;
+							end_day = day;
+						}
+						else{
+							var start_date = new Date(holiday_start);
+							start_year = start_date.getFullYear();
+							start_month = start_date.getMonth()+1;
+							start_day = start_date.getDate();
+							var end_date = new Date(holiday_end);
+							end_year = end_date.getFullYear();
+							end_month = end_date.getMonth()+1;
+							end_day = end_date.getDate();
+						}
+						 
+					}
+					else{
+						var date = new Date();
+						var year = date.getFullYear();
+						var month = date.getMonth()+1;
+						var day = date.getDate();
+						
+						start_year = year;
+						end_year = year;
+						start_month = month;
+						end_month = month;
+						start_day = day;
+						end_day = day;
+					}
+					
+					 
+					for(var i=start_year-1;i<start_year+2;i++){
+						var op = doc.createElement("option");
+						op.value = i;
+						op.text = i;
+						starttime_year.appendChild(op);
+					}
+					
+					for(var i=end_year-1;i<end_year+2;i++){
+						var op = doc.createElement("option");
+						op.value = i;
+						op.text = i;
+						endtime_year.appendChild(op);
+					}
+					
+					//赋值
+					starttime_year.value = start_year;
+					endtime_year.value = end_year;
+					starttime_month.value = start_month;
+					endtime_month.value = end_month;
+					var op;
+					if(month==1 || month==3 || month==5 || month==7 || month==8 || month==10 ||month==12){
+						for(var i=1;i<32;i++){
+							op = doc.createElement("option");
+							op.value = i;
+							op.text = i;
+							starttime_day.appendChild(op);
+						}
+						for(var i=1;i<32;i++){
+							op = doc.createElement("option");
+							op.value = i;
+							op.text = i;
+							endtime_day.appendChild(op);
+						}
+					}
+					else if(month==2){
+						for(var i=1;i<29;i++){
+							op = doc.createElement("option");
+							op.value = i;
+							op.text = i;
+							starttime_day.appendChild(op);
+						}
+						for(var i=1;i<29;i++){
+							op = doc.createElement("option");
+							op.value = i;
+							op.text = i;
+							endtime_day.appendChild(op);
+						}
+						if(poer_public.is_leap_year(year)){
+							op = doc.createElement("option");
+							op.value = 29;
+							op.text = 29;
+							starttime_day.appendChild(op);
+							
+							op = doc.createElement("option");
+							op.value = 29;
+							op.text = 29;
+							endtime_day.appendChild(op);
+						}
+					}
+					else{
+						for(var i=1;i<31;i++){
+							op = doc.createElement("option");
+							op.value = i;
+							op.text = i;
+							starttime_day.appendChild(op);
+						}
+						for(var i=1;i<31;i++){
+							op = doc.createElement("option");
+							op.value = i;
+							op.text = i;
+							endtime_day.appendChild(op);
+						}
+					}
+					starttime_day.value = start_day;
+					endtime_day.value = end_day;
+					
+					doc.getElementById('save').addEventListener('tap', function() {
+						start_year = starttime_year.value;
+						start_month = starttime_month.value-1;
+						start_day = starttime_day.value;
+						start_time = new Date(start_year, start_month, start_day).getTime();
+						end_year = endtime_year.value;
+						end_month = endtime_month.value-1;
+						end_day = endtime_day.value;
+						end_time = new Date(end_year, end_month, end_day).getTime()+86309*1000;
+						
+						if(start_time - end_time >= 0){
+							poer_public.alert(poer_language.label_start_end_time_error(language));
+							return;
+						}
+						
+						var main_page;
+						var node_detail_page;
+						if(holiday_from=="main"){
+							if(!main_page){
+				    			main_page = plus.webview.getWebviewById('main');
+				    			mui.fire(main_page,'set_holiday',{ //毫秒转换成秒
+									start_time: start_time/1000,   
+									end_time:   end_time/1000
+								});
+								mui.back();
+			    			}
+						}
+						else{
+							if(!node_detail_page){
+				    			node_detail_page = plus.webview.getWebviewById('node_detail');
+				    			mui.fire(node_detail_page,'set_holiday',{ //毫秒转换成秒
+									start_time: start_time/1000,   
+									end_time:   end_time/1000
+								});
+								mui.back();
+			    			}
+						}
+						 
+					}, false);
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/edit_schedule.css"/>
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_edit_schedule"></h1>
+		</header>
+		<div class="fox_content" id="content">
+			<div style="background-color: gray;height:50px;">
+				<div style="width:160px;margin:0 auto;padding-top:10px;color:white" id="weekday_div">
+					<div id="weekday_pre" style="float:left;"><img style="width:22px;" src="../img/lan_icon_arrow_left.png"/></div>
+					<div id="weekday" style="float:left;margin-top:4px;width:116px;text-align: center;"></div>
+					<div id="weekday_next" style="float:left;"><img style="width:22px;" src="../img/lan_icon_arrow_right.png"/></div>
+				</div>
+				<div style="height:30px;display:none;padding-top:10px;color:white" id="set_updating_div">
+					<center id="label_updating"></center>		
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div style="padding-top:2px;padding-bottom: 100px;">
+				<ul class="fox_ul" id="node_list">
+				</ul>
+			</div>
+		</div>
+		<nav class="fox-bar mui-bar-tab">
+			<a id="btn_refresh" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-refresh"></div>
+					<div class="fox-tab-label" id="label_refresh"></div>
+				</div>
+			</a>
+			<a id="btn_add" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-add"></div>
+					<div class="fox-tab-label" id="label_add"></div>
+				</div>
+			</a>
+			<a id="btn_save" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-save"></div>
+					<div class="fox-tab-label" id="label_save"></div>
+				</div>
+			</a> 
+			<a id="btn_copy" class="fox-tab-item">
+				<div>
+					<div class="fox-icon fox-icon-copy"></div>
+					<div class="fox-tab-label" id="label_copy"></div>
+				</div>
+			</a> 
+		</nav>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+			var schedule_info;
+			var detail_info;
+			var d = new Date();
+			var day_index = d.getDay();
+			var show_temp_unit;
+			var ul = document.getElementById("node_list");
+			var nodeId;
+			
+			function show_label(){
+				document.getElementById("label_edit_schedule").innerHTML = poer_language.label_schedule(language);
+				//document.getElementById("label_weekday").innerHTML = poer_language.label_weekday(language);
+				document.getElementById("label_refresh").innerHTML = poer_language.label_refresh(language);
+				document.getElementById("label_add").innerHTML = poer_language.label_add(language);
+				document.getElementById("label_save").innerHTML = poer_language.label_save(language);
+				document.getElementById("label_copy").innerHTML = poer_language.label_copy(language);
+				document.getElementById("label_updating").innerHTML = poer_language.label_updating(language)
+																+"<img src='../img/lan_icon_waitting.gif' style='width:15px;height:15px;'/>";
+			}
+			
+			function refresh_list(){
+				schedule_info = poer_function.getLocalStorage("schedule_"+nodeId);
+				console.log(JSON.stringify(schedule_info));
+				detail_info = schedule_info[day_index]['ProgramTime'];
+				sort_list();
+			}
+			
+			function sort_list(){
+				var li;
+				var cur_hour;
+				var cur_show_hour;
+				var cur_min;
+				var cur_show_min;
+				var next_hour;
+				var next_show_hour;
+				var next_min;
+				var next_show_min;
+				var cur_point;
+				var next_point;
+				
+				var length = ul.childNodes.length;
+				for(var i=length-1;i>=0;i--){
+					var childNode = ul.childNodes[i]; 
+					ul.removeChild(childNode); 
+				}
+				//台头
+				li = document.createElement('li');
+				li.className = 'poer_li';
+				li.innerHTML ="<div class='fox-div'>" 
+							+"<div style='clear:both;'></div>"
+							+"<div style='float:left; width:100px;text-align:center;font-weight:700;'>"
+							+poer_language.label_time(language)+"</div>"
+							+"<div style='float:left; width:100px;text-align:right;font-weight:700;'>"
+							+poer_language.label_temperature(language)+"</div>"
+							+"<div style='float:right; width:60px;text-align:center;font-weight:700;'>"
+							+poer_language.label_set(language)+"</div>"
+							+"<div style='clear:both;'></div>"
+							+"<div style='height:1px;background-color: #c8c7cc;'></div>"
+							+"</div>";
+				ul.appendChild(li);
+				
+				length = detail_info.length;
+				for(i=0;i<length-1;i++){
+					cur_point = detail_info[i];
+					next_point = detail_info[i+1];
+					cur_hour = cur_point['Hour'];
+					cur_show_hour = cur_hour<10? "0"+cur_hour : cur_hour;
+					cur_min = cur_point['Min'];
+					cur_show_min = cur_min == 0 ? "00" : cur_min ;
+					next_hour = next_point['Hour'];
+					next_show_hour = next_hour<10? "0"+next_hour : next_hour;
+					next_min = next_point['Min'];
+					next_show_min = next_min == 0 ? "00" : next_min ;
+					
+					li = document.createElement('li');
+					li.className = 'poer_li';
+					li.innerHTML ="<div class='fox-div'>" 
+								+"<div style='clear:both;'></div>"
+								+"<div style='float:left; width:100px;text-align:right;' id='edttime_"+i+"'>"+cur_show_hour+":"+cur_show_min+"~"+next_show_hour+":"+next_show_min+"</div>"
+								//+"<div style='float:left; width:20px;text-align:right;'>|</div>"
+								+"<div style='float:left; width:70px;text-align:right;' id='edttemp_"+i+"'>"+(cur_point['Temprature']/10)+"</div>"
+								+"<div style='float:left; width:20px;text-align:right;' id='edttempunit_"+i+"'>"+show_temp_unit+"</div>"
+								//+"<div style='float:left; width:8px;text-align:right;'>|</div>"
+								+"<div style='float:right; width:60px;' id='del_"+i+"'>"
+								+"<div class='mui-icon fox-icon-delete' style='float:right; margin-right:20px;width: 20px;'></div></div>"
+								//+"<div style='float:right; width:40px;background-color:green;' id='edt_"+i+"'><a><span class='mui-icon fox-icon-edit'></span></a></div>"
+								+"<div style='clear:both;'></div>"
+								+"<div style='height:1px;background-color: #c8c7cc;'></div>"
+								+"</div>";
+					ul.appendChild(li);
+				}
+			}
+			
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#FFFFFF'
+				});
+				
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var userId = settings_user_info.Id;
+					var userTempUnit = settings_user_info.DisplayMode;
+					nodeId = poer_function.getLocalStorage("node_detail_id");
+					show_temp_unit = userTempUnit==0 ? "°C" : "°F";
+					var is_edit = false;
+					var can_write = true;
+					var no_write_type = 0;   //不能操作的原因  0:设备正在写, 1:网关离线, 2:设备离线
+					
+					var start_hour_box = doc.getElementById("start_hour");
+					var start_min_box = doc.getElementById("start_min");
+					var end_hour_box = doc.getElementById("end_hour");
+					var end_min_box = doc.getElementById("end_min");
+					var set_temp_box = doc.getElementById("set_temperature");
+					var weekday = doc.getElementById("weekday");
+					var weekday_array = poer_language.label_weekday_array(language);
+					weekday.innerHTML = weekday_array[day_index];
+					var set_updating_div = doc.getElementById("set_updating_div");
+					var weekday_div = doc.getElementById("weekday_div");
+					
+					var write_status_info = poer_function.getLocalStorage("write_status_info");
+					var device_status_info;
+					for(var i in write_status_info){
+						if(write_status_info[i]['Id']==nodeId){
+							device_status_info = write_status_info[i];
+							if(device_status_info['Type']=='set_schedule' && device_status_info['Status']==0){
+								weekday_div.style.display = "none";
+								set_updating_div.style.display = "";
+							}
+							else{
+								weekday_div.style.display = "";
+								set_updating_div.style.display = "none";
+							}		
+						}
+					}
+					
+					refresh_list();
+					
+					doc.getElementById("weekday_pre").addEventListener('tap', function() {
+						day_index = (day_index+6)%7;
+						weekday.innerHTML = weekday_array[day_index];
+						refresh_list();
+					}, false);
+					doc.getElementById("weekday_next").addEventListener('tap', function() {
+						day_index = (day_index+1)%7;
+						weekday.innerHTML = weekday_array[day_index];
+						refresh_list();
+					}, false);
+					
+					doc.getElementById("btn_copy").addEventListener('tap', function() {
+						show_can_write();   //实时判断是否可写
+						if(!can_write && no_write_type!=0){
+							show_no_write(no_write_type);
+							return;
+						}
+						
+						poer_function.setLocalStorage("day_index", day_index);
+						var copy_schedule_page = plus.webview.getWebviewById("copy_schedule_"+nodeId);
+						if(copy_schedule_page!=null){
+							mui.fire(copy_schedule_page,'refresh_page',{});	
+						}
+						poer_public.openWindow("copy_schedule.html", 'copy_schedule_'+nodeId);
+					}, false);
+					
+					doc.getElementById('btn_refresh').addEventListener('tap', function() {
+						refresh_list();
+					}, false);
+					doc.getElementById('btn_add').addEventListener('tap', function() {
+						var data = {
+							node_id: nodeId,
+							start_time: 0,
+							end_time: 0,
+							temperature: 0
+						};
+						poer_function.setLocalStorage("schedule_single", data);
+						poer_public.openWindow("edit_schedule_single.html", "edit_schedule_single");
+					});
+					
+					function show_can_write(){
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						var device_status_info;
+						for(var i in write_status_info){
+							if(write_status_info[i]['Id']==nodeId){
+								device_status_info = write_status_info[i];
+								if(device_status_info['Status']==1){
+									can_write = true;
+								}
+								else{
+									can_write = false;
+									no_write_type = 0;   //正在更新中
+								}
+								break;
+							}
+						}
+						
+						var node_list = poer_function.getLocalStorage("node_list");
+						var node_info;
+						for(var i in node_list){
+							if(node_list[i]['Id'] == nodeId){
+								node_info = node_list[i];
+								break;
+							}
+						}
+						
+						var gateway_list = poer_function.getLocalStorage("gateway_list");
+						var gateway_id = node_info['GatewayId'];
+						var gateway_info;
+						for(var i in gateway_list){
+							if(gateway_list[i]['Id']==gateway_id){
+								gateway_info = gateway_list[i];
+								break;
+							}
+						}
+						
+						//判断网关是否离线以及设备是否离线
+						if(!node_info['RfLinkGateway']){   //设备离线
+							can_write = false;
+							no_write_type = 2;
+						}
+						 
+						if(!gateway_info['IsOnline']){   //网关离线
+							can_write = false;
+							no_write_type = 1;
+						}
+					}
+					
+					function show_no_write(type){
+						var text;
+						switch(type){
+							case 0: text = poer_language.label_set_updating(language);break;
+							case 1: text = poer_language.label_gateway_offline(language);break;
+							case 2: text = poer_language.label_offline(language);break;
+						}
+						poer_public.alert(text);
+					}
+					
+					var update_times = 0;
+					function setBackTask(status){
+						if(!status){
+							update_times = 0;
+						}
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						for(var i in write_status_info){
+							if(write_status_info[i]['Id']==nodeId){
+								write_status_info[i]['Type'] = 'set_node';
+								write_status_info[i]['Status'] = status?1:0;
+								poer_function.setLocalStorage('write_status_info', write_status_info);
+								break;
+							}
+						}
+						if(status){
+							weekday_div.style.display = "";
+							set_updating_div.style.display = "none";
+						}
+						else{
+							weekday_div.style.display = "none";
+							set_updating_div.style.display = "";
+						}
+					}
+					
+					function writestatus_success(data){
+						console.log(JSON.stringify(data));
+						var Flag = data.TranStatus;
+						if(Flag){
+							//修改编程信息并保存
+							var content = {
+								'ProgramTime': detail_info
+							};
+							schedule_info[day_index] = content;
+							poer_function.setLocalStorage("schedule_"+nodeId, schedule_info);
+							
+							poer_public.alert(poer_language.label_update_success(language));
+							setBackTask(true);
+						}
+						else{
+							if(update_times>60){
+								poer_public.alert(poer_language.label_update_failed(language));
+								setBackTask(true);
+								return;
+							}
+							setTimeout(get_write_status,3000);
+						} 
+					}
+					
+					function writestatus_fail(xhr,textStatus,errorThrown){
+						if(update_times>60){
+							poer_public.alert(poer_language.label_update_failed(language));
+							setBackTask(true);
+							return;
+						}
+						setTimeout(get_write_status,3000);
+					}
+					
+					function get_write_status(){
+						console.log(update_times);
+						update_times++;
+						var url = poer_url.write_status(userId, nodeId);
+						var data = {};
+						poer_function.write_status(url, data, writestatus_success, writestatus_fail);
+					}
+					
+					function update_success(data){
+						var Flag = data.Flag;
+						if(Flag){
+							get_write_status();
+						}
+						else{
+							poer_public.alert(poer_language.label_update_failed(language));
+							setBackTask(true);
+						}
+					}
+					
+					function update_fail(xhr,textStatus,errorThrown){
+						poer_public.alert(poer_language.label_update_failed(language));
+						setBackTask(true);
+					}
+					
+					function save(content){
+						var url = poer_url.update_schedule(userId, nodeId, day_index);
+						poer_function.update_schedule(url, JSON.stringify(content), update_success, update_fail);
+					}
+					
+					doc.getElementById('btn_save').addEventListener('tap', function() {
+						show_can_write();   //实时判断是否可写
+						if(!can_write){
+							show_no_write(no_write_type);
+							return;
+						}
+						
+						var first_point = detail_info[0];
+						if(first_point['Sec']>0){
+							poer_public.alert(poer_language.label_firstpoint_error(language));
+							return;
+						}
+						var length = detail_info.length;
+						var end_point = detail_info[length-1];
+						if(end_point['Sec']<86400){
+							poer_public.alert(poer_language.label_endpoint_error(language));
+							return;
+						}
+						
+						var content;
+						var result_array = new Array();
+						var item;
+						var temperature;
+						var length = detail_info.length;
+						if(length>13){
+							poer_public.alert(poer_language.label_timepoint_max(language));
+							return;
+						}
+								
+						var btnArray = [poer_language.label_no(language), poer_language.label_yes(language)];
+						mui.confirm(poer_language.label_update_schedule(language), poer_language.label_confirm(language), btnArray, function(e) {
+							if (e.index == 1) {   //确认修改
+								setBackTask(false);
+								for(var i in detail_info){
+									item = detail_info[i];
+									temperature = item['Temprature'];
+									result_array.push({
+										'Hour': item['Hour'],
+										'Min': item['Min'],
+										'Temprature': userTempUnit==0? temperature*9 : (temperature-320)*5 
+									});
+								}
+								content = {
+									'ProgramTime': result_array
+								};
+								save(content);
+							} 
+						});
+						
+					}, false);
+					
+					mui("#node_list").on('tap', 'div', function(e){ 
+						var id = this.id;
+						var child_array = id.split("_");
+						var num = child_array[1];
+						var type = child_array[0];
+						
+						switch(type){
+							case 'edttemp':
+							case 'edttime':
+							case 'edttempunit':
+								var cur_point = detail_info[num];
+								var next_point = detail_info[num-0+1];
+								var data = {
+									node_id: nodeId,
+									start_time: cur_point['Sec'],
+									end_time: next_point['Sec'],
+									temperature: cur_point['Temprature']/10
+								};
+								poer_function.setLocalStorage("schedule_single", data);
+								poer_public.openWindow("edit_schedule_single.html", "edit_schedule_single");
+								break;
+								
+							case 'del':
+								if(num==0){
+									poer_public.alert(poer_language.label_firstpoint_delete(language));
+									return;
+								}
+								detail_info.splice(num,1);	
+								break;
+						}
+						
+						sort_list();
+					});
+					
+					window.addEventListener('setPoint',function(event){
+						//获得事件参数
+						var result = event.detail;
+						var start_sec = result.starttime;
+						var end_sec = result.endtime;
+						var temperature = result.temperature*10;
+						
+						var start_hour = parseInt(start_sec/3600);
+						var start_min = parseInt(start_sec%3600/60);
+						var end_hour = parseInt(end_sec/3600);
+						var end_min = parseInt(end_sec%3600/60);
+						
+						var pre_start;   //起始点前面的最后一个点
+						var next_end;    //结束点后面的第一个点
+						var pre_end;     //结束点前面的最后一个点
+						
+						var length = detail_info.length;
+						var cur_node_schedule_info = detail_info;
+						var i;
+						for(i=0;i<length;i++){
+							if(cur_node_schedule_info[i]['Sec'] - start_sec >= 0){
+								 pre_start = i-1;
+								 break;
+							}
+						}
+						for(i=0;i<length;i++){
+							if(cur_node_schedule_info[i]['Sec'] - end_sec >0){
+								next_end = i;
+								break;
+							}
+						}
+						for(i=length-1;i>-1;i--){
+							if(cur_node_schedule_info[i]['Sec'] - end_sec <=0){
+								pre_end = i;
+								break;
+							}
+						}
+						
+						console.log(pre_start+","+next_end+","+pre_end);
+						
+						var child_temp = cur_node_schedule_info[pre_end]['Temprature'];
+						if(typeof(next_end)=="undefined"){  //结束时间是24:00
+							next_end = cur_node_schedule_info.length;	 
+						}
+						cur_node_schedule_info.splice(pre_start+1,next_end-pre_start-1,{
+							'Hour': start_hour,
+							'Min': start_min,
+							'Temprature': temperature,
+							'Sec': start_sec
+						},{
+							'Hour': end_hour,
+							'Min': end_min,
+							'Temprature': child_temp,
+							'Sec': end_sec
+						});
+
+						if(cur_node_schedule_info.length>13){
+							poer_public.alert(poer_language.label_timepoint_max(language));
+							return;
+						}
+						
+						detail_info = cur_node_schedule_info;
+						 
+						sort_list();
+					});
+					
+					window.addEventListener('refresh_page',function(event){
+						//重新获取schedule info
+						show_can_write();
+						if(can_write){ //正常才能更新
+							console.log("edit schedule refresh page");
+							refresh_list();
+						}
+					});
+					
+					var back = $.back;
+					$.back = function(event) { 
+						poer_public.openWindow("node_detail.html", "node_detail_"+nodeId);
+					};
+					
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

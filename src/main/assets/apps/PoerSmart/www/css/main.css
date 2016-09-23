@@ -1,0 +1,280 @@
+.fox_content{
+	//height: 500px;
+	width: 100%;
+	padding-top:45px;
+	//background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#000000));
+	//background-color: #DEDEDE;
+	//background: url(../img/lan_icon_background.png) no-repeat;
+}
+.fox-backgound-white{
+	background-color: #FFFFFF;
+}
+.fox_ul{
+	position: relative;
+    margin-top: 5px;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    //background-color: #fff;
+    //background: url(../img/lan_icon_background.png) no-repeat;
+	//background-size: 100% 100%;
+}
+.fox_li{
+	position: relative;
+	overflow: hidden;
+	padding: 8px 10px 0px 10px;	
+}
+.fox_online_div{
+	height: 100px;
+	//border: 1px solid red;
+	//background-color: red;
+	//border-radius:5px;  
+	width: 100%;
+	//background-color: red;
+	background:url(../img/lan_icon_online_list.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	color: #006777;
+	font-weight: 700;
+}
+
+.fox_offline_div{
+	height: 100px;
+	//border: 1px solid red;
+	//background-color: red;
+	//border-radius:5px;
+	width: 100%;
+	//background-color: red;
+	background:url(../img/lan_icon_offline_list.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	color: #abaeb0;
+	font-weight: 700;
+}
+
+.fox_safe_div{
+	height: 100px;
+	//border: 1px solid red;
+	//background-color: red;
+	//border-radius:5px;
+	width: 100%;
+	//background-color: red;
+	background:url(../img/lan_icon_online_list.png);
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	color: #006777;
+	font-weight: 700;
+}
+
+.fox_danger_div{
+	height: 100px;
+	//border: 1px solid red;
+	//background-color: red;
+	//border-radius:5px;
+	width: 100%;
+	//background-color: red;
+	background:url(../img/lan_icon_online_list.png);
+	/*background:url(../img/lan_icon_offline_list.png);*/
+	background-size: 100% 100%;
+	background-repeat:no-repeat;
+	color: #abaeb0;
+	font-weight: 700;
+}
+
+.fox_div_left{
+	height: 100%;
+	//background-color:green;
+	width: 93%;
+	float:left;
+	padding: 0px 15px 0px 20px;
+	font-size: 16px;
+}
+.fox_div_top{
+	padding-top: 4px;	
+	height: 40px;
+}
+.fox_div_bottom{
+	height: 60px;
+	padding-top: 6px;	
+}
+.fox_div_name{
+	padding: 10px 0px 3px 0px;
+	float: left;
+}
+.fox_div_workmode{
+	float:right;
+	width: 120px;
+	text-align: right;
+	font-size: 15px;
+	padding: 10px 0px 3px 0px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.fox_div_bottom_left{
+	height: 100%;
+	width: 40%;
+	float:left;
+}
+.fox_div_bottom_right{
+	height: 100%;
+	width: 60%;
+	float:right; 
+}
+.fox_div_temp{
+	float:left;
+	font-size: 40px;
+	padding-top:10px;
+}
+.fox_div_temp_min{
+	float:left;
+	font-size: 20px;
+	padding-top: 18px;
+}
+.fox_div_tempunit{
+	float:left;
+	font-size:30px;
+	padding-top:5px;
+}
+.fox_div_tempunit2{
+	float:left;
+	font-size:30px;
+	padding-top:15px;
+}
+.fox_div_humity{
+	float: right;
+	font-size: 25px;
+	margin: 15px 0px 0px 0px;
+	width: 45px;
+}
+.fox_div_word{
+	float:right;
+	//width: 60px;
+	font-size: 15px;
+	padding: 16px 10px 0px 0px;
+	text-align: right;
+}
+.fox_background_color{
+	background-color: #EE9A00;
+}
+.fox-icon{
+    font-family: Muiicons;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    height:25px;
+    
+    display: inline-block;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}
+.fox-bar{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 70px;
+    //padding-right: 10px;
+    //padding-left: 10px;
+
+    border-bottom: 0;
+    //background-color: #EE9A00;
+    //background: url(../img/lan_icon_title.png) no-repeat;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+            box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+.fox-tab-item
+{
+    display: table-cell;
+    //float: left;
+    overflow: hidden;
+
+    width: 49.8%;
+    height: 70px;
+    
+	background: url(../img/lan_icon_choosed.png) no-repeat;
+    background-size: 100% 100%;
+
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: white;
+}
+.fox-tab-item2
+{
+    display: table-cell;
+    //float: left;
+    overflow: hidden;
+
+    width: 0.4%;
+    height: 70px;
+    
+	//background: url(../img/lan_icon_choosed.png) no-repeat;
+    //background-size: 100% 100%;
+
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #929292;
+}
+.fox-tab-label{
+	font-size: 15px;
+    display: block;
+    overflow: hidden;
+    //color: white;
+
+    text-overflow: ellipsis;
+}
+.fox_header{
+	background: url(../img/lan_icon_title.png) no-repeat;
+}
+.fox-white{
+	color: #ffffff;
+}
+.fox-icon-add
+{
+    content: url(../img/lan_icon_adddevice.png);
+    width:50px;
+    margin-top: -2px;
+}
+.fox-segmented-control-positive
+{
+    border: 1px solid #458B00;
+}
+.fox-segmented-control-positive .mui-control-item
+{
+    color: #458B00;
+    border-color: inherit;
+}
+.fox-segmented-control-positive .mui-control-item.mui-active
+{
+    color: #fff;
+    background-color: #458B00;
+}
+.mui-icon-athome
+{
+    content: url(../img/lan_icon_athome_white.png);
+}
+
+.mui-icon-beaway
+{
+    content: url(../img/lan_icon_away_white.png);
+}
+
+.mui-icon-onholiday
+{
+    content: url(../img/lan_icon_holiday_white.png);
+}
+
+.mui-icon-beoff
+{
+    content: url(../img/lan_icon_off_white.png);
+}

@@ -1,0 +1,142 @@
+.fox_header{
+	background: url(../img/lan_icon_title.png) no-repeat;background-size: 100% 100%;
+}
+.fox-white{
+	color: #ffffff;
+}
+.fox-backgound-white{
+	background-color: #FFFFFF;
+}
+.fox-bar{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 70px;
+
+    border-bottom: 0;
+    //background-color: #EE9A00;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+            box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+.fox-icon{
+    font-family: Muiicons;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    height:40px;
+    
+    display: inline-block;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}
+.fox-tab-label{
+	font-size: 15px;
+    display: block;
+    overflow: hidden;
+    color: white;
+
+    text-overflow: ellipsis;
+}
+.fox_ul{
+	position: relative;
+    margin-top: 5px;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    //background: url(../img/lan_icon_background.png) no-repeat;
+	//background-size: 100% 100%;
+}
+.poer_li {
+	font-size: 18px;
+    //margin: 0px 10px 0px 0px;
+    line-height: 42px;
+}
+.fox-div{
+	height: 55px;
+	width: 100%;
+	//background-color: #BDBDBD;
+	//background:url(../img/lan_icon_editschedule.png);
+	//background-size: 100% 100%;
+	//background-repeat:no-repeat;
+	padding: 5px 20px 0px 20px;
+}
+.fox_content{
+	//height: 500px;
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+	padding-top:44px;
+	bottom: 100px;
+	//background-color: #FFFFFF;
+}
+.fox-icon-edit{
+	margin-top:8px;
+	content: url(../img/lan_icon_edit.png);
+	height: 20px;
+}
+.fox-icon-delete{
+	margin-top:8px;
+	content: url(../img/lan_icon_delete.png);
+	height: 20px;
+}
+.fox-icon-refresh
+{
+    content: url(../img/lan_icon_refresh.png);
+}
+.fox-icon-add
+{
+    content: url(../img/lan_icon_add_white.png);
+}
+
+.fox-icon-save
+{
+    content: url(../img/lan_icon_save_white.png);
+}
+
+.fox-icon-copy
+{
+    content: url(../img/lan_icon_copy_white.png);
+}
+.fox-icon{
+    font-family: Muiicons;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    height:25px;
+    width: 25px;
+    
+    display: inline-block;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+}
+.fox-tab-item
+{
+    display: table-cell;
+    //float: left;
+    overflow: hidden;
+
+    width: 49.8%;
+    height: 70px;
+    
+	background: url(../img/lan_icon_choosed.png) no-repeat;
+    background-size: 100% 100%;
+
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: white;
+}
+.fox-input-text{
+	float:left;
+	height:40px;
+	width: 120px;
+	background: url(../img/lan_icon_login.png) no-repeat;
+	background-size: 100%  40px;
+	margin: 0 auto;
+}

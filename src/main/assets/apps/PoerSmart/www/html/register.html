@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/register.css" rel="stylesheet" />
+		<style>
+			input[type="password"],input[type="email"] {
+				margin-bottom: 2px;
+			}
+			button {
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_register"></h1>
+		</header>
+		<div class="fox_content">
+			<div class="mui-content-padded">
+				<h4 id="label_name" class="mui-content-padded" style="font-weight: 300;"></h4>
+				<input id='account' type="email" class="mui-input-clear mui-input" placeholder="">
+				<h4 id="label_password" class="mui-content-padded" style="font-weight: 300;"></h4>
+				<input id='password' type="email" class="mui-input-clear mui-input" placeholder="">
+				<h4 id="label_confirm_password" class="mui-content-padded" style="font-weight: 300;"></h4>
+				<input id='password_confirm' type="email" class="mui-input-clear mui-input" placeholder="">
+				<h4 id="label_email" class="mui-content-padded" style="font-weight: 300;"></h4>
+				<input id='email' type="email" class="mui-input-clear mui-input" placeholder="">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="reg" type="button" class="fox_btn_login">
+						<font color="#ffffff" size="4" id="reg_text"></font>
+					</button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+			function show_label(){
+//				document.getElementById("account").placeholder = poer_language.label_name_empty(language);
+//				document.getElementById("password").placeholder = poer_language.label_password_empty(language);
+//				document.getElementById("password_confirm").placeholder = poer_language.label_confirm_password_empty(language);
+//				document.getElementById("email").placeholder = poer_language.label_email_empty(language);
+				
+				document.getElementById("label_register").innerHTML = poer_language.label_register(language);
+				document.getElementById("label_name").innerHTML = poer_language.label_name(language);
+				document.getElementById("label_password").innerHTML = poer_language.label_password(language);
+				document.getElementById("label_confirm_password").innerHTML = poer_language.label_confirm_password(language);
+				document.getElementById("label_email").innerHTML = poer_language.label_email(language);
+				document.getElementById("reg_text").innerHTML = poer_language.label_register(language);
+			}
+		
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					if(language==undefined){
+						language = "English";
+					}
+					show_label();
+					function setStyle() {
+						switch (language) {
+							case "English":
+								$("label").each(function() {
+									this.style.float = "left";
+									this.style.width = "45%";
+								});
+								$("input").each(function() {
+									this.style.float = "right";
+									this.style.width = "55%";
+								})
+								break;
+							case "Romanian":
+								$("label").each(function() {
+									this.style.float = "left";
+									this.style.width = "50%";
+								});
+								$("input").each(function() {
+									this.style.float = "right";
+									this.style.width = "50%";
+								})
+								break;
+							default:
+								break;
+						}
+					}
+//					setStyle();
+
+					var regButton = doc.getElementById('reg');
+					var accountBox = doc.getElementById('account');
+					var passwordBox = doc.getElementById('password');
+					var passwordConfirmBox = doc.getElementById('password_confirm');
+					var emailBox = doc.getElementById('email');
+					var account_value;
+					var password_value;
+					var password_confirm_value;
+					var email_value;
+					
+					function register_success(data){
+						//保存账号密码和自动登录状态
+						var auth = poer_public.base64encode(email_value+":"+password_value);
+						var login_info = {
+							email: email_value,
+							password: password_value,
+							//autologin: true,
+							auth: auth,
+							language: "English"
+						};
+						poer_function.setLocalStorage("login_info", login_info);
+						poer_public.openWindow('../index.html', 'index');
+					}
+					
+					function register_fail(xhr,textStatus,errorThrown){
+						poer_public.toast(poer_language.label_register_failed(language));
+					}
+					
+					regButton.addEventListener('tap', function(event) {
+						
+						account_value = accountBox.value.trim();
+						password_value = passwordBox.value.trim();
+						password_confirm_value = passwordConfirmBox.value.trim();
+						email_value = emailBox.value.trim();
+						
+						if(account_value.length<3){
+							poer_public.toast(poer_public.toast(poer_language.label_name_too_short(language)));
+							return;
+						}
+						if(account_value.length>15){
+							poer_public.toast(poer_public.toast(poer_language.label_name_too_long(language)));
+							return;
+						}
+						if (email_value.length < 5) {
+							poer_public.toast(poer_public.toast(poer_language.label_email_too_short(language)));
+							return false;
+						}
+						if (email_value.length > 30) {
+							poer_public.toast(poer_public.toast(poer_language.label_email_too_long(language)));
+							return false;
+						}
+						if (password_value.length < 3) {	
+							poer_public.toast(poer_language.label_password_too_short(language));
+							return false;
+						}
+						if (password_value.length > 10) {	
+							poer_public.toast(poer_language.label_password_too_long(language));
+							return false;
+						}
+						if (password_value != password_confirm_value) {
+							poer_public.toast(poer_language.label_confirm_password_error(language));
+							return false;
+						}
+						
+						var url = poer_url.register();
+						var data = {
+							Email:  email_value,
+							Passwd: password_value,
+							Name:   account_value
+						};
+						poer_function.register(url, JSON.stringify(data), register_success, register_fail);
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

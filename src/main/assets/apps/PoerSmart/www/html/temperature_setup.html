@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/temperature_setup.css" rel="stylesheet" />
+		
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_temperature_setup"></h1>
+		</header>
+		<div class="fox_content">
+			<div>
+				<div style="float:left;padding:20px;">
+					<div id="label_away_temp"></div>
+					<div id="label_holiday_temp" style="padding-top:10px;"></div>
+				</div>
+				<div style="float:right;width:100px;padding:20px 10px 0px 0px;">
+					<div style="float:left;">
+						<input type="text" id="away_temp" style="width: 70px;" readonly="readonly"/>
+						<!--
+						<select id="away_temp">
+						</select>
+						-->
+					</div>
+					<div style="float:left;margin-top:10px;" id="label_tempunit_one"></div> 
+				</div>
+			</div>
+			<div style="clear:both"></div>
+			<div style="height:1px;background-color: #c8c7cc;margin:0px 20px 0px 20px;"></div>
+			<div style="padding-top:20px;">
+				<div style="float:left;padding:10px 0 0 20px;">
+					<div id="label_off_temp"></div>
+				</div>
+				<div style="float:right;width:100px;padding:0px 10px 0px 0px;">
+					<div style="float:left;">   
+						<input type="text" id="off_temp" style="width: 70px;" readonly="readonly"/>
+						<!--
+						<select id="off_temp">
+						</select>
+						-->
+					</div>
+					<div style="float:left;margin-top:10px;" id="label_tempunit_two"></div> 
+				</div>
+			</div>
+			<div style="clear:both"></div>
+			<div style="height:1px;background-color: #c8c7cc;margin:0px 20px 0px 20px;"></div>
+			<div style="padding-top:20px;">
+				<div style="float:left;padding:10px 0 0 20px;">
+					<div id="label_tempunit"></div>
+				</div>
+				<div style="float:right;width:100px;padding:0px 10px 0px 0px;">
+					<div style="float:left;">   
+						<input type="text" id="tempunit" style="width: 70px;" readonly="readonly"/>
+						<!--
+						<select id="off_temp">
+						</select>
+						-->
+					</div>
+				</div>
+			</div>
+			<div style="clear:both"></div>
+			<div style="margin-top:40px;">
+				<div style="width:85%;margin: 0 auto;">
+					<button id="save" type="button" class="fox_btn_login"><font color="#ffffff" size="4" id="save_text"></font></button>
+				</div>
+			</div>
+			<div style=clear: both;></div> 
+			<div style="height:50px;display:none;padding-top:40px;" id="set_updating_div">
+				<center id="label_updating"></center>		
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/logger.js"></script>
+		<script src="../js/function.js"></script>
+		<script src="../js/url.js"></script>
+		<script src="../js/public.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/language.js"></script>
+		<script>
+			var language;
+			function show_label(){
+				document.getElementById("label_temperature_setup").innerHTML = poer_language.label_temperature_set(language);
+				document.getElementById("label_away_temp").innerHTML = poer_language.label_away_temperature(language);
+				document.getElementById("label_holiday_temp").innerHTML = poer_language.label_holiday_temperature(language);
+				document.getElementById("label_off_temp").innerHTML = poer_language.label_off_temperature(language);
+				document.getElementById("label_tempunit").innerHTML = poer_language.label_temp_unit(language);
+				document.getElementById("save_text").innerHTML = poer_language.label_save(language);
+				document.getElementById("label_updating").innerHTML = poer_language.label_updating(language)
+																+"<img src='../img/lan_icon_waitting.gif' style='width:15px;height:15px;'/>";
+			}
+			
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7'
+				});
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					var settings_login_info = poer_function.getLocalStorage("login_info");
+					language = settings_login_info.language;
+					show_label();
+					var settings_user_info = poer_function.getLocalStorage("user_info");
+					var node_list = poer_function.getLocalStorage("node_list");
+					var gateway_list = poer_function.getLocalStorage("gateway_list");
+					var gateway_array = [];
+					var gateway_info;
+					for(var i in gateway_list){
+						gateway_info = gateway_list[i];
+						gateway_array[gateway_info['Id']] = gateway_info['IsOnline']; 
+					}
+					
+					var userId = settings_user_info.Id;
+					var userTempUnit = settings_user_info.DisplayMode;
+					var select_away = doc.getElementById("away_temp");
+					var select_off = doc.getElementById("off_temp");
+					var select_tempunit = doc.getElementById("tempunit");
+					var set_updating_div = doc.getElementById("set_updating_div");
+					var awaytemp_value;
+					var offtemp_value;
+					var tempunit_value;
+					var old_temp_unit = userTempUnit;
+					
+					var tempunit_one_div = doc.getElementById("label_tempunit_one");
+					var tempunit_two_div = doc.getElementById("label_tempunit_two");
+					
+					var tempPicker = new $.PopPicker(
+										{buttons:[poer_language.label_cancel(language),
+												poer_language.label_ok(language)]
+										}
+									);
+					var tempPicker2 = new $.PopPicker(
+						{buttons:[poer_language.label_cancel(language),
+								poer_language.label_ok(language)]
+						}
+					);
+					var temp_data = new Array();
+					
+					if(userTempUnit==0){   //摄氏度	
+						for(var i=50;i<=320;i+=5){
+							temp_data.push({
+								value: i,
+								text: i/10
+							});
+						}
+						 
+						
+						tempunit_one_div.innerHTML = "°C";
+						tempunit_two_div.innerHTML = "°C";
+					}
+					else{    //华氏度
+						for(var i=400;i<=900;i+=10){
+							temp_data.push({
+								value: i,
+								text: i/10
+							});
+						}	
+						
+						tempunit_one_div.innerHTML = "°F";
+						tempunit_two_div.innerHTML = "°F";
+					}
+					tempPicker.setData(temp_data);		
+					tempPicker2.setData(temp_data);		
+					
+					//tempunit_show.innerHTML = settings_user_info.DisplayMode==0 ?
+					//	poer_language.label_centigrade(language)+ " °C" : poer_language.label_fahrenheit(language)+ " °F";
+					
+					var tempunitPicker = new $.PopPicker(
+											{buttons:[poer_language.label_cancel(language),
+												poer_language.label_ok(language)]
+											}
+										);
+					tempunitPicker.setData([{
+						value: 0,
+						text: "°C"
+					},{
+						value: 1,
+						text: "°F"
+					}]);
+					tempunitPicker.pickers[0].setSelectedValue(settings_user_info.DisplayMode);
+					
+					select_away.addEventListener('tap', function(event) {
+						tempPicker.show(function(items) {
+							select_away.value = items[0].text;
+						});
+					}, false);
+					
+					select_off.addEventListener('tap', function(event) {
+						tempPicker2.show(function(items) {
+							select_off.value = items[0].text;
+						});
+					}, false);
+					
+					select_tempunit.addEventListener('tap', function(event) {
+						tempunitPicker.show(function(items) {
+							tempunit_value = items[0].value;
+							select_tempunit.value = items[0].text;
+							
+							var awayTemp;
+							var offTemp;
+							temp_data = new Array();
+							
+							//修改温度设置,单位修改之后，温度一律设置为最小值
+							if(tempunit_value==0){   //华氏改摄氏
+								for(var i=50;i<=320;i+=5){
+									temp_data.push({
+										value: i,
+										text: i/10
+									});
+								}
+								
+								awayTemp = 50;
+								offTemp = 50;
+								
+								tempunit_one_div.innerHTML = "°C";
+								tempunit_two_div.innerHTML = "°C";
+							}
+							else{   //摄氏改华氏
+								for(var i=400;i<=900;i+=10){
+									temp_data.push({
+										value: i,
+										text: i/10
+									});
+								}
+								
+								awayTemp = 400;
+								offTemp = 400;
+								tempunit_one_div.innerHTML = "°F";
+								tempunit_two_div.innerHTML = "°F";
+							}
+							select_away.value = awayTemp/10;
+							select_off.value = offTemp/10;
+							tempPicker.setData(temp_data);		
+							tempPicker2.setData(temp_data);	
+							
+							tempPicker.pickers[0].setSelectedValue(awayTemp);
+							tempPicker2.pickers[0].setSelectedValue(offTemp);
+							//userResult.innerText = JSON.stringify(items[0]);
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+					if(node_list != null && node_list.length>0){
+						var first_node;
+						for(var i in node_list){
+							if(node_list[i]['NodeType']<2){
+								first_node = node_list[i];
+							}
+						}
+						 
+						var awayTemp = first_node.EcoTemperature;
+						var offTemp = first_node.OffTemperature;
+						
+						//特殊处理
+						if(awayTemp%5!=0){
+							awayTemp -= awayTemp%5;
+						}
+						if(offTemp%5!=0){
+							offTemp -= offTemp%5;
+						}
+						
+						tempPicker.pickers[0].setSelectedValue(awayTemp);
+						tempPicker2.pickers[0].setSelectedValue(offTemp);
+						
+						select_away.value = awayTemp/10;
+						select_off.value = offTemp/10;
+					}
+					
+					tempunit_value = settings_user_info.DisplayMode;
+					select_tempunit.value =  tempunit_value==0 ? " °C" : " °F";
+					
+					var update_times = 0;
+					function setBackTask(status){
+						if(!status){
+							update_times = 0;
+						}
+						else{
+							if(update_node_array.length>0){
+								var write_status_info = poer_function.getLocalStorage("write_status_info");
+								var node_id;
+								for(var i in update_node_array){
+									node_id = update_node_array[i];
+									for(var j in write_status_info){
+										if(write_status_info[j]['Id']==node_id){
+											write_status_info[j]['Type'] = 'set_node';
+											write_status_info[j]['Status'] = 1;
+											break;
+										}
+									}
+								}
+								poer_function.setLocalStorage('write_status_info', write_status_info);
+							
+							}
+							settings_user_info.DisplayMode = tempunit_value;
+ 							poer_function.setLocalStorage("user_info", settings_user_info);
+ 							
+ 							update_node_array = new Array();
+ 							/*
+ 							if(old_temp_unit != tempunit_value){   //温度单位改变，重新登陆app
+ 								poer_public.alert(poer_language.label_app_restart(language));
+ 								poer_function.setLocalStorage('update_back_refresh', false);
+								plus.runtime.restart();
+ 							}
+ 							*/
+ 							//关闭所有node_detail, device_info, edit_schedule, copy_schedule
+ 							//这里很关键，不然温度单位显示对于之前已经打开的页面会有问题
+ 							var node_detail_page;
+ 							var device_info_page;
+ 							var edit_schedule_page;
+ 							var copy_schedule_page;
+ 							var id;
+ 							console.log(new Date().getSeconds());
+ 							for(var i in node_list){
+ 								id = node_list[i]['Id'];
+ 								node_detail_page = plus.webview.getWebviewById("node_detail_"+id);
+ 								if(node_detail_page!=null){
+ 									node_detail_page.close();
+ 								}
+ 								device_info_page = plus.webview.getWebviewById("device_info_"+id);
+ 								if(device_info_page!=null){
+ 									device_info_page.close();
+ 								}
+ 								edit_schedule_page = plus.webview.getWebviewById("edit_schedule_"+id);
+ 								if(edit_schedule_page!=null){
+ 									edit_schedule_page.close();
+ 								}
+ 								copy_schedule_page = plus.webview.getWebviewById("copy_schedule_"+id);
+ 								if(copy_schedule_page!=null){
+ 									copy_schedule_page.close();
+ 								}
+ 							}
+ 							console.log(new Date().getSeconds());
+						}
+						poer_function.setLocalStorage('update_back_refresh', status);
+						set_updating_div.style.display = status ? "none" : "" ;
+					}
+					
+					function check_send_status(){
+						if(update_node_total - update_node_success - update_node_fail == 0){
+							console.log("check finished");
+							var write_status_info = poer_function.getLocalStorage("write_status_info");
+							var node_id;
+							for(var i in update_node_array){
+								node_id = update_node_array[i];
+								for(var j in write_status_info){
+									if(write_status_info[j]['Id']==node_id){
+										write_status_info[j]['Type'] = 'set_node';
+										write_status_info[j]['Status'] = 0;
+										break;
+									}
+								}
+							}
+							poer_function.setLocalStorage('write_status_info', write_status_info);
+							poer_function.setLocalStorage('node_list', node_list);
+							//poer_public.alert(poer_language.label_auto_finish(language));
+							
+							//to do
+							setTimeout(function(){ setBackTask(true);}, 15000);
+						}
+					}
+					
+					function update_success(data){
+						var Flag = data.Flag;
+						if(Flag){
+							//get_write_status(data.Node_id);
+							update_node_success++;
+						}
+						else{
+							console.log("fox error1");
+							update_node_fail++;
+							//check_task_status();
+						}
+						check_send_status();
+					}
+					
+					function update_fail(xhr,textStatus,errorThrown){
+						console.log("fox error");
+						update_node_fail++;
+						check_send_status();
+					}
+					
+					var update_node_total = 0;
+					var update_node_success = 0;
+					var update_node_fail = 0;
+					function update_node(node_info){
+						var url = poer_url.update_node(userId, node_info.Id);
+						var data = poer_public.node_to_json(node_info, tempunit_value);
+						//console.log(data);
+						poer_function.update_node(url, data, update_success, update_fail);
+					}
+					
+					var update_node_array = new Array();  //批量更新的id全部保存起来
+					function update_node_info(){
+						update_node_array = new Array();
+						
+						var write_status_info = poer_function.getLocalStorage("write_status_info");
+						var node_status_array = new Array();
+						var child;
+						for(var i in write_status_info){
+							child = write_status_info[i];
+							node_status_array[child['Id']] = child['Status'];
+						}
+						
+						update_node_total = 0;
+						update_node_success = 0;
+						update_node_fail = 0;
+						awaytemp_value = select_away.value*10;
+						offtemp_value = select_off.value*10;
+						
+						console.log(awaytemp_value+","+offtemp_value);
+						var node_info;
+						var node_id;
+						for(var i in node_list){
+							node_info = node_list[i];
+							type = node_info['NodeType'];
+							if(type!=0 && type!=1){
+								continue;
+							}
+							//设备离线或网关离线也不处理
+							if((!node_info['RfLinkGateway'])||(!gateway_array[node_info['GatewayId']])){
+								continue;
+							}
+							
+							node_id = node_info['Id'];
+							if(node_status_array[node_id]==0){
+								continue;
+							}
+							
+							update_node_total++;
+							update_node_array.push(node_id);
+							
+							//强制 转换
+							node_info.EcoTemperature = awaytemp_value;
+							node_info.OffTemperature = offtemp_value;
+							
+							if(node_info.DisplayMode!=tempunit_value){  //不考虑这两个值了
+								if(tempunit_value==0){
+									node_info.ManTemperature = 50;
+									node_info.OverrideTemperature = 50;
+								}
+								else{
+									node_info.ManTemperature = 400;
+									node_info.OverrideTemperature = 400;
+								}
+							}
+							node_info.DisplayMode = tempunit_value;
+							
+							node_list[i] = node_info;   //更新缓存，不然等服务器返回太慢了
+							update_node(node_info);
+						}
+						if(update_node_total==0){
+							settings_user_info.DisplayMode = tempunit_value;
+ 							poer_function.setLocalStorage("user_info", settings_user_info);
+							setBackTask(true);
+						}
+					}
+					
+					function update_tempunit_success(data){
+ 						console.log("update tempunit success");
+ 						setTimeout(function(){update_node_info();}, 180000);
+ 						//console.log("update tempunit success");
+ 						//setTimeout(function(){update_node_info();}, 15000);
+					}
+					
+					function update_tempunit_fail(xhr,textStatus,errorThrown){
+						setBackTask(true);
+						poer_public.alert(poer_public.alert(poer_language.label_update_failed(language)));
+					}
+					
+					doc.getElementById("save").addEventListener('tap', function(event) {
+						setBackTask(false);
+						
+						var url = poer_url.update_user(userId);
+						var data = {
+							Country:    settings_user_info.Country,
+							Email:      settings_user_info.Email,
+							GatewayId:  0,
+							LocateId:   0,
+							Id:         settings_user_info.Id,
+							Latitude:   0,
+							Longitude:  0,
+							Name:       settings_user_info.Name,
+							Notes:      settings_user_info.Notes,
+							Postcode:   settings_user_info.Postcode,
+							DisplayMode:tempunit_value - 0
+						};
+						poer_function.update_user(url, JSON.stringify(data), update_tempunit_success, update_tempunit_fail);
+					});
+					
+					window.addEventListener('refresh_page',function(event){
+						//根据update_node_array去判断当前是否在刷新数据
+						if(update_node_array.length==0){
+							node_list = poer_function.getLocalStorage("node_list");
+							gateway_list = poer_function.getLocalStorage("gateway_list");
+							gateway_array = [];
+							gateway_info;
+							for(var i in gateway_list){
+								gateway_info = gateway_list[i];
+								gateway_array[gateway_info['Id']] = gateway_info['IsOnline']; 
+							}
+							console.log("refresh page  fox");
+						}
+					});
+					
+					var back = $.back;
+					$.back = function(event) { 
+						poer_public.openWindow("device_setup.html", "device_setup");
+					};
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

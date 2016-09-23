@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="../css/menu_info.css">
+	</head>
+
+	<body class="fox-backgound-white">
+		<header class="mui-bar mui-bar-nav fox_header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left fox-white"></a>
+			<h1 class="mui-title fox-white" id="label_home_setup"></h1>
+		</header>
+		<div class="fox_content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a id="account_info"><img class='mui-list-icon-size mui-pull-left' src='../img/lan_icon_account.png' />
+						<span class="mui-img-text-padding" id="label_account_info"></span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="zone_setup"><img class='mui-list-icon-size mui-pull-left' src='../img/lan_icon_home.png' />
+						<span class="mui-img-text-padding" id="label_zone_setup"></span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="device_setup"><img class='mui-list-icon-size mui-pull-left' src='../img/icon_setup_selected.png' />
+						<span class="mui-img-text-padding" id="label_device_setup"></span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="feedback"><img class='mui-list-icon-size mui-pull-left' src='../img/lan_icon_feedback.png' />
+						<span class="mui-img-text-padding" id="label_feedback"></span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="about_us"><img class='mui-list-icon-size mui-pull-left' src='../img/lan_icon_about.png' />
+						<span class="mui-img-text-padding" id="label_aboutus"></span></a>
+				</li>
+			</ul>
+		</div>
+
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/logger.js"></script>
+	<script src="../js/function.js"></script>
+	<script src="../js/url.js"></script>
+	<script src="../js/public.js"></script>
+	<script src="../js/language.js"></script>
+	<script>
+		var language;
+
+		function show_label() {
+			document.getElementById("label_home_setup").innerHTML = poer_language.label_home_setup(language);
+			document.getElementById("label_account_info").innerHTML = poer_language.label_account_info(language);
+			document.getElementById("label_zone_setup").innerHTML = poer_language.label_zone_setup(language);
+			document.getElementById("label_device_setup").innerHTML = poer_language.label_device_setup(language);
+			document.getElementById("label_feedback").innerHTML = poer_language.label_feedback(language);
+			document.getElementById("label_aboutus").innerHTML = poer_language.label_aboutus(language);
+		}
+		(function($, doc) {
+			$.init({
+				statusBarBackground: '#f7f7f7'
+			});
+			$.plusReady(function() {
+				plus.screen.lockOrientation("portrait-primary");
+				var settings_login_info = poer_function.getLocalStorage("login_info");
+				language = settings_login_info.language;
+				var settings_user_info = poer_function.getLocalStorage("user_info");
+				var userId = settings_user_info.Id;
+				show_label();
+				doc.getElementById("account_info").addEventListener('tap', function() {
+					poer_public.openWindow("account_info.html", "account_info");
+				});
+				/*
+				function get_gateway_success(data){
+					console.log(JSON.stringify(data));
+					poer_function.setLocalStorage("gateway_list_all", data);
+				}
+				
+				function get_gateway_fail(xhr,textStatus,errorThrown){
+					console.log("gateway:"+xhr.status+"->>>>"+xhr.readyState+"->>>>"+textStatus);
+				}
+				
+				function getGatewayList(){
+					var url = poer_url.gateway_list_all(userId);
+					poer_function.get_gateway_list_all(url, {}, get_gateway_success, get_gateway_fail);
+				}
+				*/
+				doc.getElementById("zone_setup").addEventListener('tap', function() {
+					//获取userid下所有gateway
+					//getGatewayList();
+					poer_public.openWindow("zone_setup.html", "zone_setup");
+				});
+				doc.getElementById("device_setup").addEventListener('tap', function() {
+					poer_public.openWindow("device_setup.html", "device_setup");
+				});
+				doc.getElementById("feedback").addEventListener('tap', function() {
+					poer_public.openWindow("feedback.html", "feedback");
+				});
+				doc.getElementById("about_us").addEventListener('tap', function() {
+					poer_public.openWindow("about_us.html", "about_us");
+				});
+				var back = $.back;
+				$.back = function(event) {
+					poer_public.openWindow("main.html", "main");
+				};
+			});
+		}(mui, document));
+	</script>
+
+</html>

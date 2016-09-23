@@ -1,0 +1,63 @@
+.t-gra-FS1{
+	color:#9f9f9f;
+}
+.uinn-FS1{
+	padding:0.75em 0.625em;
+}
+.uinn-FS2{
+	padding:0.625em 1.1875em 0.2em 1.1875em;
+}
+.uwh-FS1{
+	width:2.1em;
+	height:2.1em;
+}
+.uwh-FS2{
+	width:1.625em;
+	height:1.625em;
+}
+.uwh-FS3{
+	width:0.625em;
+	height:0.625em;
+}
+.c-gra-FS1{
+	background-color:#d8d8d8;
+}
+.c-gra-FS2{
+	background-color:#b3b3b3;
+}
+.uc-a-FS1 {
+	-webkit-border-radius: 2.1em;
+	border-radius: 2.1em;
+}
+.uc-a-FS2 {
+	-webkit-border-radius: 1.625em;
+	border-radius: 1.625em;
+}
+.formStep1{
+	background-image:url('../img/lan_icon_one.png');
+}
+.formStep2{
+	background-image:url('../img/lan_icon_two.png');
+}
+.formStep3{
+	background-image:url('../img/lan_icon_three.png');
+}
+.formStep4{
+	background-image:url('../img/lan_icon_four.png');
+}
+.uh-FS1{
+	height:0.5em;
+}
+.umar-tFS1{
+	margin-top:0.3em;
+	font-size: 15px;
+}
+.c-wh{
+    background-color: white;
+}
+.ulev-app1{
+    font-size:0.875em;
+}
+.uinn-a1{
+    padding:0.625em;
+}

@@ -1,0 +1,65 @@
+.mui-icon-athome
+{
+    content: url(../img/lan_icon_athome_white.png);
+}
+
+.mui-icon-beaway
+{
+    content: url(../img/lan_icon_beaway_white.png);
+}
+
+.mui-icon-onholiday
+{
+    content: url(../img/lan_icon_holidy_white.png);
+}
+
+.mui-icon-beoff
+{
+    content: url(../img/lan_icon_off_white.png);
+}
+.mui-icon-valvenormal
+{
+	content: url(../img/lan_icon_valvenormal.png);
+}
+.mui-icon-valveclose
+{
+	content: url(../img/lan_icon_valveclose.png);
+}
+
+.mui-icon-adddevice
+{
+	content: url(../img/lan_icon_new.png);
+}
+
+.mui-left-padding
+{
+	padding-left: 30px;
+}
+
+.mui-list-icon-size
+{
+	line-height: 20px;
+
+    max-width: 20px;
+    height: 20px;
+}
+
+.mui-img-text-padding
+{
+	float: left;
+	padding-left: 10px;
+}
+
+.mui-popover {
+	height: 100px;
+	top: 200px;
+	width: 200px;
+	//background-color: rgba(0,0,0,0);
+}
+
+.mui-popover-other 
+{
+	height: 200px;
+	top: 100px;
+	width: 260px;
+}
